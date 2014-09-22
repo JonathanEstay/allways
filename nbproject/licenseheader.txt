@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Proyecto : Allways
+${licensePrefix}Autor    : Tsyacom Ltda.
+${licensePrefix}Fecha    : Martes, 4 de marzo de 2014
+<#if licenseLast??>
+${licenseLast}
+</#if>
