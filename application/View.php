@@ -58,7 +58,7 @@ class View
     
     
     
-    public function renderizaSistema($vista, $item=false)
+    public function renderizaSystem($vista, $item=false)
     {
         $js = array();
         
@@ -79,7 +79,7 @@ class View
         if(is_readable($rutaView))
         {
             include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'header.php';
-            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'menu-left.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'left.php';
             include_once $rutaView;
             include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'footer.php';
         }
