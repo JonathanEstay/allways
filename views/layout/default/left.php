@@ -65,43 +65,43 @@ $(function()
                         <select name="mL_txtCiudadDestino" id="mL_txtCiudadDestino" class="form-control" >
                             <option value="0">Seleccione destino</option>
                             <?php 
-                            if($this->getCiudadesPRG!=FALSE)
+                            if($this->objCiudades!=FALSE)
                             { 
-                                foreach($this->getCiudadesPRG as $columLeftCiudadesPRG)
+                                for($i=0; $i<$this->objCiudadesCNT; $i++)
                                 {
-                                        $mL_codigoCiuPRG= trim($columLeftCiudadesPRG['codigo_ciudad']);
-                                        $mL_nombreCiuPRG= trim($columLeftCiudadesPRG['nombre_ciudad']);
-                                        $mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
+                                    $mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
+                                    $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
+                                    $mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
-                                        if(Session::get('sess_pCP_ciudad')==$mL_nombreCiuPRG)
-                                        {
-                                        ?>
-                                            <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiudadPRG; ?></option>
-                                        <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiudadPRG; ?></option>
-                                        <?php
-                                        }
+                                    if(Session::get('sess_pCP_ciudad')==$mL_nombreCiuPRG)
+                                    {
+                                    ?>
+                                        <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                    <?php
+                                    }
+                                    else
+                                    {
+                                    ?>
+                                        <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                    <?php
+                                    }
                                 }
                             }
                             ?>
                         </select>
                         
-                     	<table width="100%" id="tblFormBusqueda" style="display:<?php echo $this->mL_expandeFiltros; ?>; margin-top:5px;">
+                     	<table width="100%" id="tblFormBusqueda" style="margin-top:5px;">
                             <tr>
                             	<td width="30%"><span style="padding-left:10px;">Fecha In:</span></td>
                                 <td>
                                 	<!-- style="background:#d2d3d6;" -->
-                                	<input type="text" class="form-control" id="mL_txtFechaIn" name="mL_txtFechaIn" value="<?php echo $mL_ini; ?>">
+                                	<input type="text" class="form-control" id="mL_txtFechaIn" name="mL_txtFechaIn" value="<?php echo $this->ML_fechaIni; ?>">
                                 </td>
                             </tr>
                             <tr>
                             	<td><span style="padding-left:10px;">Fecha Out:</span></td>
                                 <td>
-                                	<input type="text" class="form-control" id="mL_txtFechaOut" name="mL_txtFechaOut" value="<?php echo $mL_out; ?>">
+                                	<input type="text" class="form-control" id="mL_txtFechaOut" name="mL_txtFechaOut" value="<?php echo $this->ML_fechaFin; ?>">
                                 </td>
                             </tr>
                             

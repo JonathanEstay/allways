@@ -18,22 +18,13 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         $ciudad= $this->loadModel('ciudad');
-        $objCiudades= $ciudad->getCiudadesPRG();
         
-        //$this->_view->getCiudadesPRG= $ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $ciudad->getCiudades();
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
+        $this->_view->ML_fechaIni=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaFin=  Session::get('sess_fechaDefault');
         
-        //if(Session::get('sess_pBP_ciudadDes'))
-        //{
-                //$this->_view->mL_expandeFiltros='block';
-        /*}
-        else
-        {
-                $this->_view->mL_expandeFiltros='none';
-        }*/
-        
-                
-        //$this->_view->assign('titulo', 'ORISTRAVELw'); SMARTY
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderizaSystem('index');
     }

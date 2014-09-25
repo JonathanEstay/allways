@@ -8,6 +8,15 @@
 
 class Functions
 {
+    public static function fechaActual($dias=0)
+    {
+        $dyh= getdate(mktime(0, 0, 0, date("m"), date("d"), date("Y")) + 24*60*60*$dias);
+        if($dyh['mday'] < 10){ $dia_dyh= "0".$dyh['mday']; }else{ $dia_dyh= $dyh['mday']; }
+        if($dyh['mon'] < 10){ $mon_dyh= "0".$dyh['mon']; }else{ $mon_dyh= $dyh['mon']; }
+        
+        return $dia_dyh."/".$mon_dyh."/".$dyh['year'];
+    }
+    
     public static function invertirFecha($fecha, $char, $newChar)
     {
         if($fecha)
@@ -53,7 +62,7 @@ class Functions
         return $newMon;
     }
 
-        public static function sumFecha($fIni, $dias=0, $meses=0, $years=0)
+    public static function sumFecha($fIni, $dias=0, $meses=0, $years=0)
     {
         $fechaExp= explode('/', $fIni);
         $newDate= mktime(0, 0, 0, $fechaExp[1]+$meses, $fechaExp[0]+$dias, $fechaExp[2]+$years);

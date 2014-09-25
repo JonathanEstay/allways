@@ -57,16 +57,6 @@ class loginController extends Controller
         {   
             $objUsuarios= $this->_login->getUsuarios($LC_user);
             
-            /*echo $objUsuarios[0]->getClave();
-            echo ' - ';
-            echo $objUsuarios[0]->getPassword();
-            echo '<br>';
-            echo $objUsuarios[1]->getClave();
-            echo ' - ';
-            echo $objUsuarios[1]->getPassword();
-            exit;*/
-            
-            
             if($objUsuarios!=false)
             {
                 if(strtolower($objUsuarios[0]->getClave())==$LC_user && $objUsuarios[0]->getPassword()==$LC_pass)
@@ -106,6 +96,8 @@ class loginController extends Controller
                     Session::set('sess_key_', md5(uniqid()));
                     Session::set('sess_ip', $_SERVER["REMOTE_ADDR"]);
                     Session::set('sess_fechaLogin', date("d/m/Y H:i:s"));
+                    Session::set('sess_fechaDefault', Functions::fechaActual(1));
+                    
                     
                     Session::set('sess_clave_usuario', $objUsuarios[0]->getClave());
                     Session::set('sess_nombre', $objUsuarios[0]->getNombre());
