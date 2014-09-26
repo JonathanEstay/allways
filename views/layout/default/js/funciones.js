@@ -1,74 +1,74 @@
 // JavaScript Document
 function procesoEnviaForm(classFrm, php, btn, div)
 {
-	$("#"+btn).attr('disabled', 'disabled');
-	
-	initLoad();
-	
-	var formData= new FormData($("."+classFrm)[0]);
-	//hacemos la petici√≥n ajax  
-	$.ajax({
-		url: php,  
-		type: 'POST',
-		//Form data
-		//datos del formulario
-		data: formData,
-		//necesario para subir archivos via ajax
-		cache: false,
-		contentType: false,
-		processData: false,
-		//mientras enviamos el archivo
-		beforeSend: function(){},
-		//una vez finalizado correctamente
-		success: function(data)
-		{
-			endLoad();
-			if(data=='OK')
-			{
-				$("#"+div).delay(1500).queue(function(n)
-				{
-					$("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="iconos/ok.png" width="32" border="0" /> Proceso realizado con &eacute;xito.</div>');
-					n();
-				});
-			}
-			else
-			{ 	
-				$('#mensajeWar').html(data);
-				$('#divAlertWar').delay( 1000 ).fadeIn( 500 );
-				$('#divAlertWar').animate({
-					'display': 'block'
-				});
-				
-				$('#divAlertWar').delay( 5000 ).fadeOut( 500 );
-				$('#divAlertWar').animate({
-									'display': 'none'
-								});
-								
-				$("#"+btn).delay(2000).queue(function(m)
-				{
-					$("#"+btn).removeAttr("disabled");
-					m();
-				});	
-			}
-		},
-		
-		//si ha ocurrido un error
-		error: function()
-		{
-			endLoad();
-			
-			$('#mensajeWar').html('Error error');
-			$('#divAlertWar').delay( 1000 ).fadeIn( 500 );
-			$('#divAlertWar').animate({
-				'display': 'block'
-			});
-			
-			$('#divAlertWar').delay( 5000 ).fadeOut( 500 );
-			$('#divAlertWar').animate({
-								'display': 'none'
-							});
-		}
-	});
+    $("#"+btn).attr('disabled', 'disabled');
+
+    initLoad();
+
+    var formData= new FormData($("."+classFrm)[0]);
+    //hacemos la petici√≥n ajax  
+    $.ajax({
+            url: php,  
+            type: 'POST',
+            //Form data
+            //datos del formulario
+            data: formData,
+            //necesario para subir archivos via ajax
+            cache: false,
+            contentType: false,
+            processData: false,
+            //mientras enviamos el archivo
+            beforeSend: function(){},
+            //una vez finalizado correctamente
+            success: function(data)
+            {
+                    endLoad();
+                    if(data=='OK')
+                    {
+                            $("#"+div).delay(1500).queue(function(n)
+                            {
+                                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="iconos/ok.png" width="32" border="0" /> Proceso realizado con &eacute;xito.</div>');
+                                    n();
+                            });
+                    }
+                    else
+                    { 	
+                            $('#mensajeWar').html(data);
+                            $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+                            $('#divAlertWar').animate({
+                                    'display': 'block'
+                            });
+
+                            $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+                            $('#divAlertWar').animate({
+                                                                    'display': 'none'
+                                                            });
+
+                            $("#"+btn).delay(2000).queue(function(m)
+                            {
+                                    $("#"+btn).removeAttr("disabled");
+                                    m();
+                            });	
+                    }
+            },
+
+            //si ha ocurrido un error
+            error: function()
+            {
+                    endLoad();
+
+                    $('#mensajeWar').html('Error error');
+                    $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+                    $('#divAlertWar').animate({
+                            'display': 'block'
+                    });
+
+                    $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+                    $('#divAlertWar').animate({
+                                                            'display': 'none'
+                                                    });
+            }
+    });
 }
 
 
@@ -90,90 +90,90 @@ function procesoEnviaForm(classFrm, php, btn, div)
 
 function procesoConServ(classFrm, php, btn)
 {
-	$("#"+btn).attr('disabled', 'disabled');
-	
-	initLoad();
-	
-        
-        //alertError(btn, 'Error al tratar de confirmar ', 2000);
-        //return false;
-        
-	/*for(rP=1; rP>=1; rP++)
-	{
-            txtPasaporte= document.getElementById("rP_chkPas_"+rP);
-            txtRut= document.getElementById("rP_txtRut_"+rP);
-            if(txtRut!=null)
-            {
-                if($.trim($("#rP_txtNom_"+rP).val())=='')
-                {
-                    alertError(btn, 'Debe ingresar un nombre', 2000);
-                    $("#rP_txtNom_"+rP).focus();
-                    return false;
-                    break;
-                }
-            }
-            else
-            {
-                    break;
-            }
-	}*/
-	
-	
-	var formData= new FormData($("."+classFrm)[0]);
-	//hacemos la peticiÛn ajax  
-	$.ajax({
-		url: php,  
-		type: 'POST',
-		//Form data
-		//datos del formulario
-		data: formData,
-		//necesario para subir archivos via ajax
-		cache: false,
-		contentType: false,
-		processData: false,
-		//mientras enviamos el archivo
-		beforeSend: function(){},
-		//una vez finalizado correctamente
-		success: function(data)
-		{
-                    var myArrayData= data.split('&');
-                    if($.trim(myArrayData[0])=='OK')
-                    {
-                        endLoad();
-                        
-                        $('#divAlertExito').delay( 1000 ).fadeIn( 500 );
-                        $('#divAlertExito').animate({
-                                'display': 'block'
-                        });
+    $("#"+btn).attr('disabled', 'disabled');
 
-                        $('#divAlertExito').delay( 1000 ).fadeOut( 500 );
-                        $('#divAlertExito').animate({
-                                                                'display': 'none'
-                                                        });
-                    }
-                    else
-                    { 	
-                        alertError(btn, $.trim(myArrayData[1]), 5000);
-                    }
-		},
-		
-		//si ha ocurrido un error
-		error: function()
-		{
-			endLoad();
-			
-			$('#mensajeWar').html('Error error');
-			$('#divAlertWar').delay( 1000 ).fadeIn( 500 );
-			$('#divAlertWar').animate({
-				'display': 'block'
-			});
-			
-			$('#divAlertWar').delay( 5000 ).fadeOut( 500 );
-			$('#divAlertWar').animate({
-								'display': 'none'
-							});
-		}
-	});
+    initLoad();
+
+
+    //alertError(btn, 'Error al tratar de confirmar ', 2000);
+    //return false;
+
+    /*for(rP=1; rP>=1; rP++)
+    {
+        txtPasaporte= document.getElementById("rP_chkPas_"+rP);
+        txtRut= document.getElementById("rP_txtRut_"+rP);
+        if(txtRut!=null)
+        {
+            if($.trim($("#rP_txtNom_"+rP).val())=='')
+            {
+                alertError(btn, 'Debe ingresar un nombre', 2000);
+                $("#rP_txtNom_"+rP).focus();
+                return false;
+                break;
+            }
+        }
+        else
+        {
+                break;
+        }
+    }*/
+
+
+    var formData= new FormData($("."+classFrm)[0]);
+    //hacemos la peticiÛn ajax  
+    $.ajax({
+            url: php,  
+            type: 'POST',
+            //Form data
+            //datos del formulario
+            data: formData,
+            //necesario para subir archivos via ajax
+            cache: false,
+            contentType: false,
+            processData: false,
+            //mientras enviamos el archivo
+            beforeSend: function(){},
+            //una vez finalizado correctamente
+            success: function(data)
+            {
+                var myArrayData= data.split('&');
+                if($.trim(myArrayData[0])=='OK')
+                {
+                    endLoad();
+
+                    $('#divAlertExito').delay( 1000 ).fadeIn( 500 );
+                    $('#divAlertExito').animate({
+                            'display': 'block'
+                    });
+
+                    $('#divAlertExito').delay( 1000 ).fadeOut( 500 );
+                    $('#divAlertExito').animate({
+                                                            'display': 'none'
+                                                    });
+                }
+                else
+                { 	
+                    alertError(btn, $.trim(myArrayData[1]), 5000);
+                }
+            },
+
+            //si ha ocurrido un error
+            error: function()
+            {
+                    endLoad();
+
+                    $('#mensajeWar').html('Error error');
+                    $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+                    $('#divAlertWar').animate({
+                            'display': 'block'
+                    });
+
+                    $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+                    $('#divAlertWar').animate({
+                                                            'display': 'none'
+                                                    });
+            }
+    });
 }
 
 
@@ -202,18 +202,18 @@ function alertError(btn, msg, time)
 
 function initLoad()
 {
-	$('#divAlertInfo').fadeIn( 500 );
-	$('#divAlertInfo').animate({
-				'display': 'block'
-			});
+    $('#divAlertInfo').fadeIn( 500 );
+    $('#divAlertInfo').animate({
+                            'display': 'block'
+                    });
 }
 
 function endLoad()
 {
-	$('#divAlertInfo').delay( 100 ).fadeOut( 500 );
-	$('#divAlertInfo').animate({
-						'display': 'none'
-					});
+    $('#divAlertInfo').delay( 100 ).fadeOut( 500 );
+    $('#divAlertInfo').animate({
+                                'display': 'none'
+                            });
 }
 
 
@@ -290,29 +290,11 @@ function buscarCiudad(ciudad, frmBus, ob, id)
 }
 
 
-function getCiudad(ciudad, span, txt)
-{
-	document.getElementById(txt).value=ciudad; 
-	document.getElementById(span).style.display='none'; 
-}
 
 
 
 
-function procesoCargaDiv(valor, div, php)
-{
-	$("#"+div).html('');
-	if(valor!=0)
-	{
-		$.post(php, 
-		{
-			post_f_valor: valor
-		}, function(data)
-		{
-			$("#"+div).html(data);
-		});
-	}
-}
+
 
 function habitaciones(table, num)
 {
@@ -347,50 +329,35 @@ function habitaciones(table, num)
 
 function habilitaEdadChild(id,hab)
 {
-	var i, x;
-	status_1 = new Array (true, false, false); 
-	status_2 = new Array (true, true, false); 
-	
-	for(i=0; i<3; i++)
-	{
-		if(id==i)
-		{
-			for(x=1; x<4; x++)
-			{
-				if(hab==x)
-				{
-					document.getElementById('mL_edadChild_1_'+x).disabled = status_1[i];
-					document.getElementById('mL_edadChild_2_'+x).disabled = status_2[i];
-				}
-			}
-		}
-	}
+    var i, x;
+    status_1 = new Array (true, false, false); 
+    status_2 = new Array (true, true, false); 
+
+    for(i=0; i<3; i++)
+    {
+        if(id==i)
+        {
+            for(x=1; x<4; x++)
+            {
+                if(hab==x)
+                {
+                    document.getElementById('mL_edadChild_1_'+x).disabled = status_1[i];
+                    document.getElementById('mL_edadChild_2_'+x).disabled = status_2[i];
+                }
+            }
+        }
+    }
 }
 
-
-function muestraOculta(id, estado)
+function soloRut(evt)
 {
-	if(estado==1)
-	{
-		document.getElementById(id).style.display="block";
-	}
-	else
-	{
-		document.getElementById(id).style.display="none";
-	}
-}
-
-
-function soloRut(evt, par)
-{
-	var ini;
-	var charCode = (evt.which) ? evt.which : event.keyCode
-	//alert(charCode);
-	if ((charCode >= 48 && charCode<= 57) || (charCode == 45) || (charCode == 107) || (charCode == 75)){
-		return true;
-	}else{ 
-		return false;
-	}
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    //alert(charCode);
+    if ((charCode >= 48 && charCode<= 57) || (charCode == 45) || (charCode == 107) || (charCode == 75)){
+            return true;
+    }else{ 
+            return false;
+    }
 }
 
 
@@ -408,3 +375,167 @@ function checkServ(idChk, nConf, fPPago)
         }
     }
 }
+
+
+
+
+
+
+
+    /*BEGIN: Busqueda de Programas */
+    $('#btnBuscarProgramas').on('click',function()
+    {
+        var mL_Error=0;
+        $("#btnBuscarProgramas").attr('disabled', 'disabled');
+        if($('#mL_txtCiudadDestino').val() != '' && $('#mL_txtCiudadDestino').val() != 'Ingrese ciudad de destino')
+        {
+            if($('#ML_cmbHab').val() != 0)
+            {
+                $(document).skylo('start');
+
+                setTimeout(function(){
+                        $(document).skylo('set',50);
+                },1000);
+
+                setTimeout(function(){
+                        $(document).skylo('end');
+                },1500);
+                setTimeout(function(){
+                   document.getElementById('frmBuscarProgramas').submit();
+                },2500);
+            }
+            else
+            {
+                mL_Error=1;
+                $('#mensajeWar').html('Debe seleccionar la cantidad de habitaciones');
+            }
+        }
+        else
+        {
+            mL_Error=1;
+            $('#mensajeWar').html('Debe ingresar una ciudad de destino');	
+        }
+
+
+
+
+        if( mL_Error==1 )
+        {
+            $('#divAlertWar').delay( 10 ).fadeIn( 500 );
+            $('#divAlertWar').animate({
+                    'display': 'block'
+            });
+
+            $('#divAlertWar').delay( 2000 ).fadeOut( 500 );
+            $('#divAlertWar').animate({
+                                        'display': 'none'
+                                    });
+
+            $("#btnBuscarProgramas").delay(2000).queue(function(dis)
+            {
+                $("#btnBuscarProgramas").removeAttr("disabled");
+                dis();
+            });	
+        }
+		
+    });
+    /*END: Busqueda de Programas*/
+    
+    
+    
+    
+    
+    
+    
+    $('#menuConsRes').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = BASE_URL_JS + 'system/consultarReserva';
+        },2500);
+    });
+    
+    
+    
+    $('#menuHoteles').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = BASE_URL_JS + 'system/hoteles';
+        },2500);
+    });
+    
+    $('#menuAdminProg').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = BASE_URL_JS + 'system/adminProgramas';
+        },2500);
+    });
+    
+    $('#menuImagenes').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = BASE_URL_JS + 'system/imagenes';
+        },2500);
+    });
+    
+    $('#menuContacto').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = BASE_URL_JS + 'system/contacto';
+        },2500);
+    });
+    
+    
+    function abrePopup(docPHP, titulo, varProg)
+    {
+        initLoad();
+        $("#divPopupPRG").html('');
+        document.getElementById("tituloFormPRG").innerHTML=titulo;
+        $.post(docPHP, 
+        {
+                post_varProg: varProg
+        }, function(data)
+        {
+                $("#divPopupPRG").html(data);
+                endLoad();
+        });
+    }

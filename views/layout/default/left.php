@@ -1,8 +1,8 @@
 
-<script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>funciones.js'></script>
 
 <link href="<?php echo $_layoutParams['ruta_css']; ?>custom-theme/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 <script src="<?php echo $_layoutParams['ruta_js']; ?>jquery-1.10.2.min.js"></script>
+
 <script>
 $(function()
 {
@@ -410,169 +410,6 @@ $(function()
     <!-- END SIDEBAR MENU -->
 
 </nav>
-        
-<script>
-/*BEGIN: Busqueda de Hoteles */
-$('#btnBuscarHoteles').on('click',function()
-{
-    var mL_Error=0;
-    $("#btnBuscarHoteles").attr('disabled', 'disabled');
-    document.getElementById('frmBuscarHoteles').submit();
-    return false;
-    
-    if($('#mL_cmbCiudadDestino_H').val() != 0)
-    {
-        if($('#ML_cmbHab').val() != 0)
-        {
-            $(document).skylo('start');
-
-            setTimeout(function(){
-                $(document).skylo('set',50);
-            },1000);
-
-            setTimeout(function(){
-                $(document).skylo('end');
-            },1500);
-            setTimeout(function(){
-               document.getElementById('frmBuscarHoteles').submit();
-            },2500);
-        }
-        else
-        {
-            mL_Error=1;
-            $('#mensajeWar').html('Debe seleccionar la cantidad de habitaciones');
-        }
-    }
-    else
-    {
-            mL_Error=1;
-            $('#mensajeWar').html('Debe ingresar una ciudad de destino');	
-    }
-
-
-
-
-    if( mL_Error==1 )
-    {
-        $('#divAlertWar').delay( 10 ).fadeIn( 500 );
-        $('#divAlertWar').animate({
-                'display': 'block'
-        });
-
-        $('#divAlertWar').delay( 2000 ).fadeOut( 500 );
-        $('#divAlertWar').animate({
-                                    'display': 'none'
-                                });
-
-        $("#btnBuscarHoteles").delay(2000).queue(function(dis)
-        {
-            $("#btnBuscarHoteles").removeAttr("disabled");
-            dis();
-        });	
-    }
-
-});
-/*END: Busqueda de Hoteles*/
-    
-    
-    
-    
-    
-    
-    
-    $('#menuConsRes').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>system/consultarReserva';
-        },2500);
-    });
-    
-    
-    
-    $('#menuHoteles').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>system/hoteles';
-        },2500);
-    });
-    
-    $('#menuAdminProg').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>system/adminProgramas';
-        },2500);
-    });
-    
-    $('#menuImagenes').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>system/imagenes';
-        },2500);
-    });
-    
-    $('#menuContacto').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>system/contacto';
-        },2500);
-    });
-    
-    
-    function abrePopup(docPHP, titulo, varProg)
-	{
-            initLoad();
-            $("#divPopupPRG").html('');
-            document.getElementById("tituloFormPRG").innerHTML=titulo;
-            $.post(docPHP, 
-            {
-                    post_varProg: varProg
-            }, function(data)
-            {
-                    $("#divPopupPRG").html(data);
-                    endLoad();
-            });
-	}
-</script>
 
 <div class="ui-pnotify " id="divAlertExito" style="width: 300px; right: 25px; top: 25px; opacity: 1; display: none; cursor: auto;">
 	<div class="alert ui-pnotify-container alert-success ui-pnotify-shadow" style="min-height: 16px;">
@@ -594,3 +431,7 @@ $('#btnBuscarHoteles').on('click',function()
         	<span class="fa fa-spin"><img src="<?php echo $_layoutParams['ruta_img']; ?>loading.png" width="32" border="0" /></span> Procesando, espere un momento.</div>
     </div>
 </div>
+
+
+<script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>funciones.js'></script>
+

@@ -26,6 +26,7 @@ class systemController extends Controller
     public function index()
     {
         Session::acceso('Usuario');
+        //$this->_view->setJS(array(''));
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
