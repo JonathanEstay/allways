@@ -30,7 +30,7 @@ class View
     }
     
     
-    public function renderizaPrincipal($vista, $item=false)
+    public function renderingMain($vista, $item=false) //principal
     {
         //se incluye directamente el '/' ya que estas rutas siempre van a ser asi
         $_layoutParams= array(
@@ -58,7 +58,7 @@ class View
     
     
     
-    public function renderizaSystem($vista, $item=false)
+    public function renderingSystem($vista, $item=false)
     {
         $js = array();
         
@@ -92,7 +92,7 @@ class View
     
     
     
-    public function renderizaCenterBox($vista, $item=false)
+    public function renderingCenterBox($vista, $item=false)
     {
         $rutaView= ROOT . 'views' . DS . $this->_controlador . DS . 'centerBox' . DS . $vista . '.phtml';
         if(is_readable($rutaView))

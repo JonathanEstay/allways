@@ -16,7 +16,7 @@ class errorController extends Controller
     {
         $this->_view->titulo= 'Error';
         $this->_view->mensaje= $this->_getError();
-        $this->_view->renderizaPrincipal('index');
+        $this->_view->renderingMain('index');
     }
     
     
@@ -24,7 +24,7 @@ class errorController extends Controller
     {
         $this->_view->titulo= 'Error';
         $this->_view->mensaje= $this->_getError($codigo);
-        $this->_view->renderizaPrincipal('access');
+        $this->_view->renderingMain('access');
     }
     
     private function _getError($codigo = false) //utilizo '_' para identificar que es una funcion privada

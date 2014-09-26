@@ -6,47 +6,47 @@
 <script>
 $(function()
 {
-	$( "#mL_txtFechaIn" ).datepicker({
-		minDate: +1,
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 2,
-		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-		'Jul','Ago','Sep','Oct','Nov','Dic'],
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-		dateFormat: 'dd/mm/yy',
-		firstDay: 1,
-		onSelect: function( selectedDate ){
-			$( "#mL_txtFechaOut" ).datepicker( "option", "minDate", selectedDate );
-		}
-	});
+    $( "#mL_txtFechaIn" ).datepicker({
+        minDate: +1,
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        onSelect: function( selectedDate ){
+                $( "#mL_txtFechaOut" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
 
-	$( "#mL_txtFechaOut" ).datepicker({
-		minDate: +1,
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 2,
-		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-		'Jul','Ago','Sep','Oct','Nov','Dic'],
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-		dateFormat: 'dd/mm/yy',
-		firstDay: 1,
-		onSelect: function( selectedDate ) {
-			$( "#mL_txtFechaIn" ).datepicker( "option", "maxDate", selectedDate );
-		}
-	});
+    $( "#mL_txtFechaOut" ).datepicker({
+        minDate: +1,
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        onSelect: function( selectedDate ) {
+                $( "#mL_txtFechaIn" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
 });
 
 </script>
 
 <style>
-	.colorText:hover{color: #0088CC; font-size: 13px;}
+    .colorText:hover{color: #0088CC; font-size: 13px;}
 </style>
 
 <nav id="page-leftbar" role="navigation" style="position:fixed;">
@@ -65,7 +65,7 @@ $(function()
                         <select name="mL_txtCiudadDestino" id="mL_txtCiudadDestino" class="form-control" >
                             <option value="0">Seleccione destino</option>
                             <?php 
-                            if($this->objCiudades!=FALSE)
+                            if($this->objCiudades!=false)
                             { 
                                 for($i=0; $i<$this->objCiudadesCNT; $i++)
                                 {
@@ -374,42 +374,31 @@ $(function()
         
         <?php if(Session::accesoView('Admin')){ ?>
         <li <?php if($this->currentMenu==1){ ?>class="active"<?php } ?>>
-            <a id="menuConsBook" href="javascript:;">
+            <a id="menuConsRes" href="javascript:;">
                 <i><img src="<?php echo $_layoutParams['ruta_img']; ?>right.png" width="12px" /></i>
-                <span>Consultar Booking</span>
-            </a>
-        </li>
-        <?php } ?>
-        
-        
-        <?php if(Session::accesoView('Admin')){ ?>
-        <li <?php if($this->currentMenu==6){ ?>class="active"<?php } ?>>
-            <a id="menuAnulaBook" href="javascript:;">
-                <i><img src="<?php echo $_layoutParams['ruta_img']; ?>right.png" width="12px" /></i>
-                <span>Anular Booking</span>
+                <span>Consultar Reserva</span>
             </a>
         </li>
         <?php } ?>
         
 
         <?php if(Session::accesoView('Admin')){ ?>
-        <li <?php if($this->currentMenu==2 || $this->currentMenu==3 || $this->currentMenu==4 || $this->currentMenu==5){ ?>class="open active hasChild"<?php } ?>>
+        <li <?php if($this->currentMenu==2 || $this->currentMenu==3 || $this->currentMenu==4){ ?>class="open active hasChild"<?php } ?>>
             <a href="javascript:;">
                 <i>&nbsp;</i>
                 <span>Administraci&oacute;n</span> <span  style="float: right;"><img src="<?php echo $_layoutParams['ruta_img']; ?>down.png" width="12px" /></span>
             </a>
-            <ul class="acc-menu" <?php if($this->currentMenu==2 || $this->currentMenu==3 || $this->currentMenu==4 || $this->currentMenu==5){ ?>style="display: block;"<?php } ?>>
+            <ul class="acc-menu" <?php if($this->currentMenu==2 || $this->currentMenu==3 || $this->currentMenu==4){ ?>style="display: block;"<?php } ?>>
                 <li <?php if($this->currentMenu==2){ ?>class="active"<?php } ?>><a id="menuHoteles" href="javascript:;"><span>Hoteles</span></a></li>
                 <li <?php if($this->currentMenu==3){ ?>class="active"<?php } ?>><a id="menuAdminProg" href="javascript:;"><span>Programas</span></a></li>
-                <li <?php if($this->currentMenu==4){ ?>class="active"<?php } ?>><a id="menuUsuarios" href="javascript:;"><span>Usuarios</span></a></li>
-                <li <?php if($this->currentMenu==5){ ?>class="active"<?php } ?>><a id="menuImagenes" href="javascript:;"><span>Imagenes</span></a></li>
+                <li <?php if($this->currentMenu==4){ ?>class="active"<?php } ?>><a id="menuImagenes" href="javascript:;"><span>Logo Clientes</span></a></li>
             </ul>
         </li>
         <?php } ?>
         
         
         <?php if(Session::accesoView('Admin')){ ?>
-        <li <?php if($this->currentMenu==7){ ?>class="active"<?php } ?>>
+        <li <?php if($this->currentMenu==5){ ?>class="active"<?php } ?>>
             <a id="menuContacto" href="javascript:;">
                 <i><img src="<?php echo $_layoutParams['ruta_img']; ?>right.png" width="12px" /></i>
                 <span>Cont&aacute;ctenos</span>
@@ -491,7 +480,7 @@ $('#btnBuscarHoteles').on('click',function()
     
     
     
-    $('#menuConsBook').on('click',function(){
+    $('#menuConsRes').on('click',function(){
         $(document).skylo('start');
 
         setTimeout(function(){
@@ -502,24 +491,11 @@ $('#btnBuscarHoteles').on('click',function()
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>sistema/consultarBooking';
+            window.location.href = '<?php echo BASE_URL; ?>system/consultarReserva';
         },2500);
     });
     
-    $('#menuAnulaBook').on('click',function(){
-        $(document).skylo('start');
-
-        setTimeout(function(){
-            $(document).skylo('set',50);
-        },1000);
-
-        setTimeout(function(){
-            $(document).skylo('end');
-        },1500);
-		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>sistema/anularBooking';
-        },2500);
-    });
+    
     
     $('#menuHoteles').on('click',function(){
         $(document).skylo('start');
@@ -532,7 +508,7 @@ $('#btnBuscarHoteles').on('click',function()
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>sistema/hoteles';
+            window.location.href = '<?php echo BASE_URL; ?>system/hoteles';
         },2500);
     });
     
@@ -547,7 +523,7 @@ $('#btnBuscarHoteles').on('click',function()
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>sistema/adminProgramas';
+            window.location.href = '<?php echo BASE_URL; ?>system/adminProgramas';
         },2500);
     });
     
@@ -562,7 +538,22 @@ $('#btnBuscarHoteles').on('click',function()
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = '<?php echo BASE_URL; ?>sistema/imagenes';
+            window.location.href = '<?php echo BASE_URL; ?>system/imagenes';
+        },2500);
+    });
+    
+    $('#menuContacto').on('click',function(){
+        $(document).skylo('start');
+
+        setTimeout(function(){
+            $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+            $(document).skylo('end');
+        },1500);
+		setTimeout(function(){
+            window.location.href = '<?php echo BASE_URL; ?>system/contacto';
         },2500);
     });
     

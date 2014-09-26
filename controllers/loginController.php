@@ -15,9 +15,6 @@ class loginController extends Controller
         $this->_login= $this->loadModel('usuario'); // para cargar el modelo para todo el controller
     }
     
-    
-    
-    
     /*******************************************************************************
     *                                                                              *
     *                                METODOS VIEWS                                 *
@@ -27,13 +24,13 @@ class loginController extends Controller
     public function index()
     {
         $this->_view->titulo='Iniciar sesi&oacute;n';
-        $this->_view->renderizaPrincipal('login');
+        $this->_view->renderingMain('login');
     }
     
     public function cambioPass()
     {
         $this->_view->titulo='Cambio de contrase&ntilde;a';
-        $this->_view->renderizaPrincipal('cambio_pass');
+        $this->_view->renderingMain('cambio_pass');
     }
     
     
@@ -121,7 +118,7 @@ class loginController extends Controller
                     
                     
 
-                    Session::set('level', 'Admin');
+                    Session::set('level', 'Admin');//Validar tipo de usuario
                     Session::set('tiempo', time());
                         
                     

@@ -1,0 +1,44 @@
+<?php
+
+/* 
+ * Proyecto : Allways
+ * Autor    : Tsyacom Ltda.
+ * Fecha    : Martes, 4 de marzo de 2014
+ */
+
+class agenciaDAO extends Model
+{
+    public function getAgencias($idAgen=0)
+    {
+        $sql='SELECT id, agencia, imagenv FROM agenc_na ';
+        if(!empty($idAgen))
+        {
+                $sql.='WHERE id='.$idAgen;
+        }
+
+        $sql.=' ORDER BY agencia ASC';
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $agenciaArray= $this->_db->fetchAll($datos);
+            $objetosAgencia= array();
+            
+            foreach ($agenciaArray as $agDB)
+            {
+                $objAgencia= new agenciaDTO();
+                $objAgencia->setId(trim($agDB['id']));
+                $objAgencia->setNombre(trim($agDB['agencia']));
+                $objAgencia->setImagen(trim($agDB['imagenv']));
+                
+                $objetosAgencia[]= $objAgencia;
+            }
+            
+            return $objetosAgencia;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
