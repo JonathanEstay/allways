@@ -35,7 +35,7 @@ abstract class Controller
             }
             else
             {
-                throw new Exception('Error al cargar el DTO', $rutaDTO);
+                throw new Exception('Error al cargar el DTO: ' . $rutaDTO);
             }
         }
         else

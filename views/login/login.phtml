@@ -39,9 +39,17 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="clearfix">
-                            <div class="pull-right"><label><input type="checkbox" style="margin-bottom: 20px" checked=""> Remember Me</label></div>
-                    </div> -->
+                    <div class="clearfix">
+                        <?php if(Session::get('sess_alerts')==1){ ?>
+                            <div class="alert alert-success" role="alert">
+                                <strong>La informaci&oacute; fue modificada con &eacute;xito. </strong>
+                            </div>
+                        <?php }else if(Session::get('sess_alerts')==2){  ?>
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Atenci&oacute;n!</strong>, <?php echo Session::get('sess_alerts_msg'); ?>
+                            </div>
+                        <?php } ?>
+                    </div>
             </div>
             <div class="panel-footer">
                 <a href="<?php echo BASE_URL . 'login/cambioPass'; ?>" class="pull-left btn btn-link" style="padding-left:0">&iquest;Olvido su contrase&ntilde;a?</a>

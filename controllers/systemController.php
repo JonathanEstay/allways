@@ -29,7 +29,7 @@ class systemController extends Controller
         //$this->_view->setJS(array(''));
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
-        $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('index');
@@ -39,18 +39,67 @@ class systemController extends Controller
     public function consultarReserva()
     {
         Session::acceso('Usuario');
+        $reserva= $this->loadModel('reserva');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
-        $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
-        $this->_view->CR_fechaIni= Session::get('sess_fechaDefault');
-        $this->_view->CR_fechaFin= Functions::sumFecha(Session::get('sess_fechaDefault'), 0, 3);
+        
+        
+        if(Session::get('sess_CR_fechaDesde'))
+        {
+            $this->_view->CR_fechaIni= Session::get('sess_CR_fechaDesde');
+            $this->_view->CR_fechaFin= Session::get('sess_CR_fechaHasta');
+
+            if(Session::get("sess_CR_tipoFecha")==1)
+            {
+                $this->_view->rdbRes='checked';
+            }
+            else
+            {
+                $this->_view->rdbVia='checked';
+            }
+            
+            $this->_view->objReservas= $reserva->getReservas(
+                Functions::invertirFecha(Session::get('sess_CR_fechaDesde'), '/', '-'),
+                Functions::invertirFecha(Session::get('sess_CR_fechaHasta'), '/', '-'),
+                Session::get('sess_CR_tipoFecha'),
+                Session::get('sess_sp_acceso'),
+                Session::get('sess_clave_usuario')
+                );
+            $this->_view->objReservasCNT= count($this->_view->objReservas);
+            
+        }
+        else
+        {
+            $this->_view->CR_fechaIni= Session::get('sess_fechaDefault');
+            $this->_view->CR_fechaFin= Functions::sumFecha(Session::get('sess_fechaDefault'), 0, 3);
+
+            if(Session::get("sess_CR_tipoFecha")==1)
+            {
+                $this->_view->rdbRes='checked';
+            }
+            else
+            {
+                $this->_view->rdbVia='checked';
+            }
+        }
+        
+       
         
         $this->_view->currentMenu=1;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('consultarReserva');
     }
     
+    public function cartaConfirmacion()
+    {
+        $this->getTexto('CR_n_file');
+        $this->getTexto('CR_cod_prog');
+        $this->getTexto('CR_cod_bloq');
+        
+        $this->_view->renderingCenterBox('cartaConfirm');
+    }
     
     public function hoteles()
     {
@@ -58,11 +107,11 @@ class systemController extends Controller
         $categorias= $this->loadModel('categoria');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
-        $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         
         $this->_view->objCategorias= $categorias->getCategorias();
-        $this->_view->objCategoriasCNT= count($categorias->getCategorias());
+        $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
         
         $this->_view->currentMenu=2;
         $this->_view->titulo='ORISTRAVEL';
@@ -75,7 +124,7 @@ class systemController extends Controller
         Session::acceso('Usuario');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
-        $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->currentMenu=3;
         $this->_view->titulo='ORISTRAVEL';
@@ -89,10 +138,10 @@ class systemController extends Controller
         $agencia= $this->loadModel('agencia');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
-        $this->_view->objCiudadesCNT= count($this->_ciudad->getCiudadesPRG());
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->objAgencias= $agencia->getAgencias();
-        $this->_view->objAgenciasCNT= count($agencia->getAgencias());
+        $this->_view->objAgenciasCNT= count($this->_view->objAgencias);
         
         $this->_view->currentMenu=4;
         $this->_view->titulo='ORISTRAVEL';
@@ -146,6 +195,19 @@ class systemController extends Controller
         $this->_view->ML_fechaFin=  Session::get('sess_fechaDefault');
     }
     
+    private function _alert($tipo=false, $msg=false)
+    {
+        if($tipo)
+        {
+            Session::set('sess_alerts', $tipo); //Tipo alerta
+            Session::set('sess_alerts_msg', $msg);
+        }
+        else
+        {
+            Session::destroy('sess_alerts');
+            Session::destroy('sess_alerts_msg');
+        }
+    }
     
     
     
@@ -156,6 +218,15 @@ class systemController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
+    public function buscarReservas()
+    {
+        Session::set('sess_CR_fechaDesde', $this->getTexto('txtFechaDesde-ConsRes'));
+        Session::set('sess_CR_fechaHasta', $this->getTexto('txtFechaHasta-ConsRes'));
+        Session::set('sess_CR_tipoFecha', $this->getInt('rdbFecha'));
+        
+        $this->redireccionar('system/consultarReserva');
+    }
+    
     public function salir()
     {
         Session::destroy();

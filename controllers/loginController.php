@@ -25,12 +25,38 @@ class loginController extends Controller
     {
         $this->_view->titulo='Iniciar sesi&oacute;n';
         $this->_view->renderingMain('login');
+        $this->_alert();
     }
     
     public function cambioPass()
     {
         $this->_view->titulo='Cambio de contrase&ntilde;a';
         $this->_view->renderingMain('cambio_pass');
+        $this->_alert();
+    }
+    
+    
+    
+    
+    
+    
+    /*******************************************************************************
+    *                                                                              *
+    *                               METODOS PRIVADOS                               *
+    *                                                                              *
+    *******************************************************************************/
+    private function _alert($tipo=false, $msg=false)
+    {
+        if($tipo)
+        {
+            Session::set('sess_alerts', $tipo); //Tipo alerta
+            Session::set('sess_alerts_msg', $msg);
+        }
+        else
+        {
+            Session::destroy('sess_alerts');
+            Session::destroy('sess_alerts_msg');
+        }
     }
     
     
@@ -66,11 +92,13 @@ class loginController extends Controller
                     {
                         if(trim($sp_perfilClave[0]['acceso']) != 'S')
                         {
+                            $this->_alert(2, 'Error al verificar usuario <b>ACCESO</b>.');
                             $this->redireccionar(); //nopermited1
                         }
                     }
                     else
                     {
+                        $this->_alert(2, 'Error al verificar usuario <b>FILEWEB</b>.');
                         $this->redireccionar(); //nopermited2
                     }
                     ############################################################################
@@ -140,17 +168,21 @@ class loginController extends Controller
                 }
                 else
                 {
+                    $this->_alert(2, '<b>Usuario</b> o <b>Contrase&ntilde;a</b> Incorrectos.');
                     $this->redireccionar(); //Error Usuario o Pass
                 }
             }
             else
             {
-                 $this->redireccionar(); //No existe
+                $this->_alert(2, 'El usuario <b>no &eacute;xiste</b> o No tiene <b>agencia asignada</b>.');
+                $this->redireccionar(); //No existe
             }
         }
         else
         {
-             $this->redireccionar(); //Ingrese un usuario o Pass
+            $this->_alert(2, 'Debe ingresar su <b>Usuario</b> y <b>Contrase&ntilde;a</b>.');
+            
+            $this->redireccionar(); //Ingrese un usuario o Pass
         }
     }
     

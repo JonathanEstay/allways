@@ -5,7 +5,6 @@
         <group>
             <file>file:/C:/AppServ/www/allways/views/layout/default/left.php</file>
             <file>file:/C:/AppServ/www/allways/controllers/loginController.php</file>
-            <file>file:/C:/AppServ/www/allways/application/Functions.php</file>
             <file>file:/C:/AppServ/www/allways/controllers/systemController.php</file>
         </group>
     </open-files>

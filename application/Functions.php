@@ -86,6 +86,20 @@ class Functions
     }
     
     
+    public function formatoValor($tipo, $dinero)
+    {
+        if($tipo=='P')
+        {
+            $nuevo_dinero=number_format($dinero, 0, ',', '.');
+        }
+        else if($tipo=='D')
+        {
+            $nuevo_dinero=number_format($dinero, 2, ',', '.');
+        }
+
+        return $nuevo_dinero;
+    }
+    
     public static function getBrowser()
     { 
         $u_agent = $_SERVER['HTTP_USER_AGENT']; 

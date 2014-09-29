@@ -1,3 +1,42 @@
+<script>
+$(function()
+{
+	$( "#txtFechaDesde-ConsRes" ).datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		numberOfMonths: 2,
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+		'Jul','Ago','Sep','Oct','Nov','Dic'],
+		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		onSelect: function( selectedDate ){
+			$( "#txtFechaHasta-ConsRes" ).datepicker( "option", "minDate", selectedDate );
+		}
+	});
+
+	$( "#txtFechaHasta-ConsRes" ).datepicker({
+		minDate: +1,
+		defaultDate: "+1w",
+		changeMonth: true,
+		numberOfMonths: 2,
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+		'Jul','Ago','Sep','Oct','Nov','Dic'],
+		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		onSelect: function( selectedDate ) {
+			$( "#txtFechaDesde-ConsRes" ).datepicker( "option", "maxDate", selectedDate );
+		}
+	});
+});
+</script>
 <div id="page-content">
     <div id='wrap'>
         <div id="page-heading">
@@ -31,7 +70,7 @@
 
                                     <div class="col-md-12">
 
-                                        <form method="post" id="frmConsRes" action="process/procesoConsRes.php">
+                                        <form method="post" id="frmConsRes" action="<?php echo BASE_URL . 'system/buscarReservas'; ?>">
                                             <table align="center" cellspacing="5" cellpadding="5">
                                                 <tr>
                                                     <td>Fecha desde:</td>
@@ -44,14 +83,14 @@
                                                     </td>
                                                     <td rowspan="2">&nbsp;&nbsp;&nbsp;
                                                         <input type="button"  id="btnConsBooking" class="btn btn-primary" value="Buscar">
-                                                        <img id="imgLoading" src="iconos/loading.gif" style="display:none" width="32" border="0" />
+                                                        <img id="imgLoading" src="<?php echo $_layoutParams['ruta_img']; ?>loading.gif" style="display:none" width="32" border="0" />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Fecha reserva:</td>
-                                                    <td><input type="radio" id="rdbReserva" name="rdbFecha" value="1" <?php echo $rdbRes; ?>></td>
+                                                    <td><input type="radio" id="rdbReserva" name="rdbFecha" value="1" <?php echo $this->rdbRes; ?>></td>
                                                     <td>Fecha viaje:</td>
-                                                    <td><input type="radio" id="rdbViaje" name="rdbFecha" value="2" <?php echo $rdbVia; ?>></td>
+                                                    <td><input type="radio" id="rdbViaje" name="rdbFecha" value="2" <?php echo $this->rdbVia; ?>></td>
                                                 </tr>
                                             </table>
                                         </form>
@@ -65,7 +104,7 @@
                     
                     
                     <?php
-                    if(!empty($_SESSION["sess_pCR_fechaDesde"]))
+                    if(Session::get('sess_CR_fechaDesde'))
                     {
                     ?>
                     <script>
@@ -122,56 +161,42 @@
                                 <tbody>
                                 
                                  <?php
-                                    //echo $_SESSION["sess_pAP_ciudad"];
-
-                                    //echo $_SESSION['sess_sp_acceso'].' - '.$_SESSION["sess_clave_usuario"];
-                                    //echo '<br>';
-                                    $var_getConsRes= $privateFunctions->getConsRes(
-									$functions->invertirFecha($_SESSION["sess_pCR_fechaDesde"], '/', '-'), 
-									$functions->invertirFecha($_SESSION["sess_pCR_fechaHasta"], '/', '-'), 
-									$_SESSION["sess_pCR_tipoFecha"],
-									$_SESSION['sess_sp_acceso'], 
-									$_SESSION["sess_clave_usuario"]);
-                                    if($var_getConsRes!=FALSE)
+                                    if($this->objReservas!=false)
                                     { 
-                                        foreach($var_getConsRes as $columRes)
+                                        //foreach($var_getConsRes as $columRes)
+                                        for($i=0; $i<$this->objReservasCNT; $i++)
                                         {
-                                            $valorVenta =intval($columRes["totventa"]);
-                                            $valorPago =intval($columRes["totpag"]);
-                                            $cR_moneda = trim($columRes["moneda"]);
-                                            $cR_fecha= trim($columRes['fecha']);
-                                            $cR_fViaje= trim($columRes['f_viaje']);
-                                            $cR_nFile= trim($columRes['num_file']);
-                                            $cR_agencia= trim($columRes['agencia']);
-                                            $cR_nomPax= trim($columRes['nompax']);
-                                            $cR_totVenta= $functions->formatoValor($cR_moneda, trim($columRes['totventa']));
+                                            $valorVenta= $this->objReservas[$i]->getTotVenta();
+                                            $valorPago= $this->objReservas[$i]->getTotPag(); //intval($columRes["totpag"]);
+                                            $cR_moneda= $this->objReservas[$i]->getMoneda();
+                                            $cR_fecha= $this->objReservas[$i]->getFecha();
+                                            $cR_fViaje= $this->objReservas[$i]->getFViaje();
+                                            $cR_nFile= $this->objReservas[$i]->getFile();
+                                            $cR_agencia= $this->objReservas[$i]->getAgencia();
+                                            $cR_nomPax= $this->objReservas[$i]->getNomPax();
+                                            $cR_totVenta= Functions::formatoValor($cR_moneda, $this->objReservas[$i]->getTotVenta());
 
-                                            $cR_codProg= $privateFunctions->getCodPak_numFile($cR_nFile);
-                                            $cR_codBloq= $privateFunctions->getCodBloq_numFile($cR_nFile);
+                                            //$cR_codProg= $privateFunctions->getCodPak_numFile($cR_nFile);
+                                            //$cR_codBloq= $privateFunctions->getCodBloq_numFile($cR_nFile);
 
 
-                                            $cR_estado= trim($columRes['estado']);
+                                            $cR_estado= $this->objReservas[$i]->getEstado();
                                             $imgStatus='';
+                                            $voucherStatus='';
                                             if($cR_estado<>'N' && $valorPago < ($valorVenta -1))
                                             {
-                                                $imgStatus= '<img src="iconos/st_amarillo.png" title="Pendiente de pago" />';
+                                                $imgStatus= '<img src="'.$_layoutParams['ruta_img'].'st_amarillo.png" title="Pendiente de pago" />';
                                             }
                                             elseif($cR_estado<>'N' && $valorPago >= ($valorVenta -1))
                                             {
-                                                $imgStatus= '<img src="iconos/st_verde.png" title="Pago realizado" />';
+                                                $imgStatus= '<img src="'.$_layoutParams['ruta_img'].'st_verde.png" title="Pago realizado" />';
+                                                $voucherStatus='<a href="html2pdf/generar_vouchea.php?num_file='.$cR_nFile.'" target="_blank" onclick="window.open(this.href, this.target, \'width=896, height=600,left = 200,top = 100\'); return false;">
+                                                <img src="'.$_layoutParams['ruta_img'].'pdf.png" alt="edit" width="24" border="0" />
+                                                </a>';
                                             }
                                             elseif($cR_estado=='N')
                                             { 
-                                                $imgStatus= '<img src="iconos/st_rojo.png" title="Anulado" />';
-                                            }
-
-
-                                            $voucherStatus='';
-                                            if($cR_estado<>'N' && $valorPago >= ($valorVenta -1))
-                                            { 
-                                                $voucherStatus='<a href="html2pdf/generar_vouchea.php?num_file='.$cR_nFile.'" target="_blank" onclick="window.open(this.href, this.target, \'width=896, height=600,left = 200,top = 100\'); return false;">
-                                                <img src="iconos/pdf.png" alt="edit" width="24" border="0" />
-                                                </a>';
+                                                $imgStatus= '<img src="'.$_layoutParams['ruta_img'].'st_rojo.png" title="Anulado" />';
                                             }
                                         ?>
                                         <tr class="odd gradeX">
@@ -184,7 +209,7 @@
                                             <td><?php echo $cR_totVenta; ?></td>
                                             <td align="center"><?php echo $voucherStatus; ?></td>
                                             <td align="center">
-                                                    <a data-toggle="modal" href="#myModal" onClick="abreCartaConfirm('<?php echo $cR_nFile; ?>', '<?php echo $cR_codProg; ?>', '<?php echo $cR_codBloq; ?>');"><img src="iconos/search.png" width="24" border="0" /></a>
+                                                    <a data-toggle="modal" href="#myModal" onClick="abreCartaConfirm('<?php echo $cR_nFile; ?>', '<?php echo $cR_codProg; ?>', '<?php echo $cR_codBloq; ?>');"><img src="<?php echo $_layoutParams['ruta_img']; ?>search.png" width="24" border="0" /></a>
                                             </td>
                                         </tr>
                                             <?php 
@@ -234,7 +259,36 @@
             </div>
             
             
+<script>
+$('#btnConsBooking').on('click',function(){
+    $(document).skylo('start');
 
+    setTimeout(function(){
+            $(document).skylo('set',50);
+    },1000);
+
+    setTimeout(function(){
+            $(document).skylo('end');
+    },1500);
+    setTimeout(function(){
+            document.getElementById('frmConsRes').submit();
+    },2500);
+});
+
+
+function abreCartaConfirm(nFile, codProg, codBloq)
+{
+    $.post("<?php echo BASE_URL; ?>system/cartaConfirmacion", 
+    {
+        CR_n_file: nFile,
+        CR_cod_prog: codProg,
+        CR_cod_bloq: codBloq
+    }, function(data)
+    {
+        $("#divCartaConfirm").html(data);
+    });
+}
+</script>
         </div> <!-- container -->
     </div> <!--wrap -->
 </div> <!-- page-content -->
