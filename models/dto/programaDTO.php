@@ -24,7 +24,7 @@ class programaDTO
     {
         $this->_nombre=$nombre;
     }
-    public function getNombre($nombre)
+    public function getNombre()
     {
         return $this->_nombre;
     }

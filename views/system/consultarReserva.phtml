@@ -176,8 +176,8 @@ $(function()
                                             $cR_nomPax= $this->objReservas[$i]->getNomPax();
                                             $cR_totVenta= Functions::formatoValor($cR_moneda, $this->objReservas[$i]->getTotVenta());
 
-                                            //$cR_codProg= $privateFunctions->getCodPak_numFile($cR_nFile);
-                                            //$cR_codBloq= $privateFunctions->getCodBloq_numFile($cR_nFile);
+                                            $cR_codProg= $this->objReservas[$i]->getCodPak();
+                                            $cR_codBloq= $this->objReservas[$i]->getRecordC();
 
 
                                             $cR_estado= $this->objReservas[$i]->getEstado();
@@ -278,6 +278,7 @@ $('#btnConsBooking').on('click',function(){
 
 function abreCartaConfirm(nFile, codProg, codBloq)
 {
+    $("#divCartaConfirm").html('');
     $.post("<?php echo BASE_URL; ?>system/cartaConfirmacion", 
     {
         CR_n_file: nFile,

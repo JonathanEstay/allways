@@ -94,6 +94,14 @@ class View
     
     public function renderingCenterBox($vista, $item=false)
     {
+        //se incluye directamente el '/' ya que estas rutas siempre van a ser asi
+        $_layoutParamsCB= array(
+            'ruta_css' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/css/', 
+            'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/', 
+            'ruta_js' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
+            'ruta_hoteles' => BASE_URL . 'public/img/hoteles/'
+        );
+        
         $rutaView= ROOT . 'views' . DS . $this->_controlador . DS . 'centerBox' . DS . $vista . '.phtml';
         if(is_readable($rutaView))
         {

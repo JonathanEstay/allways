@@ -22,6 +22,7 @@ abstract class Controller
         $dto= $class . 'DTO';
         $rutaDAO= ROOT . 'models' . DS . 'dao'. DS .$dao . '.php';
         $rutaDTO= ROOT . 'models' . DS . 'dto'. DS .$dto . '.php';
+        $rutaDetalleDTO= ROOT . 'models' . DS . 'dto'. DS . 'detalle' .$dto . '.php';
         
         if(is_readable($rutaDAO))
         {
@@ -29,7 +30,12 @@ abstract class Controller
             {
                 require_once $rutaDAO;
                 require_once $rutaDTO;
-
+                
+                if(is_readable($rutaDetalleDTO))
+                {
+                    require_once $rutaDetalleDTO;
+                }
+                
                 $dao= new $dao;
                 return $dao; //retorna la instancia del modelo
             }

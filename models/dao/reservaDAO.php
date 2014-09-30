@@ -14,13 +14,17 @@ class reservaDAO extends Model
     
     public function getReservas($desde, $hasta, $tipo, $spAcceso, $cUsuario)
     {
-        $sql='SELECT * FROM  (SELECT agencia, num_file, nompax, totventa, estado, 
-		totpag, usuario, moneda,
-		CONVERT(VARCHAR(10), fecha, 103) as fecha, 
-		CONVERT(VARCHAR(10), f_viaje, 103) as f_viaje, 
-		fecha as fecha2, 
-		f_viaje as f_viaje2, 
-		ROW_NUMBER() OVER ';
+        $sql='SELECT a.*, 
+                (SELECT TOP 1 cod_pak FROM det_file where num_file = A.num_file) as cod_pak,
+                (SELECT top 1 record_c FROM det_bloq where num_file = A.num_file) as record_c 
+                
+            FROM  (SELECT agencia, num_file, nompax, totventa, estado, 
+            totpag, usuario, moneda,
+            CONVERT(VARCHAR(10), fecha, 103) as fecha, 
+            CONVERT(VARCHAR(10), f_viaje, 103) as f_viaje, 
+            fecha as fecha2, 
+            f_viaje as f_viaje2, 
+            ROW_NUMBER() OVER ';
 		
         if($tipo==1)
         {
@@ -94,6 +98,8 @@ class reservaDAO extends Model
                 $objReserva->setFecha2(trim($rDB['fecha2']));
                 $objReserva->setFViaje2(trim($rDB['f_viaje2']));
                 $objReserva->setRow(trim($rDB['row']));
+                $objReserva->setCodPak(trim($rDB['cod_pak']));
+                $objReserva->setRecordC(trim($rDB['record_c']));
                 
                 $objetosReserva[]=$objReserva;
             }
@@ -110,14 +116,47 @@ class reservaDAO extends Model
     public function getFile($nFile)
     {
         $sql='SELECT [num_file], [tipof], [n_coti], CONVERT(Nvarchar(10), fecha, 103) as fecha, '
-                . 'CONVERT(Nvarchar(10), f_viaje, 103) as f_viaje, [npax], [agencia], [nompax], [naciona], [ope], '
-                . '[ciudad], [pais], [moneda], [cambio], [comag], [tcomi], [estado], [neto], [ajuste], [tticket], '
-                . '[totventa], [totalco], [totpag], [vage], [datos], [notas], [fecontab], [ftkt], [autmod], [estnul], '
-                . '[efactu], [totfac], [tipred], [totnc], [cfinal], [tt], [vta_age], [au_mg_me], [promoto], [feccierre], '
-                . '[diacierre], [montodesciva], [MRK], [vta_comagdes], [Referencia], [NegocioSigav], [atipoa], [Por_comi], '
-                . '[Tipo_comi], [Por_comip], [Tipo_comip], [area], [id_nodo] '
-                . 'FROM file_ '
-                . 'WHERE num_file = '.$nFile;
+            . 'CONVERT(Nvarchar(10), f_viaje, 103) as f_viaje, [npax], [agencia], [nompax], [naciona], [ope], '
+            . '[ciudad], [pais], [moneda], [cambio], [comag], [tcomi], [estado], [neto], [ajuste], [tticket], '
+            . '[totventa], [totalco], [totpag], [vage], [datos], [notas], [fecontab], [ftkt], [autmod], [estnul], '
+            . '[efactu], [totfac], [tipred], [totnc], [cfinal], [tt], [vta_age], [au_mg_me], [promoto], [feccierre], '
+            . '[diacierre], [montodesciva], [MRK], [vta_comagdes], [Referencia], [NegocioSigav], [atipoa], [Por_comi], '
+            . '[Tipo_comi], [Por_comip], [Tipo_comip], [area], [id_nodo] '
+            . 'FROM file_ '
+            . 'WHERE num_file = '.$nFile;
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosFile= array();
+            $arrayObjFile= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayObjFile as $fileDB)
+            {
+                $objFile= new reservaDTO();
+                
+                $objFile->setAgencia(trim($fileDB['agencia']));
+                $objFile->setVage(trim($fileDB['vage']));
+                $objFile->setNomPax(trim($fileDB['nompax']));
+                $objFile->setNpax(trim($fileDB['npax']));
+                $objFile->setFViaje(trim($fileDB['f_viaje']));
+                $objFile->setMoneda(trim($fileDB['moneda']));
+                $objFile->setTotVenta(trim($fileDB['totventa']));
+                $objFile->setCambio(trim($fileDB['cambio']));
+                $objFile->setComag(trim($fileDB['comag']));
+                $objFile->setDatos(trim($fileDB['datos']));
+                $objFile->setAjuste(trim($fileDB['ajuste']));
+                $objFile->setTcomi(intval(trim($fileDB['tcomi'])));
+                
+                $objetosFile[]= $objFile;
+            }
+            
+            return $objetosFile;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     
@@ -127,6 +166,8 @@ class reservaDAO extends Model
             . 'FROM det_file '
             . 'WHERE num_file = "'.$nFile.'" AND NOT(codigo = "CGO") '
             . 'ORDER BY lin ASC ';
+         
+         //echo $sql;
          
          $datos= $this->_db->consulta($sql);
          if($this->_db->numRows($datos)>0)
@@ -143,15 +184,15 @@ class reservaDAO extends Model
                  $objDF->setNombre(trim($dfDB['nombre']));
                  $objDF->setIN(trim($dfDB['in_']));
                  $objDF->setOut(trim($dfDB['out']));
-                 $objDF->setPaxS(trim($dfDB['pax_s']));
-                 $objDF->setPaxD(trim($dfDB['pax_d']));
-                 $objDF->setPaxT(trim($dfDB['pax_t']));
-                 $objDF->setPaxQ(trim($dfDB['pax_q']));
-                 $objDF->setPaxC1(trim($dfDB['pax_c']));
-                 $objDF->setPaxC2(trim($dfDB['pax_c2']));
-                 $objDF->setPaxA(trim($dfDB['pax_a']));
-                 $objDF->setPaxI(trim($dfDB['pax_i']));
-                 $objDF->setPaxCA(trim($dfDB['pax_ca']));
+                 $objDF->setPaxS(intval(trim($dfDB['pax_s'])));
+                 $objDF->setPaxD(intval(trim($dfDB['pax_d'])));
+                 $objDF->setPaxT(intval(trim($dfDB['pax_t'])));
+                 $objDF->setPaxQ(intval(trim($dfDB['pax_q'])));
+                 $objDF->setPaxC1(intval(trim($dfDB['pax_c'])));
+                 $objDF->setPaxC2(intval(trim($dfDB['pax_c2'])));
+                 $objDF->setPaxA(intval(trim($dfDB['pax_a'])));
+                 $objDF->setPaxI(intval(trim($dfDB['pax_i'])));
+                 $objDF->setPaxCA(intval(trim($dfDB['pax_ca'])));
                  
                  $objetosDetFile[]=$objDF;
              }

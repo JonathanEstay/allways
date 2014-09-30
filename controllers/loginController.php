@@ -25,14 +25,14 @@ class loginController extends Controller
     {
         $this->_view->titulo='Iniciar sesi&oacute;n';
         $this->_view->renderingMain('login');
-        $this->_alert();
+        $this->_alertDestroy();
     }
     
     public function cambioPass()
     {
         $this->_view->titulo='Cambio de contrase&ntilde;a';
         $this->_view->renderingMain('cambio_pass');
-        $this->_alert();
+        $this->_alertDestroy();
     }
     
     
@@ -47,16 +47,14 @@ class loginController extends Controller
     *******************************************************************************/
     private function _alert($tipo=false, $msg=false)
     {
-        if($tipo)
-        {
-            Session::set('sess_alerts', $tipo); //Tipo alerta
-            Session::set('sess_alerts_msg', $msg);
-        }
-        else
-        {
-            Session::destroy('sess_alerts');
-            Session::destroy('sess_alerts_msg');
-        }
+        Session::set('sess_alerts', $tipo); //Tipo alerta
+        Session::set('sess_alerts_msg', $msg);
+    }
+    
+    private function _alertDestroy()
+    {
+        Session::destroy('sess_alerts');
+        Session::destroy('sess_alerts_msg');
     }
     
     

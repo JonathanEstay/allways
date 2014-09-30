@@ -21,6 +21,15 @@ class reservaDTO
     private $_f_viaje;
     private $_f_viaje2;
     private $_row;
+    private $_cod_pak;
+    private $_record_c;
+    private $_vage;
+    private $_npax;
+    private $_cambio;
+    private $_comag;
+    private $_datos;
+    private $_ajuste;
+    private $_tcomi;
     
     public function setAgencia($agen)
     {
@@ -149,5 +158,95 @@ class reservaDTO
     public function getRow()
     {
         return $this->_row;
+    }
+    
+    
+    public function setCodPak($cod)
+    {
+        $this->_cod_pak=$cod;
+    }
+    public function getCodPak()
+    {
+        return $this->_cod_pak;
+    }
+    
+    
+    public function setRecordC($record)
+    {
+        $this->_record_c=$record;
+    }
+    public function getRecordC()
+    {
+        return $this->_record_c;
+    }
+    
+    
+    public function setVage($vage)
+    {
+        $this->_vage=$vage;
+    }
+    public function getVage()
+    {
+        return $this->_vage;
+    }
+    
+    
+    public function setNpax($npax)
+    {
+        $this->_npax=$npax;
+    }
+    public function getNpax()
+    {
+        return $this->_npax;
+    }
+    
+    
+    public function setCambio($cam)
+    {
+        $this->_cambio=$cam;
+    }
+    public function getCambio()
+    {
+        return $this->_cambio;
+    }
+    
+    
+    public function setComag($comag)
+    {
+        $this->_comag=$comag;
+    }
+    public function getComag()
+    {
+        return $this->_comag;
+    }
+    
+    
+    public function setDatos($datos)
+    {
+        $this->_datos=$datos;
+    }
+    public function getDatos()
+    {
+        return $this->_datos;
+    }
+    
+    
+    public function setAjuste($ajuste)
+    {
+        $this->_ajuste=$ajuste;
+    }
+    public function getAjuste()
+    {
+        return $this->_ajuste;
+    }
+    
+    
+    public function setTcomi($tcomi)
+    {
+        $this->_tcomi= $tcomi;
+    }
+    public function getTcomi()
+    {
+        return $this->_tcomi;
     }
 }

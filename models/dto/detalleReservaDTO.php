@@ -114,21 +114,21 @@ class detalleReservaDTO
     }
     
     
-    public function setC1($c1)
+    public function setPaxC1($c1)
     {
         $this->_paxC1=$c1;
     }
-    public function getC1()
+    public function getPaxC1()
     {
         return $this->_paxC1;
     }
     
     
-    public function setC2($c2)
+    public function setPaxC2($c2)
     {
         $this->_paxC2=$c2;
     }
-    public function getC2()
+    public function getPaxC2()
     {
         return $this->_paxC2;
     }

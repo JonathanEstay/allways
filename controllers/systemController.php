@@ -92,14 +92,6 @@ class systemController extends Controller
         $this->_view->renderingSystem('consultarReserva');
     }
     
-    public function cartaConfirmacion()
-    {
-        $this->getTexto('CR_n_file');
-        $this->getTexto('CR_cod_prog');
-        $this->getTexto('CR_cod_bloq');
-        
-        $this->_view->renderingCenterBox('cartaConfirm');
-    }
     
     public function hoteles()
     {
@@ -184,6 +176,86 @@ class systemController extends Controller
     
     
     
+    
+    
+    /*******************************************************************************
+    *                                                                              *
+    *                          METODOS VIEWS CENTER BOX                            *
+    *                                                                              *
+    *******************************************************************************/
+    public function cartaConfirmacion()
+    {
+        //Cargando modelos
+        $M_file= $this->loadModel('reserva');
+        $M_bloqueos= $this->loadModel('bloqueo');
+        $M_packages= $this->loadModel('programa');
+        
+        //Rescatando post
+        $nFile= $this->getTexto('CR_n_file');
+        $codPRG= $this->getTexto('CR_cod_prog');
+        $codBloq= $this->getTexto('CR_cod_bloq');
+
+        //Creando los objetos para las View
+        $objsFile= $M_file->getFile($nFile);
+        //$objsFileCNT= count($objsFile);
+        
+        $this->_view->CC_objsDetFile= $M_file->getDetFile($nFile);
+        $this->_view->CC_objsDetFileCNT= count($this->_view->CC_objsDetFile);
+        
+        $objsBloq= $M_bloqueos->getBloqueos($codBloq);
+        
+        $this->_view->CC_objsDetBloq= $M_bloqueos->getDetBloq($codBloq, $nFile);
+        $this->_view->CC_objsDetBloqCNT= count($this->_view->CC_objsDetBloq);
+        
+        $objsPackages= $M_packages->getPackages($codPRG);
+        
+        
+        if($objsFile!=false)
+        {
+            $this->_view->CC_agencia=$objsFile[0]->getAgencia();
+            $this->_view->CC_vage= $objsFile[0]->getVage();
+            $this->_view->CC_nomPax= $objsFile[0]->getNomPax();
+            $this->_view->CC_nPax= $objsFile[0]->getNPax();
+            $this->_view->CC_fviaje= $objsFile[0]->getFViaje();
+            $this->_view->CC_moneda= $objsFile[0]->getMoneda();
+            $this->_view->CC_totventa= $objsFile[0]->getTotVenta();
+            $this->_view->CC_cambio= $objsFile[0]->getCambio();
+            $this->_view->CC_comag= $objsFile[0]->getComag();
+            
+            $this->_view->CC_datos= $objsFile[0]->getDatos();
+            $this->_view->CC_ajuste= $objsFile[0]->getAjuste();
+            $this->_view->CC_tcomi= $objsFile[0]->getTComi();
+        }
+        
+        if($objsPackages!=false)
+        {
+            $this->_view->CC_nombreProg=$objsPackages[0]->getNombre();
+        }
+        
+        if($objsBloq!=false)
+        {
+            $this->_view->CC_notas= str_replace("\n", "<br>", $objsBloq[0]->getNotas());
+        }
+        
+        $this->_view->numFile= $nFile;
+        $this->_view->codigoPRG= $codPRG;
+        $this->_view->codigoBloq= $codBloq;
+        
+        
+        
+        $this->_view->renderingCenterBox('cartaConfirm');
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*******************************************************************************
     *                                                                              *
     *                               METODOS PRIVADOS                               *
@@ -197,17 +269,20 @@ class systemController extends Controller
     
     private function _alert($tipo=false, $msg=false)
     {
-        if($tipo)
-        {
-            Session::set('sess_alerts', $tipo); //Tipo alerta
-            Session::set('sess_alerts_msg', $msg);
-        }
-        else
-        {
-            Session::destroy('sess_alerts');
-            Session::destroy('sess_alerts_msg');
-        }
+        Session::set('sess_alerts', $tipo); //Tipo alerta
+        Session::set('sess_alerts_msg', $msg);
     }
+    
+    private function _alertDestroy()
+    {
+        Session::destroy('sess_alerts');
+        Session::destroy('sess_alerts_msg');
+    }
+    
+    
+    
+    
+    
     
     
     
@@ -236,5 +311,4 @@ class systemController extends Controller
     
     
 }
-
 ?>
