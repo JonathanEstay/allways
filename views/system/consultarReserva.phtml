@@ -190,7 +190,7 @@ $(function()
                                             elseif($cR_estado<>'N' && $valorPago >= ($valorVenta -1))
                                             {
                                                 $imgStatus= '<img src="'.$_layoutParams['ruta_img'].'st_verde.png" title="Pago realizado" />';
-                                                $voucherStatus='<a href="html2pdf/generar_vouchea.php?num_file='.$cR_nFile.'" target="_blank" onclick="window.open(this.href, this.target, \'width=896, height=600,left = 200,top = 100\'); return false;">
+                                                $voucherStatus='<a href="'. BASE_URL .'system/verPDF_HTML/'.$cR_nFile.'" target="_blank" onclick="window.open(this.href, this.target, \'width=896, height=600,left = 200,top = 100\'); return false;">
                                                 <img src="'.$_layoutParams['ruta_img'].'pdf.png" alt="edit" width="24" border="0" />
                                                 </a>';
                                             }

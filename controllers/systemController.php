@@ -75,7 +75,7 @@ class systemController extends Controller
             $this->_view->CR_fechaIni= Session::get('sess_fechaDefault');
             $this->_view->CR_fechaFin= Functions::sumFecha(Session::get('sess_fechaDefault'), 0, 3);
 
-            if(Session::get("sess_CR_tipoFecha")==1)
+            if(Session::get('sess_CR_tipoFecha')==1)
             {
                 $this->_view->rdbRes='checked';
             }
@@ -97,6 +97,7 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         $categorias= $this->loadModel('categoria');
+        $hotel= $this->loadModel('hotel');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
@@ -104,6 +105,11 @@ class systemController extends Controller
         
         $this->_view->objCategorias= $categorias->getCategorias();
         $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
+        
+        
+        //Session::set('sess_H_nombre'); Session::set('sess_H_ciudad'); Session::set('sess_H_cat';
+        
+        
         
         $this->_view->currentMenu=2;
         $this->_view->titulo='ORISTRAVEL';
@@ -169,6 +175,30 @@ class systemController extends Controller
         //$this->_pdf->Cell(40,10, utf8_decode('¡Hola, Mundo!'));
         //$this->_pdf->Cell(40,10,'¡Hola, Mundo!');
         //$this->_pdf->Output();
+    }
+    
+    
+    public function verPDF_HTML($numFile)
+    {
+        $ruta_img= 'views/layout/' . DEFAULT_LAYOUT . '/img/';
+        
+        ob_start();
+        require_once ROOT . 'views' . DS . 'system' . DS .'pdf' . DS . 'vouchea.php';
+        $content = ob_get_clean();
+        
+        $this->getLibrary('html2pdf.class');
+        try
+        {
+            $html2pdf = new HTML2PDF('P', 'A4', 'fr');
+                    //$html2pdf->setModeDebug();
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+            $html2pdf->Output('Voucher_N_'.$numFile.'.pdf');
+        }
+        catch(HTML2PDF_exception $e) {
+            echo $e;
+            exit;
+        }
     }
     
     
@@ -293,6 +323,15 @@ class systemController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
+    public function buscarHotel()
+    {
+        Session::set('sess_H_nombre', $this->getTexto('txtNombre-Hot'));
+        Session::set('sess_H_ciudad', $this->getTexto('txtCiudad-Hot'));
+        Session::set('sess_H_cat', $this->getTexto('cmbCategoria'));
+        
+        $this->redireccionar('system/hoteles');
+    }
+    
     public function buscarReservas()
     {
         Session::set('sess_CR_fechaDesde', $this->getTexto('txtFechaDesde-ConsRes'));
@@ -308,7 +347,5 @@ class systemController extends Controller
         header('Location: ' . BASE_URL . 'login?ex');
         exit;
     }
-    
-    
 }
 ?>
