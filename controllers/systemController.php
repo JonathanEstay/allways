@@ -46,7 +46,7 @@ class systemController extends Controller
         
         
         
-        if(Session::get('sess_CR_fechaDesde'))
+        if(Session::get('sess_CR_fechaDesde') && Session::get('sess_CR_fechaHasta'))
         {
             $this->_view->CR_fechaIni= Session::get('sess_CR_fechaDesde');
             $this->_view->CR_fechaFin= Session::get('sess_CR_fechaHasta');
@@ -97,7 +97,7 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         $categorias= $this->loadModel('categoria');
-        $hotel= $this->loadModel('hotel');
+        $hoteles= $this->loadModel('hotel');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
@@ -106,13 +106,20 @@ class systemController extends Controller
         $this->_view->objCategorias= $categorias->getCategorias();
         $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
         
-        
-        //Session::set('sess_H_nombre'); Session::set('sess_H_ciudad'); Session::set('sess_H_cat';
+        if(Session::get('sess_H_nombre') || Session::get('sess_H_ciudad') || Session::get('sess_H_cat'))
+        {
+            $this->_view->objHoteles= $hoteles->getHoteles(Session::get('sess_H_nombre'), Session::get('sess_H_ciudad'), Session::get('sess_H_cat'));
+            $this->_view->objHotelesCNT= count($this->_view->objHoteles);
+        }
+        else
+        {
+            $this->_view->objHoteles=false;
+        }
         
         
         
         $this->_view->currentMenu=2;
-        $this->_view->titulo='ORISTRAVEL';
+        $this->_view->titulo='ORISTRAVEL H';
         $this->_view->renderingSystem('hoteles');
     }
     

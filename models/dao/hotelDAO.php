@@ -39,7 +39,7 @@ class hotelDAO extends Model
 
         $sql.=' ORDER BY hotel ASC';
         
-        
+        //echo $sql; exit;
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
         {

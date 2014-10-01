@@ -23,85 +23,86 @@
 
 
                         <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h4>Buscar Hotel</h4>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                            
-                            	
-                                <div class="col-md-12">
-                                	
-                                    <div id="divAlertWarHot" class="alert alert-dismissable alert-warning" style="display:none;">
-                                        <strong>Atenci&oacute;n!</strong>
-                                        Debe ingresar una <b>Ciudad</b>, <b>Nombre de hotel</b> o seleccionar una <b>Categoria</b>.
-                                        <button type="button" class="close" onClick="muestraOculta('divAlertWarHot', '2')">&times;</button>
-                                    </div>
-                            
-                                    <form method="post" id="frmHoteles" action="<?php echo BASE_URL ?>system/buscarHotel">
-                                        <table align="center" cellspacing="5" cellpadding="5">
-                                            <tr>
-                                                <td>Ciudad:</td>
-                                            <td>
-                                                <input type="text" id="txtCiudad-Hot" name="txtCiudad-Hot" style="width:200px" autocomplete="off"
-                                                placeholder="Ingrese ciudad de destino" onkeyup="buscarCiudad(this.value, 'frmHoteles', 'spnCiudad-hoteles', 'txtCiudad-Hot');">
-                                                <span id="spnCiudad-hoteles" class="twitter-typeahead" style="position: relative; display: none; direction: ltr;"></span>
-                                            </td>
-                                            <td>Nombre:</td>
-                                            <td>
-                                                <input type="text" id="txtNombre-Hot" name="txtNombre-Hot" style="width:200px" placeholder="Ingrese nombre hotel">
-                                            </td>
-                                            <td>Categoria:</td>
-                                            <td>
-                                                <select name="cmbCategoria" id="cmbCategoria" class="form-control">
-                                                    <?php
-                                                    if($this->objCategorias!=false)
-                                                    {
-                                                        echo '<option value="0">Todas</option>';
-                                                        for($i=0; $i<$this->objCategoriasCNT; $i++)
+                            <div class="panel-heading">
+                                <h4>Buscar Hotel</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+
+
+                                    <div class="col-md-12">
+
+                                        <div id="divAlertWarHot" class="alert alert-dismissable alert-warning" style="display:none;">
+                                            <strong>Atenci&oacute;n!</strong>
+                                            Debe ingresar una <b>Ciudad</b>, <b>Nombre de hotel</b> o seleccionar una <b>Categoria</b>.
+                                            <button type="button" class="close" onClick="muestraOculta('divAlertWarHot', '2')">&times;</button>
+                                        </div>
+
+                                        <form method="post" id="frmHoteles" action="<?php echo BASE_URL ?>system/buscarHotel">
+                                            <table align="center" cellspacing="5" cellpadding="5">
+                                                <tr>
+                                                    <td>Ciudad:</td>
+                                                <td>
+                                                    <input type="text" id="txtCiudad-Hot" name="txtCiudad-Hot" style="width:200px" value="<?php echo Session::get('sess_H_ciudad'); ?>" autocomplete="off"
+                                                    placeholder="Ingrese ciudad de destino" onkeyup="buscarCiudad(this.value, 'frmHoteles', 'spnCiudad-hoteles', 'txtCiudad-Hot');">
+                                                    <span id="spnCiudad-hoteles" class="twitter-typeahead" style="position: relative; display: none; direction: ltr;"></span>
+                                                </td>
+                                                <td>Nombre:</td>
+                                                <td>
+                                                    <input type="text" id="txtNombre-Hot" name="txtNombre-Hot" style="width:200px" placeholder="Ingrese nombre hotel" value="<?php echo Session::get('sess_H_nombre'); ?>">
+                                                </td>
+                                                <td>Categoria:</td>
+                                                <td>
+                                                    <select name="cmbCategoria" id="cmbCategoria" class="form-control">
+                                                        <?php
+                                                        if($this->objCategorias!=false)
                                                         {
-                                                            $h_nombreCat= $this->objCategorias[$i]->getNombre();
-                                                        ?>
-                                                            <option value="<?php echo $h_nombreCat; ?>"><?php echo $h_nombreCat; ?></option>
-                                                    <?php }
-                                                    } ?>
-                                                </select>
-                                            </td>
-                                            <td>&nbsp;&nbsp;&nbsp;
-                                                <input type="button"  id="btnHoteles" class="btn btn-primary" value="Buscar hoteles">
-                                                <img id="imgLoading" src="iconos/loading.gif" style="display:none" width="32" border="0" />
-                                            </td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                    
+                                                            echo '<option value="0">Todas</option>';
+                                                            for($i=0; $i<$this->objCategoriasCNT; $i++)
+                                                            {
+                                                                $h_nombreCat= $this->objCategorias[$i]->getNombre();
+                                                                if(Session::get('sess_H_cat')==$h_nombreCat)
+                                                                {
+                                                            ?>  
+                                                                <option selected="selected" value="<?php echo $h_nombreCat; ?>"><?php echo $h_nombreCat; ?></option>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                                <option value="<?php echo $h_nombreCat; ?>"><?php echo $h_nombreCat; ?></option>
+                                                        <?php }
+                                                        } ?>
+                                                    </select>
+                                                </td>
+                                                <td>&nbsp;&nbsp;&nbsp;
+                                                    <input type="button"  id="btnHoteles" class="btn btn-primary" value="Buscar hoteles">
+                                                    <img id="imgLoading" src="<?php echo $_layoutParams['ruta_img']; ?>loading.gif" style="display:none" width="32" border="0" />
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+
+                                    </div>
+
                                 </div>
-                                
                             </div>
                         </div>
-                    </div>	
-								
-								
-								
-
-					  
-					</div>
+                    </div>
                     
                     
                     <?php
-                    if(isset($_SESSION["sess_pH_ciudad"]))
-					{
-					?>
-                     <script>				
-					$('#btnHoteles').delay( 10 ).fadeOut( 10 );
-					$('#btnHoteles').animate({
-										'display': 'none'
-									}); 
-					$('#imgLoading').fadeIn( 100 );
-					$('#imgLoading').animate({
-										'display': 'block'
-									});
-					</script>
+                    if(Session::get('sess_H_nombre') || Session::get('sess_H_ciudad') || Session::get('sess_H_cat'))
+                    {
+                    ?>
+                    <script>				
+                    $('#btnHoteles').delay( 10 ).fadeOut( 10 );
+                    $('#btnHoteles').animate({
+                                                'display': 'none'
+                                            }); 
+                    $('#imgLoading').fadeIn( 100 );
+                    $('#imgLoading').animate({
+                                                'display': 'block'
+                                            });
+                    </script>
                     
                     
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -144,34 +145,35 @@
                                 <tbody>
                                 	
                                     <?php
-                                    $var_getHoteles= $privateFunctions->getHoteles($_SESSION["sess_pH_nombre"], $_SESSION["sess_pH_ciudad"], $_SESSION["sess_pH_cat"]);
-									if($var_getHoteles!=FALSE)
-									{ 
-										foreach($var_getHoteles as $columHotel)
-										{
-											$h_codigoHotel= trim($columHotel['codigo']);
-											$h_nombreH= trim($columHotel['hotel']);//mb_convert_encoding(trim($columHotel['hotel']), "UTF-8", "ISO-8859-1");
-											$h_paisH= trim($columHotel['pais']); //mb_convert_encoding(trim($columHotel['pais']), "UTF-8", "ISO-8859-1");
-											$h_ciudadH= trim($columHotel['ciudad']); //mb_convert_encoding(trim($columHotel['ciudad']), "UTF-8", "ISO-8859-1");
-											$h_catH= trim($columHotel['cat']);
-									?>
-                                       <tr class="odd gradeX">
-                                           <td><?php echo $h_nombreH; ?></td>
-                                           <td><?php echo $h_paisH; ?></td>
-                                           <td><?php echo $h_ciudadH; ?></td>
-                                           <td><?php echo $h_catH; ?></td>
-                                           <td align="center">
-                                           <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editHotel.php', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
-                                           <img src="iconos/edit.png" width="24" border="0" />
-                                           </a></td>
-                                           <td align="center">
-                                          <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editTipoH.php', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
-                                           <img src="iconos/camara.png" width="24" border="0" />
-                                           </a></td>
-                                       </tr>
+                                    if($this->objHoteles!=false)
+                                    { 
+                                        for($i=0; $i<$this->objHotelesCNT; $i++)
+                                        {
+                                            $h_codigoHotel= $this->objHoteles[$i]->getCodigo();
+                                            $h_nombreH= $this->objHoteles[$i]->getHotel();
+                                            $h_paisH= $this->objHoteles[$i]->getPais();
+                                            $h_ciudadH= $this->objHoteles[$i]->getCiudad();
+                                            $h_catH= $this->objHoteles[$i]->getCat();
+                                    ?>
+                                    <tr class="odd gradeX">
+                                        <td><?php echo $h_nombreH; ?></td>
+                                        <td><?php echo $h_paisH; ?></td>
+                                        <td><?php echo $h_ciudadH; ?></td>
+                                        <td><?php echo $h_catH; ?></td>
+                                        <td align="center">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editHotel.php', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
+                                                <img src="<?php echo $_layoutParams['ruta_img']; ?>edit.png" width="24" border="0" />
+                                            </a>
+                                        </td>
+                                        <td align="center">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editTipoH.php', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
+                                                <img src="<?php echo $_layoutParams['ruta_img']; ?>camara.png" width="24" border="0" />
+                                            </a>
+                                        </td>
+                                    </tr>
                                    <?php }
-									}
-								   ?>
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -181,17 +183,17 @@
                     <script>
 					$('#btnHoteles').fadeIn( 100 );
 					$('#btnHoteles').animate({
-										'display': 'block'
-									});
+                                                                    'display': 'block'
+                                                                });
 									
 					$('#imgLoading').delay( 10 ).fadeOut( 10 );
 					$('#imgLoading').animate({
-										'display': 'none'
-									});
+                                                                    'display': 'none'
+                                                                });
 					
 					$('#contenedorBusqueda').fadeIn( 2000 );
 					$('#contenedorBusqueda').animate({
-										'display': 'block'
+                                                                            'display': 'block'
 									});
 					
 					</script>
@@ -206,3 +208,46 @@
 		</div> <!-- container -->
 	</div> <!--wrap -->
 </div> <!-- page-content -->
+<script>
+$('#btnHoteles').on('click',function()
+{
+    if($('#txtCiudad-Hot').val()==='' && $('#txtNombre-Hot').val()==='' && $('#cmbCategoria').val()==='0')
+    {
+        $('#divAlertWarHot').fadeIn( 1500 );
+        $('#divAlertWarHoy').animate({
+                'display': 'block'
+        });
+    }
+    else
+    {
+        $(document).skylo('start');
+
+        setTimeout(function(){
+                $(document).skylo('set',50);
+        },1000);
+
+        setTimeout(function(){
+                $(document).skylo('end');
+        },1500);
+        setTimeout(function(){
+                document.getElementById('frmHoteles').submit();
+        },2500);
+    }
+	
+});
+
+
+function abrePopupHotel(docPHP, titulo, codHotel)
+{
+	$("#divPopupH").html('');
+	document.getElementById("tituloForm").innerHTML=titulo;
+	$.post(docPHP, 
+	{
+		post_open: 'on',
+		post_codHotel: codHotel
+	}, function(data)
+	{
+		$("#divPopupH").html(data);
+	});
+}
+</script>

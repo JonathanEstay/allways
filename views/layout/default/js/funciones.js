@@ -376,6 +376,24 @@ function checkServ(idChk, nConf, fPPago)
     }
 }
 
+function muestraOculta(id, estado)
+{
+    if(estado===1)
+    {
+        $('#'+id).delay( 10 ).fadeIn( 500 );
+        $('#'+id).animate({
+                'display': 'block'
+        });
+    }
+    else
+    {
+        $('#'+id).delay( 10 ).fadeOut( 500 );
+        $('#'+id).animate({
+                            'display': 'none'
+                        });
+    }
+}
+
 
 
 
