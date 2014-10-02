@@ -61,15 +61,22 @@
                                                             for($i=0; $i<$this->objCategoriasCNT; $i++)
                                                             {
                                                                 $h_nombreCat= $this->objCategorias[$i]->getNombre();
-                                                                if(Session::get('sess_H_cat')==$h_nombreCat)
+                                                                if($h_nombreCat)
                                                                 {
+                                                                    if(Session::get('sess_H_cat')==$h_nombreCat)
+                                                                    {
                                                             ?>  
                                                                 <option selected="selected" value="<?php echo $h_nombreCat; ?>"><?php echo $h_nombreCat; ?></option>
                                                             <?php
-                                                                }
-                                                            ?>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                    ?>
                                                                 <option value="<?php echo $h_nombreCat; ?>"><?php echo $h_nombreCat; ?></option>
-                                                        <?php }
+                                                                <?php
+                                                                    }
+                                                                }
+                                                            }
                                                         } ?>
                                                     </select>
                                                 </td>
@@ -161,12 +168,12 @@
                                         <td><?php echo $h_ciudadH; ?></td>
                                         <td><?php echo $h_catH; ?></td>
                                         <td align="center">
-                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editHotel.php', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>system/editHotel.php', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
                                                 <img src="<?php echo $_layoutParams['ruta_img']; ?>edit.png" width="24" border="0" />
                                             </a>
                                         </td>
                                         <td align="center">
-                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('editTipoH.php', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>system/editarTipoHab', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
                                                 <img src="<?php echo $_layoutParams['ruta_img']; ?>camara.png" width="24" border="0" />
                                             </a>
                                         </td>
@@ -240,11 +247,12 @@ $('#btnHoteles').on('click',function()
 function abrePopupHotel(docPHP, titulo, codHotel)
 {
 	$("#divPopupH").html('');
-	document.getElementById("tituloForm").innerHTML=titulo;
+	$("#tituloForm").html(titulo);
+	//document.getElementById("tituloForm").innerHTML=titulo;
 	$.post(docPHP, 
 	{
-		post_open: 'on',
-		post_codHotel: codHotel
+		H_open: 'on',
+		H_codHotel: codHotel
 	}, function(data)
 	{
 		$("#divPopupH").html(data);

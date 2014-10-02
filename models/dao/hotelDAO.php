@@ -92,7 +92,6 @@ class hotelDAO extends Model
                 $objHotel->setCodigo(trim($hDB['codigo']));
                 $objHotel->setHotel(trim($hDB['hotel']));
                 
-                
                 $objetosHotel[]= $objHotel;
             }
             

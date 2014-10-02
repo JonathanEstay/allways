@@ -67,6 +67,15 @@ abstract class Controller
         }
     }*/
     
+    protected function getServer($clave)
+    {
+        if(!empty($_SERVER[$clave]))
+        {
+            return $_SERVER[$clave];
+        }
+
+    }
+
     protected function getTexto($clave)
     {
         if(isset($_POST[$clave]) && !empty($_POST[$clave]))

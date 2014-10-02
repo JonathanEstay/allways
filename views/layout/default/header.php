@@ -29,7 +29,10 @@
     <link rel='stylesheet' type='text/css' href='<?php echo $_layoutParams['ruta_css']; ?>prettify.css' /> 
     <link rel='stylesheet' type='text/css' href='<?php echo $_layoutParams['ruta_css']; ?>toggles.css' /> 
     
-    <script type="text/javascript"> var BASE_URL_JS = "<?php echo BASE_URL; ?>"; </script>
+    <script type="text/javascript">
+        var BASE_URL_JS = "<?php echo BASE_URL; ?>";
+        var RUTA_IMG_JS = "<?php echo $_layoutParams['ruta_img']; ?>";
+    </script>
     
     <?php 
     if(isset($_layoutParams['js']) && count($_layoutParams['js'])): 

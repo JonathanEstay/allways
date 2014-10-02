@@ -6,68 +6,69 @@ function procesoEnviaForm(classFrm, php, btn, div)
     initLoad();
 
     var formData= new FormData($("."+classFrm)[0]);
-    //hacemos la petición ajax  
+    
+    //hacemos la peticion ajax  
     $.ajax({
-            url: php,  
-            type: 'POST',
-            //Form data
-            //datos del formulario
-            data: formData,
-            //necesario para subir archivos via ajax
-            cache: false,
-            contentType: false,
-            processData: false,
-            //mientras enviamos el archivo
-            beforeSend: function(){},
-            //una vez finalizado correctamente
-            success: function(data)
+        url: php,  
+        type: 'POST',
+        //Form data
+        //datos del formulario
+        data: formData,
+        //necesario para subir archivos via ajax
+        cache: false,
+        contentType: false,
+        processData: false,
+        //mientras enviamos el archivo
+        beforeSend: function(){},
+        //una vez finalizado correctamente
+        success: function(data)
+        {
+            endLoad();
+            if(data==='OK')
             {
-                    endLoad();
-                    if(data=='OK')
-                    {
-                            $("#"+div).delay(1500).queue(function(n)
-                            {
-                                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="iconos/ok.png" width="32" border="0" /> Proceso realizado con &eacute;xito.</div>');
-                                    n();
-                            });
-                    }
-                    else
-                    { 	
-                            $('#mensajeWar').html(data);
-                            $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
-                            $('#divAlertWar').animate({
-                                    'display': 'block'
-                            });
-
-                            $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
-                            $('#divAlertWar').animate({
-                                                                    'display': 'none'
-                                                            });
-
-                            $("#"+btn).delay(2000).queue(function(m)
-                            {
-                                    $("#"+btn).removeAttr("disabled");
-                                    m();
-                            });	
-                    }
-            },
-
-            //si ha ocurrido un error
-            error: function()
-            {
-                    endLoad();
-
-                    $('#mensajeWar').html('Error error');
-                    $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
-                    $('#divAlertWar').animate({
-                            'display': 'block'
-                    });
-
-                    $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
-                    $('#divAlertWar').animate({
-                                                            'display': 'none'
-                                                    });
+                $("#"+div).delay(1500).queue(function(n)
+                {
+                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Proceso realizado con &eacute;xito.</div>');
+                    n();
+                });
             }
+            else
+            { 	
+                $('#mensajeWar').html(data);
+                $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+                $('#divAlertWar').animate({
+                        'display': 'block'
+                });
+
+                $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+                $('#divAlertWar').animate({
+                                            'display': 'none'
+                                        });
+
+                $("#"+btn).delay(2000).queue(function(m)
+                {
+                    $("#"+btn).removeAttr("disabled");
+                    m();
+                });	
+            }
+        },
+
+        //si ha ocurrido un error
+        error: function()
+        {
+            endLoad();
+
+            $('#mensajeWar').html('Error error');
+            $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+            $('#divAlertWar').animate({
+                    'display': 'block'
+            });
+
+            $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+            $('#divAlertWar').animate({
+                                        'display': 'none'
+                                    });
+        }
     });
 }
 
@@ -81,7 +82,20 @@ function procesoEnviaForm(classFrm, php, btn, div)
 
 
 
-
+function procesoCargaDiv(valor, div, php)
+{
+    $("#"+div).html('');
+    if(valor!==0)
+    {
+        $.post(php, 
+        {
+                DTH_valor: valor
+        }, function(data)
+        {
+                $("#"+div).html(data);
+        });
+    }
+}
 
 
 

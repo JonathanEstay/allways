@@ -3462,7 +3462,7 @@ class upload {
             // checks file max size
             if ($this->file_src_size > $this->file_max_size) {
                 $this->processed = false;
-                $this->error = $this->translate('file_too_big');
+                $this->error = 'El archivo no debe superar los (' . ($this->file_max_size/1024) . ' KB)'; //$this->translate('file_too_big');
             } else {
                 $this->log .= '- file size OK<br />';
             }
@@ -3519,7 +3519,7 @@ class upload {
                 }
                 if (!$allowed) {
                     $this->processed = false;
-                    $this->error = $this->translate('incorrect_file');
+                    $this->error = 'Solo se permiten archivos (' . $this->allowed[0] . ', '. $this->allowed[1] . ', '. $this->allowed[2] . ', ' . $this->allowed[3] . ')'; //$this->translate('incorrect_file');
                 } else {
                     $this->log .= '- file mime OK : ' . $this->file_src_mime . '<br />';
                 }

@@ -72,6 +72,7 @@ class systemController extends Controller
         }
         else
         {
+            $this->_view->objReservas=false;
             $this->_view->CR_fechaIni= Session::get('sess_fechaDefault');
             $this->_view->CR_fechaFin= Functions::sumFecha(Session::get('sess_fechaDefault'), 0, 3);
 
@@ -101,8 +102,8 @@ class systemController extends Controller
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
-        
-        
+
+
         $this->_view->objCategorias= $categorias->getCategorias();
         $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
         
@@ -119,7 +120,7 @@ class systemController extends Controller
         
         
         $this->_view->currentMenu=2;
-        $this->_view->titulo='ORISTRAVEL H';
+        $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('hoteles');
     }
     
@@ -281,6 +282,129 @@ class systemController extends Controller
         
         
         $this->_view->renderingCenterBox('cartaConfirm');
+    }
+    
+    public function editarTipoHab()
+    {
+        $ETH_codHotel= $this->getTexto('H_codHotel');
+        if($ETH_codHotel)
+        {
+            Session::set('sessMOD_ETH_codHotel', $ETH_codHotel);
+            $ETH_hotel= $this->loadModel('hotel');
+            $ETH_tHab= $this->loadModel('tipoHab');
+            
+            
+            $ETH_objHotel= $ETH_hotel->getHotel($ETH_codHotel);
+            $this->_view->ETH_nombreHotel= $ETH_objHotel[0]->getHotel();
+            
+            
+            $this->_view->ETH_objsTipoHab= $ETH_tHab->getTipoHab();
+            $this->_view->ETH_objsTipoHabCNT= count($this->_view->ETH_objsTipoHab);
+        
+            
+            $this->_view->renderingCenterBox('editarTipoHab');
+        }
+        else
+        {
+            throw new Exception('Error al editar Tipo habitaci&oacute;n');
+        }
+    }
+    
+    public function detalleTipoHab()
+    {
+        $DTH_codTiHab= $this->getTexto('DTH_valor');
+        if($DTH_codTiHab)
+        {
+            $DTH_tHab= $this->loadModel('tipoHab');
+            
+            $DTH_objsTipoHab= $DTH_tHab->getTipoHab($DTH_codTiHab);
+            $this->_view->DTH_nombreDTipoHab= $DTH_objsTipoHab[0]->getNombre();
+            
+            $DTH_objsDetTipoHab= $DTH_tHab->getDetTipoHab($DTH_codTiHab, Session::get('sessMOD_ETH_codHotel'));
+            if($DTH_objsDetTipoHab!=false)
+            {
+                $this->_view->DTH_foto1= $DTH_objsDetTipoHab[0]->getFoto1();
+                $this->_view->DTH_foto2= $DTH_objsDetTipoHab[0]->getFoto2();
+                $this->_view->DTH_foto3= $DTH_objsDetTipoHab[0]->getFoto3();
+                $this->_view->DTH_foto4= $DTH_objsDetTipoHab[0]->getFoto4();
+            }
+            else
+            {
+                $this->_view->DTH_foto1=false;
+                $this->_view->DTH_foto2=false;
+                $this->_view->DTH_foto3=false;
+                $this->_view->DTH_foto4=false;
+            }
+            $this->_view->renderingCenterBox('detalleTipoHab');
+        }
+        else
+        {
+            throw new Exception('Error al cargar el detalle de tipo habitaci&oacute;n');
+        }
+    }
+    
+    public function modificarHotel()
+    {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            
+            $this->getLibrary('upload' . DS . 'class.upload');
+            $rutaImg= ROOT . 'public' . DS . 'img' . DS .'fotos_hab' . DS;
+
+            for($i=1; $i<=4; $i++)
+            {
+                if(isset($_FILES['DTH_flImagen' . $i]))
+                {
+                    $upload= new upload($_FILES['DTH_flImagen' . $i], 'es_ES');
+                    $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+                    $upload->file_max_size = '524288'; // 512KB
+                    $upload->file_new_name_body= 'upl_' . sha1(uniqid());
+                    //$upload->process($rutaImg);
+
+                    echo '(Imagen ' . $i . ')'. $upload->error . '<br>';
+                    $upload=false;
+                }
+                //$upload->processed=false;
+            }
+            
+            echo ' - FIN'; exit;
+            for($i=1; $i<=4; $i++)
+            {
+                /*if(isset($_FILES['DTH_flImagen' . $i]['name']))
+                {*/
+                    $upload= new upload($_FILES['DTH_flImagen' . $i], 'es_ES');
+                    $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+                    $upload->file_max_size = '524288'; // 512KB
+                    $upload->file_new_name_body= 'upl_' . sha1(uniqid());
+                    $upload->process($rutaImg);
+
+                    if($upload->processed)
+                    {   //THUMBNAILS
+                        /*$imagen= $upload->file_dst_name; //nombre de la imagen
+                        $thumb= new upload($upload->file_dst_pathname);
+                        $thumb->image_resize= true;
+                        $thumb->image_x= 100;
+                        $thumb->image_y= 100;
+                        $thumb->file_name_body_pre= 'thumb_';
+                        $thumb->process($rutaImg . 'thumb' . DS);*/
+                    }
+                    else
+                    {
+                        echo '(Imagen ' . $i . ')'.$upload->error . '<br>';
+                    }
+                /*}
+                else
+                {
+                    $imagenesFail.= '(imagen ' . $i . ') ';
+                }*/
+            }
+
+            echo 'OK';
+        }
+        else
+        {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
     }
     
     

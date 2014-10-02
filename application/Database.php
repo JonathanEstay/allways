@@ -12,7 +12,11 @@ class Database
     
     public function __construct() {
         $this->_conexion= mssql_connect(DB_HOST, DB_USER, DB_PASS);
-        
+        /*
+         * ODBC
+         * $connection_string = 'DRIVER={SQL SERVER};SERVER='. $_TEMP["server"] . ';DATABASE=' . $_TEMP["database"]; 
+         * $conexion = odbc_connect($connection_string, $_TEMP["username"], $_TEMP["password"]); 
+         */
         if(!empty($this->_conexion))
         {
             $bd= mssql_select_db(DB_NAME, $this->_conexion);
