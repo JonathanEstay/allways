@@ -8,6 +8,38 @@
 
 class Functions
 {
+    public function eliminaFile($file)
+    {
+        if(is_readable($file))
+        {
+            @unlink($file);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function validaFoto($tipoFotoPerfil)
+    {
+        $tipoImagen=false;
+            if(strpos(strtolower($tipoFotoPerfil), "gif")){ $tipoImagen= "gif"; }
+        elseif(strpos(strtolower($tipoFotoPerfil), "png")){ $tipoImagen= "png"; }
+        elseif(strpos(strtolower($tipoFotoPerfil), "jpeg")){ $tipoImagen= "jpg"; }
+        elseif(strpos(strtolower($tipoFotoPerfil), "jpg")){ $tipoImagen= "jpg"; }
+
+        if($tipoImagen)
+        {
+            return $tipoImagen;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
     public static function fechaActual($dias=0)
     {
         $dyh= getdate(mktime(0, 0, 0, date("m"), date("d"), date("Y")) + 24*60*60*$dias);

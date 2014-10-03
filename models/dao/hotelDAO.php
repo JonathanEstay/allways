@@ -91,6 +91,54 @@ class hotelDAO extends Model
                 
                 $objHotel->setCodigo(trim($hDB['codigo']));
                 $objHotel->setHotel(trim($hDB['hotel']));
+                $objHotel->setCat(trim($hDB['cat']));
+                $objHotel->setLat(trim($hDB['lat']));
+                $objHotel->setLon(trim($hDB['lon']));
+                $objHotel->setDirec(trim($hDB['direc']));
+                $objHotel->setSitioWeb(trim($hDB['SWEB']));
+                
+                
+                $objHotel->setRestaurante(trim($hDB['restaurante']));
+                $objHotel->setBar(trim($hDB['bar']));
+                $objHotel->setCafeteria(trim($hDB['cafeteria']));
+                $objHotel->setServHab(trim($hDB['s_habitacion']));
+                $objHotel->setBusiness(trim($hDB['busness_center']));
+                $objHotel->setInterHotel(trim($hDB['internet_hotel']));
+                $objHotel->setEstaciona(trim($hDB['estacionamiento']));
+                $objHotel->setPiscinaCub(trim($hDB['piscina_cub']));
+                $objHotel->setPiscinaDes(trim($hDB['piscina_des']));
+                $objHotel->setGym(trim($hDB['gym']));
+                $objHotel->setSpa(trim($hDB['spa']));
+                $objHotel->setTenis(trim($hDB['tenis']));
+                $objHotel->setGuarderia(trim($hDB['guarderia']));
+                $objHotel->setSalasReu(trim($hDB['salas_reunion']));
+                $objHotel->setJardin(trim($hDB['jardin']));
+                $objHotel->setDiscapacitados(trim($hDB['discapacitados']));
+                $objHotel->setBoutique(trim($hDB['bautique']));
+                $objHotel->setAcondicionado(trim($hDB['acondicionado']));
+                $objHotel->setCalefaccion(trim($hDB['calefaccion']));
+                $objHotel->setNoFuma(trim($hDB['no_fuma']));
+                $objHotel->setCajaFuerte(trim($hDB['caja_fuerte']));
+                $objHotel->setMiniBar(trim($hDB['mini_bar']));
+                $objHotel->setTV(trim($hDB['television']));
+                $objHotel->setTvCable(trim($hDB['tv_cable']));
+                $objHotel->setInterHab(trim($hDB['inter_hab']));
+                $objHotel->setSecador(trim($hDB['secador_pelo']));
+                $objHotel->setBarraSeg(trim($hDB['barra_seguridad']));
+                $objHotel->setLavanderia(trim($hDB['lavanderia']));
+                $objHotel->setTelefono(trim($hDB['telefono']));
+                $objHotel->setImgEnc(trim($hDB['img_encabezado']));
+                $objHotel->setImgCont(trim($hDB['img_contenido']));
+                $objHotel->setImgCont2(trim($hDB['img_contenido2']));
+                $objHotel->setImgCont3(trim($hDB['img_contenido3']));
+                $objHotel->setImgCont4(trim($hDB['img_contenido4']));
+                /*$objHotel->setMiniImgEnc(trim($hDB['mini_img_encabezado']));
+                $objHotel->setMiniImgCont(trim($hDB['mini_img_contenido']));
+                $objHotel->setMiniImgCont2(trim($hDB['mini_img_contenido2']));
+                $objHotel->setMiniImgCont3(trim($hDB['mini_img_contenido3']));
+                $objHotel->setMiniImgCont4(trim($hDB['mini_img_contenido4']));*/
+                
+                
                 
                 $objetosHotel[]= $objHotel;
             }

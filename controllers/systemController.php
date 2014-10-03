@@ -315,6 +315,7 @@ class systemController extends Controller
         $DTH_codTiHab= $this->getTexto('DTH_valor');
         if($DTH_codTiHab)
         {
+            Session::set('sessMOD_DTH_codTipoHab', $DTH_codTiHab);
             $DTH_tHab= $this->loadModel('tipoHab');
             
             $DTH_objsTipoHab= $DTH_tHab->getTipoHab($DTH_codTiHab);
@@ -323,18 +324,31 @@ class systemController extends Controller
             $DTH_objsDetTipoHab= $DTH_tHab->getDetTipoHab($DTH_codTiHab, Session::get('sessMOD_ETH_codHotel'));
             if($DTH_objsDetTipoHab!=false)
             {
+                Session::set('sess_DTH_cntFotos', 1);
                 $this->_view->DTH_foto1= $DTH_objsDetTipoHab[0]->getFoto1();
                 $this->_view->DTH_foto2= $DTH_objsDetTipoHab[0]->getFoto2();
                 $this->_view->DTH_foto3= $DTH_objsDetTipoHab[0]->getFoto3();
                 $this->_view->DTH_foto4= $DTH_objsDetTipoHab[0]->getFoto4();
+                
+                Session::set('sessMOD_DTH_img1', $this->_view->DTH_foto1);
+                Session::set('sessMOD_DTH_img2', $this->_view->DTH_foto2);
+                Session::set('sessMOD_DTH_img3', $this->_view->DTH_foto3);
+                Session::set('sessMOD_DTH_img4', $this->_view->DTH_foto4);
             }
             else
             {
+                Session::set('sess_DTH_cntFotos', 0);
                 $this->_view->DTH_foto1=false;
                 $this->_view->DTH_foto2=false;
                 $this->_view->DTH_foto3=false;
                 $this->_view->DTH_foto4=false;
+                
+                Session::set('sessMOD_DTH_img1', $this->_view->DTH_foto1);
+                Session::set('sessMOD_DTH_img2', $this->_view->DTH_foto2);
+                Session::set('sessMOD_DTH_img3', $this->_view->DTH_foto3);
+                Session::set('sessMOD_DTH_img4', $this->_view->DTH_foto4);
             }
+            
             $this->_view->renderingCenterBox('detalleTipoHab');
         }
         else
@@ -343,63 +357,127 @@ class systemController extends Controller
         }
     }
     
-    public function modificarHotel()
+    public function modificarTipoHab()
     {
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
-            
+            $MTH_tHab= $this->loadModel('tipoHab');
             $this->getLibrary('upload' . DS . 'class.upload');
-            $rutaImg= ROOT . 'public' . DS . 'img' . DS .'fotos_hab' . DS;
+            $rutaImg= ROOT . 'public' . DS . 'img' . DS .'tipo_habitacion' . DS;
 
+            $cntFotos=0;
+            $ML_status=true;
+            $ML_sqlIns='INSERT INTO fotos_hoteles (tipoh, cod_hotel';
             for($i=1; $i<=4; $i++)
             {
-                if(isset($_FILES['DTH_flImagen' . $i]))
+                if(isset($_FILES['DTH_flImagen' . $i]['name']))
                 {
-                    $upload= new upload($_FILES['DTH_flImagen' . $i], 'es_ES');
-                    $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-                    $upload->file_max_size = '524288'; // 512KB
-                    $upload->file_new_name_body= 'upl_' . sha1(uniqid());
-                    //$upload->process($rutaImg);
+                    if($_FILES['DTH_flImagen' . $i]['name'])
+                    {
+                        if(Functions::validaFoto($_FILES['DTH_flImagen' . $i]['type'])==false)
+                        {
+                            $ML_status=false;
+                            echo 'La Imagen '. $i .' debe ser formato [.JPG] [.GIF] [.PNG]';
+                            break;
+                        }
 
-                    echo '(Imagen ' . $i . ')'. $upload->error . '<br>';
-                    $upload=false;
-                }
-                //$upload->processed=false;
-            }
-            
-            echo ' - FIN'; exit;
-            for($i=1; $i<=4; $i++)
-            {
-                /*if(isset($_FILES['DTH_flImagen' . $i]['name']))
-                {*/
-                    $upload= new upload($_FILES['DTH_flImagen' . $i], 'es_ES');
-                    $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-                    $upload->file_max_size = '524288'; // 512KB
-                    $upload->file_new_name_body= 'upl_' . sha1(uniqid());
-                    $upload->process($rutaImg);
-
-                    if($upload->processed)
-                    {   //THUMBNAILS
-                        /*$imagen= $upload->file_dst_name; //nombre de la imagen
-                        $thumb= new upload($upload->file_dst_pathname);
-                        $thumb->image_resize= true;
-                        $thumb->image_x= 100;
-                        $thumb->image_y= 100;
-                        $thumb->file_name_body_pre= 'thumb_';
-                        $thumb->process($rutaImg . 'thumb' . DS);*/
+                        if($_FILES['DTH_flImagen' . $i]['size'] > 524288) //512KB
+                        {
+                            $ML_status=false;
+                            echo 'La Imagen '. $i .' debe ser menor a <b>500kb</b>';
+                            break;
+                        }
+                        
+                        $ML_sqlIns.=', foto' . $i;
                     }
                     else
                     {
-                        echo '(Imagen ' . $i . ')'.$upload->error . '<br>';
+                        ++$cntFotos;
                     }
-                /*}
+                }
                 else
                 {
-                    $imagenesFail.= '(imagen ' . $i . ') ';
-                }*/
+                    ++$cntFotos;
+                }
             }
-
-            echo 'OK';
+            
+            
+            
+            
+            
+            
+            if($ML_status)
+            {
+                $ML_sqlUpd='UPDATE fotos_hoteles SET ';
+                $ML_sqlIns.=') VALUES ( "'.Session::get('sessMOD_DTH_codTipoHab').'", "'.Session::get('sessMOD_ETH_codHotel').'" ';
+                $ML_c='';
+                for($i=1; $i<=4; $i++)
+                {
+                    if(isset($_FILES['DTH_flImagen' . $i]['name']))
+                    {
+                        if($_FILES['DTH_flImagen' . $i]['name'])
+                        {
+                            $upload= new upload($_FILES['DTH_flImagen' . $i], 'es_ES');
+                            $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+                            $upload->file_max_size = '524288'; // 512KB
+                            $upload->file_new_name_body= 'upl_' . sha1(uniqid());
+                            $upload->process($rutaImg);
+                            
+                            $ML_sqlIns.= ', "' . $upload->file_dst_name . '" ';
+                            $ML_sqlUpd.= $ML_c . ' foto' . $i . '= "' . $upload->file_dst_name . '" ';
+                            $ML_c=','; 
+                            /*if($upload->processed)
+                            {   //THUMBNAILS
+                                $imagen= $upload->file_dst_name; //nombre de la imagen
+                                $thumb= new upload($upload->file_dst_pathname);
+                                $thumb->image_resize= true;
+                                $thumb->image_x= 100;
+                                $thumb->image_y= 100;
+                                $thumb->file_name_body_pre= 'thumb_';
+                                $thumb->process($rutaImg . 'thumb' . DS);
+                            }
+                            else
+                            {
+                                echo '(Imagen ' . $i . ')'.$upload->error . '<br>';
+                            }*/
+                        }
+                    }
+                    else
+                    {
+                        if($this->getTexto('chkDTH_flImagen' . $i)=='on')
+                        {
+                            $cntFotos=0;
+                            Functions::eliminaFile($rutaImg . Session::get('sessMOD_DTH_img' . $i));
+                            $ML_sqlUpd.= $ML_c . ' foto' . $i . '= "" ';
+                            $ML_c=',';
+                        }
+                    }
+                    
+                }
+                
+                
+                if($cntFotos==4)
+                {
+                    $ML_status=false;
+                    echo 'Para modificar debe realizar al menos un cambio. ';
+                }
+                else
+                {
+                    if(Session::get('sess_DTH_cntFotos')==1)
+                    {
+                        $ML_sqlUpd.=' WHERE tipoh = "'.Session::get('sessMOD_DTH_codTipoHab').'" AND cod_hotel = "'.Session::get('sessMOD_ETH_codHotel').'"';
+                        //echo $ML_sqlUpd;
+                        $MTH_tHab->exeSQL($ML_sqlUpd);
+                    }
+                    else
+                    {
+                        $ML_sqlIns.=')';
+                        $MTH_tHab->exeSQL($ML_sqlIns);
+                    }
+                    echo 'OK';
+                }
+                
+            }
         }
         else
         {
@@ -408,6 +486,79 @@ class systemController extends Controller
     }
     
     
+    
+    
+    public function editarHotel()
+    {
+        $EH_codHotel= $this->getTexto('H_codHotel');
+        if($EH_codHotel)
+        {
+            Session::set('sessMOD_EH_codHotel', $EH_codHotel);
+            $hoteles= $this->loadModel('hotel');
+            $categorias= $this->loadModel('categoria');
+
+            $this->_view->objCategorias= $categorias->getCategorias();
+            $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
+            
+            
+            $objHotel= $hoteles->getHotel($EH_codHotel);
+            if($objHotel)
+            {
+                $this->_view->EH_hotel= $objHotel[0]->getHotel();
+                $this->_view->EH_cat= $objHotel[0]->getCat();
+                $this->_view->EH_lat= $objHotel[0]->getLat();
+                $this->_view->EH_lon= $objHotel[0]->getLon();
+                $this->_view->EH_direc= $objHotel[0]->getDirec();
+                $this->_view->EH_web= $objHotel[0]->getSitioWeb();
+                
+                $this->_view->EH_imgEnc= $objHotel[0]->getImgEnc();
+                $this->_view->EH_imgCont= $objHotel[0]->getImgCont();
+                $this->_view->EH_imgCont2= $objHotel[0]->getImgCont2();
+                $this->_view->EH_imgCont3= $objHotel[0]->getImgCont3();
+                $this->_view->EH_imgCont4= $objHotel[0]->getImgCont4();
+                
+                /* SERVICIOS HOTEL*/
+                if($objHotel[0]->getRestaurante()==1){ $this->_view->EH_rest='checked="checked"'; }
+                if($objHotel[0]->getLavanderia()==1){ $this->_view->EH_lavan='checked="checked"'; }
+                if($objHotel[0]->getBar()==1){ $this->_view->EH_bar='checked="checked"'; }
+                if($objHotel[0]->getCafeteria()==1){ $this->_view->EH_cafe='checked="checked"'; }
+                if($objHotel[0]->getServHab()==1){ $this->_view->EH_servHab='checked="checked"'; }
+                if($objHotel[0]->getBusiness()==1){ $this->_view->EH_business='checked="checked"'; }
+                if($objHotel[0]->getInterHotel()==1){ $this->_view->EH_intHot='checked="checked"'; }
+                if($objHotel[0]->getEstaciona()==1){ $this->_view->EH_est='checked="checked"'; }
+                if($objHotel[0]->getPiscinaCub()==1){ $this->_view->EH_pCub='checked="checked"'; }
+                if($objHotel[0]->getPiscinaDes()==1){ $this->_view->EH_pDes='checked="checked"'; }
+                if($objHotel[0]->getGym()==1){ $this->_view->EH_gym='checked="checked"'; }
+                if($objHotel[0]->getSpa()==1){ $this->_view->EH_spa='checked="checked"'; }
+                if($objHotel[0]->getTenis()==1){ $this->_view->EH_tenis='checked="checked"'; }
+                if($objHotel[0]->getGuarderia()==1){ $this->_view->EH_guard='checked="checked"'; }
+                if($objHotel[0]->getSalasReu()==1){ $this->_view->EH_salas='checked="checked"'; }
+                if($objHotel[0]->getJardin()==1){ $this->_view->EH_jardin='checked="checked"'; }
+                if($objHotel[0]->getDiscapacitados()==1){ $this->_view->EH_disca='checked="checked"'; }
+                if($objHotel[0]->getBoutique()==1){ $this->_view->EH_bou='checked="checked"'; }
+                
+                
+                /* SERVICIOS HABITACION */
+                if($objHotel[0]->getAcondicionado()==1){ $this->_view->EH_acon='checked="checked"'; }
+                if($objHotel[0]->getCalefaccion()==1){ $this->_view->EH_cale='checked="checked"'; }
+                if($objHotel[0]->getNoFuma()==1){ $this->_view->EH_noFuma='checked="checked"'; }
+                if($objHotel[0]->getCajaFuerte()==1){ $this->_view->EH_cajaF='checked="checked"'; }
+                if($objHotel[0]->getMiniBar()==1){ $this->_view->EH_mBar='checked="checked"'; }
+                if($objHotel[0]->getTV()==1){ $this->_view->EH_tv='checked="checked"'; }
+                if($objHotel[0]->getTvCable()==1){ $this->_view->EH_tvC='checked="checked"'; }
+                if($objHotel[0]->getInterHab()==1){ $this->_view->EH_intHab='checked="checked"'; }
+                if($objHotel[0]->getSecador()==1){ $this->_view->EH_seca='checked="checked"'; }
+                if($objHotel[0]->getBarraSeg()==1){ $this->_view->EH_barra='checked="checked"'; }
+                if($objHotel[0]->getTelefono()==1){ $this->_view->EH_fono='checked="checked"'; }            
+            }
+            
+            $this->_view->renderingCenterBox('editarHotel');
+        }
+        else
+        {
+            throw new Exception('Error al tratar de editar el hotel');
+        }
+    }
     
     
     

@@ -99,7 +99,8 @@ class View
             'ruta_css' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/css/', 
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/', 
             'ruta_js' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
-            'ruta_fotos_hab' => BASE_URL . 'public/img/fotos_hab/'
+            'ruta_fotos_hab' => BASE_URL . 'public/img/fotos_hab/',
+            'ruta_iconos_hotel' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/hotel/'
         );
         
         $rutaView= ROOT . 'views' . DS . $this->_controlador . DS . 'centerBox' . DS . $vista . '.phtml';

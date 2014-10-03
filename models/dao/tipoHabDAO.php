@@ -81,4 +81,10 @@ class tipoHabDAO extends Model
             return false;
         }
     }
+    
+    
+    public function exeSQL($sql)
+    {
+        $this->_db->consulta($sql);
+    }
 }

@@ -1,5 +1,5 @@
 <div class="panel-heading">
-    <h4>Tipo de Habitaci&oacute;n: <b><?php echo $var_getNombreTipoHab[0]['nombre']; ?></b></h4>
+    <h4>Tipo de Habitaci&oacute;n: <b><?php echo $this->DTH_nombreDTipoHab; ?></b></h4>
 </div>
 <div class="panel-body">
     <div class="row">
@@ -13,9 +13,9 @@
                     <div class="col-sm-9">
                     	<center>Imagen 1</center>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <?php if($this->DTH_foto_1){?>
+                        <?php if($this->DTH_foto1){?>
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
-                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto_1; ?>" />
+                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto1; ?>" />
                                 </div>
                                 <center>
                                     <label style="cursor:pointer">
@@ -41,9 +41,9 @@
                     <div class="col-sm-9">
                     	<center>Imagen 2</center>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <?php if($this->DTH_foto_2){?>
+                        <?php if($this->DTH_foto2){?>
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
-                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto_2; ?>" />
+                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto2; ?>" />
                                 </div>
                                 <center>
                                     <label style="cursor:pointer">
@@ -73,9 +73,9 @@
                     <div class="col-sm-9">
                     	<center>Imagen 3</center>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <?php if($this->DTH_foto_3){?>
+                        <?php if($this->DTH_foto3){?>
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
-                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto_3; ?>" />
+                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto3; ?>" />
                                 </div>
                                 <center>
                                     <label style="cursor:pointer">
@@ -101,9 +101,9 @@
                     <div class="col-sm-9">
                     	<center>Imagen 4</center>
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                        <?php if($this->DTH_foto_4){?>
+                        <?php if($this->DTH_foto4){?>
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
-                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto_4; ?>" />
+                                    <img src="<?php echo $_layoutParamsCB['ruta_fotos_hab'] . $this->DTH_foto4; ?>" />
                                 </div>
                                 <center>
                                     <label style="cursor:pointer">
@@ -128,7 +128,7 @@
                     <tr>
                         <td colspan="2" align="center">
                              <input type="button"  id="btnModificaDTipoHab" class="btn btn-primary" value="Modificar imagenes" 
-                             onclick="procesoEnviaForm('frmModTipoHab', '<?php echo BASE_URL; ?>system/modificarHotel', 'btnModificaDTipoHab', 'divPopupH')">
+                             onclick="procesoEnviaForm('frmModTipoHab', '<?php echo BASE_URL; ?>system/modificarTipoHab', 'btnModificaDTipoHab', 'divPopupH')">
                         </td>
                     </tr>
                 </table>

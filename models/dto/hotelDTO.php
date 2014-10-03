@@ -62,6 +62,17 @@ class hotelDTO
     private $_prepago;
     private $_dias_prepago;
     private $_comag;
+    private $_sweb;
+    
+    
+    public function getSitioWeb()
+    {
+        return $this->_sweb;
+    }
+    public function setSitioWeb($sw)
+    {
+        $this->_sweb=$sw;
+    }
     
     
     public function setComag($comag)
