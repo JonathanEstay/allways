@@ -8,6 +8,18 @@
 
 class Functions
 {
+    public function validaChk($chk)
+    {
+        if($chk=='on')
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
     public function eliminaFile($file)
     {
         if(is_readable($file))

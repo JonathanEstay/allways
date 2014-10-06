@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta charset="<?php echo CHARSET; ?>" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>"  />
     <title><?php if(isset($this->titulo))echo $this->titulo; ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

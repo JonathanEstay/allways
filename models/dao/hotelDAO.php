@@ -150,4 +150,10 @@ class hotelDAO extends Model
             return false;
         }
     }
+    
+    
+    public function exeSQL($sql)
+    {
+        $this->_db->consulta($sql);
+    }
 }

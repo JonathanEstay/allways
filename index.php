@@ -7,11 +7,13 @@
  */
 
 ini_set('display_errors', 1);
-ini_set('mssql.charset', 'ISO-8859-1');
-header('Content-Type: text/html; charset=ISO-8859-1');
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', realpath(dirname(__FILE__)) . DS);
 define('APP_PATH', ROOT . 'application' . DS);
+define('CHARSET', 'ISO-8859-1');
+//define('CHARSET', 'UTF-8');
+//ini_set('mssql.charset', CHARSET);
+header('Content-Type: text/html; charset=' . CHARSET);
 
 try
 {

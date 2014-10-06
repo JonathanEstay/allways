@@ -487,7 +487,6 @@ class systemController extends Controller
     
     
     
-    
     public function editarHotel()
     {
         $EH_codHotel= $this->getTexto('H_codHotel');
@@ -561,6 +560,205 @@ class systemController extends Controller
     }
     
     
+    public function modificarHotel()
+    {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            $MH_nombreHotel= $this->getTexto('txtEH_nombreHotel');
+            $MH_direc= $this->getTexto('txtEH_direc');
+            $MH_cate= $this->getTexto('cmbEH_categoria');
+            $MH_lat= $this->getTexto('txtEH_latitud');
+            $MH_lon= $this->getTexto('txtEH_longitud');
+            $MH_sitWeb= $this->getTexto('txtEH_sitioWeb');
+            
+            
+            if(!$MH_nombreHotel)
+            {
+                echo 'Debe ingresar un nombre de hotel'; exit;
+            }
+            else if(!$MH_cate)
+            {
+                echo 'El hotel debe tener una categor&iacute;a'; exit;
+            }
+            else if(!$MH_direc)
+            {
+                echo 'Debe ingresar una direcci&oacute;n para el hotel'; exit;
+            }
+            
+            
+            
+            $MH_Hotel= $this->loadModel('hotel');
+            $this->getLibrary('upload' . DS . 'class.upload');
+            $rutaImg= ROOT . 'public' . DS . 'img' . DS .'hoteles' . DS;
+
+            
+            for($i=1; $i<=5; $i++)
+            {
+                if(isset($_FILES['flImagen' . $i]['name']))
+                {
+                    if($_FILES['flImagen' . $i]['name'])
+                    {
+                        if(Functions::validaFoto($_FILES['flImagen' . $i]['type'])==false)
+                        {
+                            echo 'La Imagen '. $i .' debe ser formato [.JPG] [.GIF] [.PNG]';
+                            exit;
+                        }
+
+                        if($_FILES['flImagen' . $i]['size'] > 524288) //512KB
+                        {
+                            echo 'La Imagen '. $i .' debe ser menor a <b>500kb</b>';
+                            exit;
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            
+            
+            //Servicios Hotel
+            $MH_chkRest= Functions::validaChk($this->getTexto('chkEH_rest'));
+            $MH_chkLavan= Functions::validaChk($this->getTexto('chkEH_lavan'));
+            $MH_chkPisDesc= Functions::validaChk($this->getTexto('chkEH_pisDesc'));
+            $MH_chkCanTenis= Functions::validaChk($this->getTexto('chkEH_cTenis'));
+            $MH_chkBar= Functions::validaChk($this->getTexto('chkEH_bar'));
+            $MH_chkBusCen= Functions::validaChk($this->getTexto('chkEH_busCen'));
+            $MH_chkSpa= Functions::validaChk($this->getTexto('chkEH_spa'));
+            $MH_chkGuard= Functions::validaChk($this->getTexto('chkEH_guarderia'));
+            $MH_chkCafe= Functions::validaChk($this->getTexto('chkEH_cafe'));
+            $MH_chkInterHot= Functions::validaChk($this->getTexto('chkEH_interHot'));
+            $MH_chkGym= Functions::validaChk($this->getTexto('chkEH_gym'));
+            $MH_chkSaReu= Functions::validaChk($this->getTexto('chkEH_sReu'));
+            $MH_chkServHab= Functions::validaChk($this->getTexto('chkEH_servHab'));
+            $MH_chkEst= Functions::validaChk($this->getTexto('chkEH_estaciona'));
+            $MH_chkPisCub= Functions::validaChk($this->getTexto('chkEH_pisCub'));
+            $MH_chkJar= Functions::validaChk($this->getTexto('chkEH_jardin'));
+            $MH_chkDisca= Functions::validaChk($this->getTexto('chkEH_disca'));
+            $MH_chkBou= Functions::validaChk($this->getTexto('chkEH_bou'));
+
+
+            //Servicios Habitacion
+            $MH_chkAirAcond= Functions::validaChk($this->getTexto('chkEH_airAcond'));
+            $MH_chkCaFuerte= Functions::validaChk($this->getTexto('chkEH_cFuerte'));
+            $MH_chkTvCable= Functions::validaChk($this->getTexto('chkEH_tvCable'));
+            $MH_chkSecPelo= Functions::validaChk($this->getTexto('chkEH_sPelo'));
+            $MH_chkCalef= Functions::validaChk($this->getTexto('chkEH_calefac'));
+            $MH_chkMinBar= Functions::validaChk($this->getTexto('chkEH_mBar'));
+            $MH_chkFono= Functions::validaChk($this->getTexto('chkEH_fono'));
+            $MH_chkBarraSeg= Functions::validaChk($this->getTexto('chkEH_barraSeg'));
+            $MH_chkNoFumar= Functions::validaChk($this->getTexto('chkEH_noFumar'));
+            $MH_chkTV= Functions::validaChk($this->getTexto('chkEH_tv'));
+            $MH_chkInterHab= Functions::validaChk($this->getTexto('chkEH_interHab'));
+
+
+            $MH_sql='UPDATE hotel 
+                    SET hotel="'.mb_convert_encoding($MH_nombreHotel, "ISO-8859-1", "UTF-8").'", direc="'.mb_convert_encoding($MH_direc, "ISO-8859-1", "UTF-8").'", cat="'.$MH_cate.'", SWEB="'.$MH_sitWeb.'", estado="", 
+                    lat="'.$MH_lat.'", lon="'.$MH_lon.'", restaurante='.$MH_chkRest.', bar='.$MH_chkBar.', cafeteria='.$MH_chkCafe.', 
+                    s_habitacion='.$MH_chkServHab.', busness_center='.$MH_chkBusCen.', internet_hotel='.$MH_chkInterHot.', estacionamiento='.$MH_chkEst.', 
+                    piscina_cub='.$MH_chkPisCub.', piscina_des='.$MH_chkPisDesc.', gym='.$MH_chkGym.', spa='.$MH_chkSpa.', tenis='.$MH_chkCanTenis.', 
+                    guarderia='.$MH_chkGuard.', salas_reunion='.$MH_chkSaReu.', jardin='.$MH_chkJar.', discapacitados='.$MH_chkDisca.', 
+                    bautique='.$MH_chkBou.', acondicionado='.$MH_chkAirAcond.', calefaccion='.$MH_chkCalef.', no_fuma='.$MH_chkNoFumar.', 
+                    caja_fuerte='.$MH_chkCaFuerte.', mini_bar='.$MH_chkMinBar.', television='.$MH_chkTV.', tv_cable='.$MH_chkTvCable.', 
+                    inter_hab='.$MH_chkInterHab.',	secador_pelo='.$MH_chkSecPelo.', barra_seguridad='.$MH_chkBarraSeg.', 
+                    lavanderia='.$MH_chkLavan.', telefono='.$MH_chkFono;
+
+            
+
+            
+            for($i=1; $i<=5; $i++)
+            {
+                if(isset($_FILES['flImagen' . $i]['name']))
+                {
+                    if($_FILES['flImagen' . $i]['name'])
+                    {
+                        $upload= new upload($_FILES['flImagen' . $i], 'es_ES');
+                        $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+                        $upload->file_max_size = '524288'; // 512KB
+                        $upload->file_new_name_body= 'upl_' . sha1(uniqid());
+                        $upload->process($rutaImg);
+
+                        if($upload->processed)
+                        {   //THUMBNAILS
+                            $imagen= $upload->file_dst_name; //nombre de la imagen
+                            //$MH_sql.= ', foto' . $i . '= "' . $imagen . '" ';
+
+                            $thumb= new upload($upload->file_dst_pathname);
+                            $thumb->image_resize= true;
+                            $thumb->image_x= 150;
+                            $thumb->image_y= 150;
+                            $thumb->file_name_body_pre= 'thumb_';
+                            $thumb->process($rutaImg . 'thumb' . DS);
+                            
+                            if($i==1)
+                            {	
+                                $MH_sql.=', img_encabezado = "'.$imagen.'", mini_img_encabezado = "'.$imagen.'" ';
+                            }
+                            else if($i==2)
+                            {	
+                                $MH_sql.=', img_contenido = "'.$imagen.'", mini_img_contenido = "'.$imagen.'" ';
+                            }
+                            else
+                            {
+                                $MH_sql.=', img_contenido'.($i-1).' = "'.$imagen.'", mini_img_contenido'.($i-1).' = "'.$imagen.'" ';
+                            }
+                        }
+                        else
+                        {
+                            echo '(Imagen ' . $i . ')'.$upload->error . '<br>';
+                        }
+                    }
+                }
+                else
+                {
+                    if($i==1)
+                    {	
+                        if($this->getTexto('chkEH_flImagen' . $i)=='on')
+                        {
+                            //Functions::eliminaFile($rutaImg . Session::get('sessMOD_DTH_img' . $i));
+                            //Functions::eliminaFile($rutaImg . 'thumb' . DS . Session::get('sessMOD_DTH_img' . $i));
+                            $MH_sql.=', img_encabezado = "", mini_img_encabezado = "" ';
+                        }
+                    }
+                    else if($i==2)
+                    {	
+                        if($this->getTexto('chkEH_flImagen' . $i)=='on')
+                        {
+                            //Functions::eliminaFile($rutaImg . Session::get('sessMOD_DTH_img' . $i));
+                            //Functions::eliminaFile($rutaImg . 'thumb' . DS . Session::get('sessMOD_DTH_img' . $i));
+                            $MH_sql.=', img_contenido = "", mini_img_contenido = "" ';
+                        }
+                    }
+                    else
+                    {
+                        if($this->getTexto('chkEH_flImagen' . $i)=='on')
+                        {
+                            //Functions::eliminaFile($rutaImg . Session::get('sessMOD_DTH_img' . $i));
+                            Functions::eliminaFile($rutaImg . 'thumb' . DS . Session::get('sessMOD_DTH_img' . $i));
+                            $MH_sql.=', img_contenido'.($i-1).' = "", mini_img_contenido'.($i-1).' = "" ';
+                        }
+                    }
+                    
+                }
+            }
+
+            
+            $MH_sql.=' WHERE codigo='.$_SESSION['sessMOD_EH_codHotel'];
+            
+            //echo $MH_sql; exit;
+            $MH_Hotel->exeSQL($MH_sql);
+            echo 'OK';
+        }
+        else
+        {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
+    
+    
+    
+    
+    
     
     
     
@@ -590,6 +788,7 @@ class systemController extends Controller
         Session::destroy('sess_alerts');
         Session::destroy('sess_alerts_msg');
     }
+    
     
     
     
