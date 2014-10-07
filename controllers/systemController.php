@@ -132,6 +132,16 @@ class systemController extends Controller
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
+        
+        if(Session::get('sess_AP_ciudad'))
+        {
+            $programas= $this->loadModel('programa');
+            //getAdmProgramas
+            $this->_view->objProgramas= $programas->getAdmProgramas(Session::get('sess_AP_ciudad'));
+            $this->_view->objProgramasCNT= count($this->_view->objProgramas);
+        }
+        
+        
         $this->_view->currentMenu=3;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('adminProgramas');
@@ -284,6 +294,10 @@ class systemController extends Controller
         $this->_view->renderingCenterBox('cartaConfirm');
     }
     
+    
+    /*
+     * TIPO HABITACION
+     */
     public function editarTipoHab()
     {
         $ETH_codHotel= $this->getTexto('H_codHotel');
@@ -485,8 +499,11 @@ class systemController extends Controller
         }
     }
     
+
     
-    
+    /*
+     * HOTEL
+     */
     public function editarHotel()
     {
         $EH_codHotel= $this->getTexto('H_codHotel');
@@ -558,7 +575,6 @@ class systemController extends Controller
             throw new Exception('Error al tratar de editar el hotel');
         }
     }
-    
     
     public function modificarHotel()
     {
@@ -757,6 +773,36 @@ class systemController extends Controller
     
     
     
+    /*
+     * PROGRAMAS
+     */
+    public function editarPrograma()
+    {
+        $AP_codigoPrg= $this->getTexto('varCenterBox');
+        if($AP_codigoPrg)
+        {
+            $ETH_hotel= $this->loadModel('hotel');
+            $ETH_tHab= $this->loadModel('tipoHab');
+            
+            
+            $ETH_objHotel= $ETH_hotel->getHotel($ETH_codHotel);
+            $this->_view->ETH_nombreHotel= $ETH_objHotel[0]->getHotel();
+            
+            
+            $this->_view->ETH_objsTipoHab= $ETH_tHab->getTipoHab();
+            $this->_view->ETH_objsTipoHabCNT= count($this->_view->ETH_objsTipoHab);
+            
+            $this->_view->renderingCenterBox('editarPrograma');
+        }
+        else
+        {
+            throw new Exception('Error al intentar editar programa');
+        }
+        
+    }
+    
+    
+    
     
     
     
@@ -804,6 +850,12 @@ class systemController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
+    public function buscarProgramas()
+    {
+        Session::set('sess_AP_ciudad', $this->getTexto('AP_cmbCiudadDestino'));
+        $this->redireccionar('system/adminProgramas');
+    }
+    
     public function buscarHotel()
     {
         Session::set('sess_H_nombre', $this->getTexto('txtNombre-Hot'));

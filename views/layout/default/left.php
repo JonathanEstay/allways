@@ -433,5 +433,5 @@ $(function()
 </div>
 
 
-<script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>funciones.js'></script>
+
 

@@ -16,7 +16,7 @@
         </div> <!-- page-container -->
 
 
-
+        <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>funciones.js'></script>
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery-1.10.2.min.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jqueryui-1.10.3.min.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>bootstrap.min.js'></script> 

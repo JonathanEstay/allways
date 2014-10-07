@@ -277,30 +277,30 @@ function procesoEnviaFormPopup(classFrm, php, div, divTit, titulo)
 function buscarCiudad(ciudad, frmBus, ob, id)
 {
 
-	var span= document.getElementById(ob);
-	var length = ciudad.length;
-	
-	if(length >= 3)
-	{
-		$.post("process/procesoObtieneCiudad.php", 
-		{
-			post_ciudad: ciudad, 
-			post_frmBus: frmBus,
-			post_span: ob,
-			post_idTxt: id
-		}, function(data){
-			$("#"+ob).html(data);
-			span.style.display='block';
-		});
-	}
-	else
-	{
-		span.style.display='none'; 
-		ciudad= '';
-			$.post("process/procesoObtieneCiudad.php", { post_ciudad: ciudad, post_frmBus: frmBus }, function(data){
-			$("#"+ob).html(data);
-		});
-	}
+    var span= document.getElementById(ob);
+    var length = ciudad.length;
+
+    if(length >= 3)
+    {
+        $.post("process/procesoObtieneCiudad.php", 
+        {
+            post_ciudad: ciudad, 
+            post_frmBus: frmBus,
+            post_span: ob,
+            post_idTxt: id
+        }, function(data){
+            $("#"+ob).html(data);
+            span.style.display='block';
+        });
+    }
+    else
+    {
+        span.style.display='none'; 
+        ciudad= '';
+            $.post("process/procesoObtieneCiudad.php", { post_ciudad: ciudad, post_frmBus: frmBus }, function(data){
+            $("#"+ob).html(data);
+        });
+    }
 }
 
 
@@ -312,30 +312,30 @@ function buscarCiudad(ciudad, frmBus, ob, id)
 
 function habitaciones(table, num)
 {
-	for(var x=1;x<=3;x++)
-	{
-		document.getElementById(table+'_'+x).style.display="none";
-	}
-	
-	for(var x=1;x<=num;x++)
-	{
-		var id=table+'_'+x;
-		mostrado=0;
-		elem = document.getElementById(id);
-		if(elem.style.display=="block")
-		{
-			mostrado=1;
-			elem.style.display="none";
-		}
-		if(mostrado!=1)
-		{
-			//elem.style.display="block";
-			$('#'+table+'_'+x).fadeIn( 1000 );
-			$('#'+table+'_'+x).animate({
-				'display': 'block'
-			});
-		}		
-	}
+    for(var x=1;x<=3;x++)
+    {
+            document.getElementById(table+'_'+x).style.display="none";
+    }
+
+    for(var x=1;x<=num;x++)
+    {
+        var id=table+'_'+x;
+        mostrado=0;
+        elem = document.getElementById(id);
+        if(elem.style.display=="block")
+        {
+            mostrado=1;
+            elem.style.display="none";
+        }
+        if(mostrado!=1)
+        {
+            //elem.style.display="block";
+            $('#'+table+'_'+x).fadeIn( 1000 );
+            $('#'+table+'_'+x).animate({
+                    'display': 'block'
+            });
+        }		
+    }
 }
 
 
@@ -408,7 +408,20 @@ function muestraOculta(id, estado)
     }
 }
 
-
+ function abrePopup(div, docPHP, idTitulo, titulo, val)
+{
+    initLoad();
+    $("#" + div).html('');
+    $("#" + idTitulo ).html(titulo);
+    $.post(docPHP, 
+    {
+        varCenterBox: val
+    }, function(data)
+    {
+        $("#" + div).html(data);
+        endLoad();
+    });
+}
 
 
 
@@ -511,6 +524,7 @@ function muestraOculta(id, estado)
         },2500);
     });
     
+    
     $('#menuAdminProg').on('click',function(){
         $(document).skylo('start');
 
@@ -526,6 +540,7 @@ function muestraOculta(id, estado)
         },2500);
     });
     
+    
     $('#menuImagenes').on('click',function(){
         $(document).skylo('start');
 
@@ -540,6 +555,7 @@ function muestraOculta(id, estado)
             window.location.href = BASE_URL_JS + 'system/imagenes';
         },2500);
     });
+    
     
     $('#menuContacto').on('click',function(){
         $(document).skylo('start');
@@ -557,17 +573,30 @@ function muestraOculta(id, estado)
     });
     
     
-    function abrePopup(docPHP, titulo, varProg)
-    {
-        initLoad();
-        $("#divPopupPRG").html('');
-        document.getElementById("tituloFormPRG").innerHTML=titulo;
-        $.post(docPHP, 
+    
+    /* ADMIN PROGRAMAS */
+    $('#btnAdmProg').on('click',function(){
+        
+        if($('#AP_cmbCiudadDestino').val()===0)
         {
-                post_varProg: varProg
-        }, function(data)
+            $('#divAlertWar').fadeIn( 1500 );
+            $('#divAlertWar').animate({
+                    'display': 'block'
+            });
+        }
+        else
         {
-                $("#divPopupPRG").html(data);
-                endLoad();
-        });
-    }
+            $(document).skylo('start');
+
+            setTimeout(function(){
+                    $(document).skylo('set',50);
+            },1000);
+
+            setTimeout(function(){
+                    $(document).skylo('end');
+            },1500);
+            setTimeout(function(){
+                    document.getElementById('frmAdmProg').submit();
+            },2500);
+        }
+    });

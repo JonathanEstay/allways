@@ -10,6 +10,39 @@ class programaDTO
 {
     private $_codigo;
     private $_nombre;
+    private $_id;
+    private $_ciudad;
+    private $_pdf;
+    
+    
+    public function getPDF()
+    {
+        return $this->_pdf;
+    }
+    public function setPDF($pdf)
+    {
+        $this->_pdf=$pdf;
+    }
+    
+    
+    public function getCiudad()
+    {
+        return $this->_ciudad;
+    }
+    public function setCiudad($ciu)
+    {
+        $this->_ciudad=$ciu;
+    }
+    
+    
+    public function getId()
+    {
+        return $this->_id;
+    }
+    public function setId($id)
+    {
+        $this->_id=$id;
+    }
     
     public function setCodigo($cod)
     {
