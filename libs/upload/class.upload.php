@@ -3519,7 +3519,8 @@ class upload {
                 }
                 if (!$allowed) {
                     $this->processed = false;
-                    $this->error = 'Solo se permiten archivos (' . $this->allowed[0] . ', '. $this->allowed[1] . ', '. $this->allowed[2] . ', ' . $this->allowed[3] . ')'; //$this->translate('incorrect_file');
+                    //$this->translate('incorrect_file');
+                    $this->error = 'Solo se permiten los archivos mencionados en las condiciones.'; //'Solo se permiten archivos (' . $this->allowed[0] . ', '. $this->allowed[1] . ', '. $this->allowed[2] . ', ' . $this->allowed[3] . ')'; 
                 } else {
                     $this->log .= '- file mime OK : ' . $this->file_src_mime . '<br />';
                 }

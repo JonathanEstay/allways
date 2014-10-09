@@ -41,4 +41,11 @@ class agenciaDAO extends Model
             return false;
         }
     }
+    
+    public function actualizaVoucherAgen($id, $imagen)
+    {
+        $sql='UPDATE agenc_na SET imagenv = "'.$imagen.'" WHERE id ='.$id;
+        $this->_db->consulta($sql); 
+        return true;
+    }
 }

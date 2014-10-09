@@ -100,6 +100,7 @@ class View
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/', 
             'ruta_js' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
             'ruta_pdf' => BASE_URL . 'public/pdf/',
+            'ruta_voucher' => BASE_URL . 'public/img/voucher/',
             'ruta_fotos_hab' => BASE_URL . 'public/img/tipo_habitacion/',
             'ruta_fotos_hotel' => BASE_URL . 'public/img/hoteles/',
             'ruta_fotos_hotel_thumb' => BASE_URL . 'public/img/hoteles/thumb/thumb_',

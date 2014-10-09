@@ -89,7 +89,7 @@ function procesoCargaDiv(valor, div, php)
     {
         $.post(php, 
         {
-                DTH_valor: valor
+                _PCD_: valor
         }, function(data)
         {
                 $("#"+div).html(data);
