@@ -129,7 +129,6 @@ abstract class Controller
             $_POST[$clave] = (string) preg_replace('/[^A-Z0-9_]/i', '', $_POST[$clave]);
             return trim($_POST[$clave]);
         }
-        
     }
     
     protected function getLibrary($libreria)

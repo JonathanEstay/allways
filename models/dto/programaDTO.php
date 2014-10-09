@@ -12,17 +12,6 @@ class programaDTO
     private $_nombre;
     private $_id;
     private $_ciudad;
-    private $_pdf;
-    
-    
-    public function getPDF()
-    {
-        return $this->_pdf;
-    }
-    public function setPDF($pdf)
-    {
-        $this->_pdf=$pdf;
-    }
     
     
     public function getCiudad()

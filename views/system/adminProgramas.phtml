@@ -152,17 +152,6 @@
                                         $aP_codigoProg= $this->objProgramas[$i]->getCodigo();
                                         $aP_nombreProg= $this->objProgramas[$i]->getNombre();
                                         $aP_ciudadProg= $this->objProgramas[$i]->getCiudad();
-
-                                        $aP_documento= $this->objProgramas[$i]->getPDF();
-
-                                        if(strpos($aP_documento, '.pdf') !== FALSE)
-                                        {
-                                            $aP_icono='pdf';
-                                        }
-                                        else
-                                        {
-                                            $aP_icono='word';
-                                        }
                                 ?>
                                         <tr class="odd gradeX">
                                             <td><?php echo $aP_codigoProg; ?></td>

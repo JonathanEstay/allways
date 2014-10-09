@@ -767,7 +767,7 @@ class systemController extends Controller
         }
         else
         {
-            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador.');
         }
     }
     
@@ -778,28 +778,108 @@ class systemController extends Controller
      */
     public function editarPrograma()
     {
+        Session::destroy('sessMOD_EP_codPRG');
         $AP_codigoPrg= $this->getTexto('varCenterBox');
         if($AP_codigoPrg)
         {
-            $ETH_hotel= $this->loadModel('hotel');
-            $ETH_tHab= $this->loadModel('tipoHab');
+            $EP_programa= $this->loadModel('programa');
+            Session::set('sessMOD_EP_codPRG', $AP_codigoPrg);
             
-            
-            $ETH_objHotel= $ETH_hotel->getHotel($ETH_codHotel);
-            $this->_view->ETH_nombreHotel= $ETH_objHotel[0]->getHotel();
-            
-            
-            $this->_view->ETH_objsTipoHab= $ETH_tHab->getTipoHab();
-            $this->_view->ETH_objsTipoHabCNT= count($this->_view->ETH_objsTipoHab);
-            
-            $this->_view->renderingCenterBox('editarPrograma');
+            $EP_objPrograma= $EP_programa->getAdmProgramas(0, $AP_codigoPrg);
+            if($EP_objPrograma)
+            {
+                $this->_view->EP_nombreProg= $EP_objPrograma[0]->getNombre();
+                $rutaPDF=ROOT . 'public' . DS . 'pdf' . DS . 'upl_' . $EP_objPrograma[0]->getCodigo() . '.pdf';
+                if(is_readable($rutaPDF))
+                {
+                    
+                    $this->_view->EP_PDF= 'upl_' . $EP_objPrograma[0]->getCodigo() . '.pdf';
+                }
+                else
+                {
+                    $this->_view->EP_PDF= false;
+                }
+
+                $this->_view->renderingCenterBox('editarPrograma');
+            }
+            else
+            {
+                throw new Exception('Error al intentar editar programa. (Metodo)');
+            }
         }
         else
         {
             throw new Exception('Error al intentar editar programa');
         }
-        
     }
+    
+    public function modificarPrograma()
+    {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            $rutaPDF= ROOT . 'public' . DS . 'pdf' . DS;
+            $MP_programa= $this->loadModel('programa');
+            
+            if(isset($_FILES['flPDF']['name']))
+            {
+                if($_FILES['flPDF']['name'])
+                {
+                    $this->getLibrary('upload' . DS . 'class.upload');
+
+                    $upload= new upload($_FILES['flPDF'], 'es_ES');
+                    $upload->allowed= array('application/pdf');
+                    $upload->file_max_size = '2097152'; // 2MB
+                    //$upload->file_new_name_body= 'upl_' . uniqid();
+                    $upload->file_new_name_body= 'upl_' . Session::get('sessMOD_EP_codPRG');
+                    $upload->process($rutaPDF);
+
+                    if($upload->processed)
+                    {
+                        echo 'OK';
+                    }
+                    else
+                    {
+                        throw new Exception( $upload->error );
+                    }
+                }
+                else
+                {
+                    throw new Exception('Debe seleccionar un archivo desde su computador');
+                }
+            }
+            else
+            {
+                if($this->getTexto('chkEP_flPDF'))
+                {
+                    if($this->getTexto('chkEP_flPDF')=='on')
+                    {
+                        if(Functions::eliminaFile($rutaPDF . 'upl_' . Session::get('sessMOD_EP_codPRG') . '.pdf'))
+                        {
+                            echo 'OK';
+                        }
+                        else
+                        {
+                            throw new Exception('Error al eliminar el archivo, intente nuevamente');
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception('Debe seleccionar un archivo a eliminar');
+                    }
+                }
+                else
+                {
+                    throw new Exception('Debe seleccionar un archivo desde su computador');
+                }
+            }
+        }
+        else
+        {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
+    
+    
     
     
     

@@ -43,10 +43,9 @@ class programaDAO extends Model
     public function getAdmProgramas($ciudad=0, $codProg=0)
     {
         $and='';
-        $sql='SELECT P.id, P.nombre, P.codigo, C.nombre AS nombreC, PDF.ruta_pdf
+        $sql='SELECT P.id, P.nombre, P.codigo, C.nombre AS nombreC
             FROM h2h_programa P
             JOIN ciudad	C ON (C.codigo = P.Ciudad)
-            LEFT JOIN h2h_pdfprog PDF ON (PDF.codigo= P.codigo)
             WHERE ';
         if(!empty($ciudad))
         {
@@ -76,7 +75,6 @@ class programaDAO extends Model
                 $objPackages->setNombre(trim($packDB['nombre']));
                 $objPackages->setId(trim($packDB['id']));
                 $objPackages->setCiudad(trim($packDB['nombreC']));
-                $objPackages->setPDF(trim($packDB['ruta_pdf']));
                 
                 $objetosPack[]= $objPackages;
             }
