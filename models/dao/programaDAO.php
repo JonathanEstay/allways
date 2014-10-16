@@ -39,6 +39,33 @@ class programaDAO extends Model
         }
     }
     
+    public function getIncluye($idPRG)
+    {
+        $sql="exec WEB_TraeDetalle '".$idPRG."' ";
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayPackages as $packDB)
+            {
+                $objPackages= new incluyeDTO();
+                
+                $objPackages->setCodigo(trim($packDB['codigo']));
+                $objPackages->setNombre(trim($packDB['nombre']));
+                
+                $objetosPack[]= $objPackages;
+            }
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     
     public function getAdmProgramas($ciudad=0, $codProg=0)
     {
@@ -75,6 +102,82 @@ class programaDAO extends Model
                 $objPackages->setNombre(trim($packDB['nombre']));
                 $objPackages->setId(trim($packDB['id']));
                 $objPackages->setCiudad(trim($packDB['nombreC']));
+                
+                $objetosPack[]= $objPackages;
+            }
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
+    public function exeTraeProgramas($sql)
+    {
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayPackages as $packDB)
+            {
+                $hotel= array();
+                $codHotel= array();
+                $PA= array();
+                $TH= array();
+                $codTH= array();
+                $cat= array();
+                $ciudad= array();
+                
+                $objPackages= new programaDTO();
+                
+                if(trim($packDB['Error']))
+                {
+                    $objPackages->setERROR(trim($packDB['Error']));
+                    $objPackages->setLINEA(trim($packDB['Linea']));
+                    $objPackages->setMENSAJE(trim($packDB['Mensaje']));
+                }
+                else
+                {
+                    $objPackages->setId(trim($packDB['idPRG']));
+                    $objPackages->setNombre(trim($packDB['nombrePRG']));
+                    $objPackages->setNota(trim($packDB['notaPRG']));
+                    $objPackages->setIdOpc(trim($packDB['idOpcion']));
+                    /*$objPackages->setDesde(trim($packDB['desde']));
+                    $objPackages->setVHab_1(trim($packDB['vHab_1']));
+                    $objPackages->setVHab_2(trim($packDB['vHab_2']));
+                    $objPackages->setVHab_3(trim($packDB['vHab_3']));
+                    $objPackages->setNotaOpc(trim($packDB['notaOPC']));
+                    $objPackages->setMoneda(trim($packDB['moneda']));
+                    $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));*/
+                    
+                    /* HOTELES */
+                    for($i=1; $i<=5; $i++)
+                    {
+                        $hotel[]=trim($packDB['hotel_'.$i]);
+                        $codHotel[]=trim($packDB['codHotel_'.$i]);
+                        $PA[]=trim($packDB['PlanAlimenticio_'.$i]);
+                        $TH[]=trim($packDB['TipoHabitacion_'.$i]);
+                        $codTH[]=trim($packDB['codTipoHabitacion_'.$i]);
+                        $cat[]=trim($packDB['cat_'.$i]);
+                        $ciudad[]=trim($packDB['ciudad_'.$i]);
+                    }
+                    
+                    $objPackages->setHoteles($hotel);
+                    $objPackages->setCodHoteles($codHotel);
+                    $objPackages->setPA($PA);
+                    $objPackages->setTH($TH);
+                    $objPackages->setCodTH($codTH);
+                    $objPackages->setCat($cat);
+                    $objPackages->setCiudad($ciudad);
+                    /* HOTELES */
+                    
+                    //$objPackages->setXXXX(trim($packDB['xxxxx']));
+                }
                 
                 $objetosPack[]= $objPackages;
             }

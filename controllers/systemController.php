@@ -17,6 +17,12 @@ class systemController extends Controller
         $this->_loadLeft();
     }
     
+    public function horaServer()
+    {
+        echo ((int)date('H')+1).':'.date('i:s');
+    }
+    
+    
     
     /*******************************************************************************
     *                                                                              *
@@ -220,7 +226,41 @@ class systemController extends Controller
     }
     
     
-    
+    public function programas()
+    {
+        Session::acceso('Usuario');
+        //$this->_view->setJS(array(''));
+        
+        $this->_view->ML_fechaIni= Session::get('sess_BP_fechaIn');
+        $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
+        
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
+        
+        if(Session::get('sess_BP_ciudadDes'))
+        {
+
+            $programas= $this->loadModel('programa');
+            $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
+                    . "'".Session::get('sess_BP_cntPas')."', '".Session::get('sess_BP_hotel')."'";
+            for($i=1; $i<=3; $i++)
+            {	
+                $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
+                        '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
+            }
+            
+            //echo $sql; exit;
+            
+            $this->_view->objProgramas= $programas->exeTraeProgramas($sql);
+            $this->_view->objProgramasCNT= count($this->_view->objProgramas);
+        }
+        
+        
+        $this->_view->titulo='ORISTRAVEL';
+        $this->_view->renderingSystem('programas');
+    }
     
     
     
@@ -1029,6 +1069,73 @@ class systemController extends Controller
     *                                                                              *
     *******************************************************************************/
     public function buscarProgramas()
+    {
+        $BP_cntHab= $this->getInt('mL_cmbHab');
+        $BP_ciudadDes= $this->getTexto('mL_txtCiudadDestino');
+        $BP_fechaIn= $this->getTexto('mL_txtFechaIn');
+        $BP_fechaOut= $this->getTexto('mL_txtFechaOut');
+        $BP_hotel= $this->getTexto('mL_txtHotel');
+
+        if($BP_ciudadDes)
+        {
+            Session::set('sess_BP_ciudadDes', $BP_ciudadDes);
+        }
+
+        Session::set('sess_BP_cntHab', $BP_cntHab);
+        Session::set('sess_BP_fechaIn', $BP_fechaIn);
+        Session::set('sess_BP_fechaOut', $BP_fechaOut);
+        Session::set('sess_BP_hotel', $BP_hotel);
+
+
+        Session::set('sess_BP_cntPas', 0);
+        Session::set('sess_BP_cntAdl', 0);
+        Session::set('sess_BP_cntChd', 0);
+        Session::set('sess_BP_cntInf', 0);
+        for($i=1; $i<=3; $i++)
+        {
+            if($i<=$BP_cntHab)
+            {
+                Session::set('sess_BP_Adl_'.$i, $this->getInt('mL_cmbAdultos_'.$i));
+                Session::set('sess_BP_Chd_'.$i, $this->getInt('mL_child_'.$i));
+                Session::set('sess_BP_Inf_'.$i, $this->getInt('mL_inf_'.$i));
+
+
+                if(Session::get('sess_BP_Adl_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntAdl', (Session::get('sess_BP_cntAdl')+1));
+                }
+                if(Session::get('sess_BP_Chd_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntChd', (Session::get('sess_BP_cntChd')+1));
+                }
+                if(Session::get('sess_BP_Inf_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntInf', (Session::get('sess_BP_cntInf')+1));
+                }
+
+
+                for($x=1; $x<=2; $x++)
+                {
+                    Session::set('sess_BP_edadChd_'.$x.'_' . $i, $this->getInt('mL_edadChild_'.$x.'_'.$i));
+                }
+
+                Session::set('sess_BP_cntPas', (Session::get('sess_BP_cntPas')+Session::get('sess_BP_Adl_'.$i)+Session::get('sess_BP_Chd_'.$i)));
+            }
+            else
+            {
+                Session::set('sess_BP_Adl_'.$i, 0);
+                Session::set('sess_BP_Chd_'.$i, 0);
+                Session::set('sess_BP_Inf_'.$i, 0);
+
+                Session::set('sess_BP_edadChd_1_'.$i, 0);
+                Session::set('sess_BP_edadChd_2_'.$i, 0);
+            }
+        }
+
+        $this->redireccionar('system/programas');
+    }
+    
+    public function buscarAdmProgramas()
     {
         Session::set('sess_AP_ciudad', $this->getTexto('AP_cmbCiudadDestino'));
         $this->redireccionar('system/adminProgramas');

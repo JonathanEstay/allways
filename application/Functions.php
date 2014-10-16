@@ -8,6 +8,88 @@
 
 class Functions
 {
+    public function traduceDia()
+    {
+        $dia=date('l');
+        switch ($dia) {
+            case 'Monday':
+                $dia='Lunes';
+                break;
+            case 'Tuesday':
+                $dia='Martes';
+                break;
+            case 'Wednesday':
+                $dia='Mi&eacute;rcoles';
+                break;
+            case 'Thursday':
+                $dia='Jueves';
+                break;
+            case 'Friday':
+                $dia='Viernes';
+                break;
+            case 'Saturday':
+                $dia='S&aacute;bado';
+                break;
+            case 'Sunday':
+                $dia='Domingo';
+                break;
+
+            default:
+                $dia='Error';
+                break;
+        }
+        return $dia;
+    }
+    
+    
+    public function traduceMes()
+    {
+        $mes=date('F');
+        switch ($mes) {
+            case 'January':
+                $mes='Enero';
+                break;
+            case 'February':
+                $mes='Febrero';
+                break;
+            case 'March':
+                $mes='Marzo';
+                break;
+            case 'April':
+                $mes='Abril';
+                break;
+            case 'May':
+                $mes='Mayo';
+                break;
+            case 'June':
+                $mes='Junio';
+                break;
+            case 'July':
+                $mes='Julio';
+                break;
+            case 'August':
+                $mes='Agosto';
+                break;
+            case 'September':
+                $mes='Septiembre';
+                break;
+            case 'October':
+                $mes='Octubre';
+                break;
+            case 'November':
+                $mes='Noviembre';
+                break;
+            case 'December':
+                $mes='Diciembre';
+                break;
+
+            default:
+                $mes='Error';
+                break;
+        }
+        return $mes;
+    }
+    
     public function validaChk($chk)
     {
         if($chk=='on')
@@ -90,17 +172,18 @@ class Functions
     
     public static function getTipoMoneda($moneda)
     {
-        if($moneda == "D")
+        $newMon=false;
+        if($moneda == 'D')
         {
-             $newMon= "USD";
+             $newMon= 'USD';
         }
-        elseif($moneda == "P")
+        elseif($moneda == 'P')
         {
-            $newMon= "$";
+            $newMon= '$';
         }
-        elseif($moneda == "E")
+        elseif($moneda == 'E')
         {
-            $newMon= "EUR";
+            $newMon= 'EUR';
         }
         
         return $newMon;

@@ -9,8 +9,8 @@
     <meta name="description" content="ORISTRAVEL">
     <meta name="author" content="The Red Team">
 
+    <script src="<?php echo $_layoutParams['ruta_js']; ?>jquery-1.10.2.min.js"></script>
     <link href="<?php echo $_layoutParams['ruta_css']; ?>styles.min.css?=121" rel="stylesheet" >
-    
     <link href='<?php echo $_layoutParams['ruta_css']; ?>google-fonts.css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
 
 
@@ -33,6 +33,22 @@
     <script type="text/javascript">
         var BASE_URL_JS = "<?php echo BASE_URL; ?>";
         var RUTA_IMG_JS = "<?php echo $_layoutParams['ruta_img']; ?>";
+        
+        function digiClock ( )  
+        {
+            $.post('<?php echo BASE_URL; ?>system/horaServer', 
+            {
+                _header_: true
+            }, function(data)
+            {
+                $("#divClock").html(data);
+            });
+        }  
+
+        $(document).ready(function()  
+        {
+           setInterval('digiClock()', 1000);  
+        });
     </script>
     
     <?php 
@@ -139,9 +155,9 @@
             <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
                 <img src="<?php echo $_layoutParams['ruta_img']; ?>fecha_hora.png" width="24" />
             </a>
-            <ul class="dropdown-menu messages arrow" style="width:300px; height: 100px">
+            <ul class="dropdown-menu messages arrow" style="width:200px; height: 100px">
                 <li class="dd-header">
-                    <span>Mi&eacute;rcoles</span>
+                    <span><?php echo Functions::traduceDia(); ?></span>
                     <span>&nbsp;</span>
                 </li>
 
@@ -149,8 +165,8 @@
                 <div class="scrollthis">
                     <li><a href="#">
                             <div>
-                                <span class="name">12:00:29 PM</span>
-                                <span class="msg">25 de agosto de 2014</span>
+                                <span class="name"><div id="divClock"></div></span>
+                                <span class="msg"><?php echo date('d') . ' de ' . Functions::traduceMes() . ' de ' . date('Y'); ?></span>
                             </div>
                     </a></li>
                 </div>

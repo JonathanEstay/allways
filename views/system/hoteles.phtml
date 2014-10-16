@@ -2,11 +2,11 @@
     <div id='wrap'>
         <div id="page-heading">
 
-                <!-- <ol class="breadcrumb">
-                        <li><a href="index.php">Dashboard</a></li>
-                        <li>UI Components</li>
-                        <li class="active">Tabs &amp; Accordions</li>
-                </ol> -->
+            <ol class="breadcrumb">
+                <li><a href="<?php echo BASE_URL . 'system'; ?>">Inicio</a></li>
+                <li>Administraci&oacute;n</li>
+                <li class="active">Hoteles</li>
+            </ol>
 
             <h1>Hoteles</h1>
 
@@ -152,7 +152,7 @@
                                 <tbody>
                                 	
                                     <?php
-                                    if($this->objHoteles!=false)
+                                    if($this->objHoteles)
                                     { 
                                         for($i=0; $i<$this->objHotelesCNT; $i++)
                                         {
