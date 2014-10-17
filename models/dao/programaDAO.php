@@ -45,20 +45,22 @@ class programaDAO extends Model
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
         {
-            $objetosPack= array();
-            $arrayPackages= $this->_db->fetchAll($datos);
+            $objetosInc= array();
+            $arrayIncluye= $this->_db->fetchAll($datos);
             
-            foreach ($arrayPackages as $packDB)
+            foreach ($arrayIncluye as $incDB)
             {
-                $objPackages= new incluyeDTO();
+                $objIncluye= new incluyeDTO();
                 
-                $objPackages->setCodigo(trim($packDB['codigo']));
-                $objPackages->setNombre(trim($packDB['nombre']));
+                $objIncluye->setCodigo(trim($incDB['codsvr']));
+                $objIncluye->setNombre(trim($incDB['nombre']));
+                $objIncluye->setCiudad(trim($incDB['ciudadHotel']));
+                $objIncluye->setNoches((int)trim($incDB['Noches']));
                 
-                $objetosPack[]= $objPackages;
+                $objetosInc[]= $objIncluye;
             }
             
-            return $objetosPack;
+            return $objetosInc;
         }
         else
         {
@@ -132,6 +134,8 @@ class programaDAO extends Model
                 $codTH= array();
                 $cat= array();
                 $ciudad= array();
+                $incluye= array();
+                
                 
                 $objPackages= new programaDTO();
                 
@@ -175,6 +179,10 @@ class programaDAO extends Model
                     $objPackages->setCat($cat);
                     $objPackages->setCiudad($ciudad);
                     /* HOTELES */
+                    
+                    
+                    $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
+                    $objPackages->setIncluye($incluye);
                     
                     //$objPackages->setXXXX(trim($packDB['xxxxx']));
                 }

@@ -239,7 +239,7 @@ class systemController extends Controller
         
         if(Session::get('sess_BP_ciudadDes'))
         {
-
+            $this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
             $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes')."', "
                     . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "

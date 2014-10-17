@@ -50,6 +50,25 @@ abstract class Controller
         }
     }
     
+    protected function loadDTO($class)
+    {
+        $dto= $class . 'DTO';
+        $rutaDTO= ROOT . 'models' . DS . 'dto'. DS .$dto . '.php';
+        
+        
+        if(is_readable($rutaDTO))
+        {
+            require_once $rutaDTO;
+
+            $dto= new $dto;
+            return $dto; //retorna la instancia del modelo
+        }
+        else
+        {
+            throw new Exception('Error al cargar el DTO: ' . $rutaDTO);
+        }
+    }
+    
     /*protected function loadModel($modelo)
     {
         $modelo= $modelo . 'Model';

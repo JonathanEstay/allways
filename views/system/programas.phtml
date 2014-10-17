@@ -52,6 +52,7 @@
                        <?php
                                     $cntPopup=1;
                                     //$P_var_getProgramas= false;//$privateFunctions->exeSQL_SP($P_sql);
+                                    //echo var_dump($this->objProgramas);
                                     if($this->objProgramas)
                                     { 
                                         $P_programaCompleto='';
@@ -131,48 +132,61 @@
                                                         $P_programaFooter='
                                                                         </tbody>
                                                                 <tfoot>
-                                                                        <tr>
-                                                                                <td colspan="5" class="text-left">
-                                                                                        <h4 style="color:#0085cc"><b>INCLUYE</b></h4>';
+                                                                    <tr>
+                                                                        <td colspan="5" class="text-left">
+                                                                            <h4 style="color:#0085cc"><b>INCLUYE</b></h4>';
 
-                                                                                        //$P_var_getIncluye= $privateFunctions->getIncluyePRG($P_idPRG);
-                                                                                        if($P_var_getIncluye!=FALSE)
+                                                                            $P_var_getIncluye= $this->objProgramas[$p]->getIncluye();
+                                                                            //echo $P_cntProgramas.' - '.var_dump($P_var_getIncluye);
+                                                                            //echo var_dump($P_var_getIncluye[0][0]);
+                                                                            //echo $P_var_getIncluye[0][0]->getCodigo();
+                                                                            //echo $P_var_getIncluye[0][0]->getNombre();
+                                                                            //echo count($P_var_getIncluye[0]);
+                                                                            if($P_var_getIncluye)
+                                                                            {
+                                                                                $xx=0;
+                                                                                $hh=0;
+                                                                                $P_ciudadHotel=NULL;
+                                                                                for($i=0; $i<=5; $i++){$P_arrayCiudadHotel[$i]=NULL;}
+                                                                                //foreach($P_var_getIncluye as $columInclu)
+                                                                                for($i=0; $i<count($P_var_getIncluye[0]); $i++)
+                                                                                {
+                                                                                    if($P_var_getIncluye[0][$i]->getCodigo()!='CGO' && $P_var_getIncluye[0][$i]->getNombre()!='')
+                                                                                    {
+                                                                                        if($P_var_getIncluye[0][$i]->getCiudad()!='')
                                                                                         {
-                                                                                                $xx=0;
-                                                                                                $hh=0;
-                                                                                                $P_ciudadHotel=NULL;
-                                                                                                for($i=0; $i<=5; $i++){$P_arrayCiudadHotel[$i]=NULL;}
-                                                                                                foreach($P_var_getIncluye as $columInclu)
-                                                                                                {
-                                                                                                        if(trim($columInclu["codsvr"])!='CGO' && trim($columInclu["nombre"])!='')
-                                                                                                        {
-                                                                                                                if(trim($columInclu["ciudadHotel"])!='')
-                                                                                                                {
-                                                                                                                        $P_arrayCiudadHotel[$xx]= trim($columInclu["ciudadHotel"]);
-                                                                                                                        $xx++;
-                                                                                                                }
-
-                                                                                                                if(trim($columInclu["codsvr"])=='HTL')
-                                                                                                                {
-                                                                                                                        $P_ciudadHotel= " / ".$P_arrayCiudadHotel[$hh];
-                                                                                                                        $hh++;
-                                                                                                                }
-                                                                                                                else
-                                                                                                                {
-                                                                                                                        $P_ciudadHotel=NULL;
-                                                                                                                }
-
-                                                                                                                if($columInclu["Noches"]<10 && $columInclu["Noches"]>0)
-                                                                                                                        $P_varNoches="0".trim($columInclu["Noches"])." Noches ";
-                                                                                                                else if($columInclu["Noches"]>=10)
-                                                                                                                        $P_varNoches=trim($columInclu["Noches"])." Noches ";
-                                                                                                                else
-                                                                                                                        $P_varNoches="";									
-                                        $P_programaFooter.='<img  src="iconos/tick.png" width="12px" /> '.$P_varNoches.$columInclu["nombre"].$P_ciudadHotel."<br>";
-
-                                                                                                        }
-                                                                                                }
+                                                                                            $P_arrayCiudadHotel[$xx]= $P_var_getIncluye[0][$i]->getCiudad();
+                                                                                            $xx++;
                                                                                         }
+
+                                                                                        if($P_var_getIncluye[0][$i]->getCodigo()=='HTL')
+                                                                                        {
+                                                                                            $P_ciudadHotel= " / ".$P_arrayCiudadHotel[$hh];
+                                                                                            $hh++;
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            $P_ciudadHotel=NULL;
+                                                                                        }
+
+                                                                                        if($P_var_getIncluye[0][$i]->getNoches()<10 && $P_var_getIncluye[0][$i]->getNoches()>0)
+                                                                                        {
+                                                                                            $P_varNoches="0".$P_var_getIncluye[0][$i]->getNoches()." Noches ";
+                                                                                        }
+                                                                                        else if($P_var_getIncluye[0][$i]->getNoches()>=10)
+                                                                                        {
+                                                                                            $P_varNoches=$P_var_getIncluye[0][$i]->getNoches()." Noches ";
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            $P_varNoches="";
+                                                                                        }
+                                                                                        
+                                                                                        $P_programaFooter.='<img  src="'.$_layoutParams['ruta_img'].'tick.png" width="12px" /> '.$P_varNoches.$P_var_getIncluye[0][$i]->getNombre().$P_ciudadHotel."<br>";
+                                                                                            
+                                                                                    }
+                                                                                }
+                                                                            }
 
 
 
@@ -224,7 +238,7 @@
                                                         {
                                                             $P_itinerarioVueloView='<a data-toggle="modal" href="#myModal" 
                                                                     onClick="abrePopupPRG(\'abreItinerario.php\', \'Itinerario vuelo\', \''.$P_idOpc.'\');">
-                                                                    <img src="iconos/avion.png" width="24px" alt="Itinerario de Vuelos" title="Itinerario de Vuelos" />
+                                                                    <img src="'.$_layoutParams['ruta_img'].'avion.png" width="24px" alt="Itinerario de Vuelos" title="Itinerario de Vuelos" />
                                                                     </a>';
                                                         }
                                                         else
@@ -239,7 +253,7 @@
                                                         {
                                                             $P_notaPrgView='<a data-toggle="modal" href="#myModal" 
                                                                     onClick="abrePopupPRG(\'abreCondicionesGenerales.php\', \'Condiciones generales\', \''.$P_idPRG.'\');">
-                                                                    <img src="iconos/nota.png" width="24px" alt="Condiciones generales" title="Condiciones generales" />
+                                                                    <img src="'.$_layoutParams['ruta_img'].'nota.png" width="24px" alt="Condiciones generales" title="Condiciones generales" />
                                                                     </a>';
 
                                                         }
@@ -326,19 +340,19 @@
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
                                                                         onClick='abrePopupPRG(1001, 1002, $P_arrayHotelesOpcion_CodH[$i]);' >
-                                                        <img src='iconos/fotos.png' border='0' height='25' title='Fotos' />
+                                                        <img src='".$_layoutParams['ruta_img']."fotos.png' border='0' height='25' title='Fotos' />
                                                     </a>
                                                     </td>
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
                                                                         onClick='abrePopupPRG(2001, 2002, $P_arrayHotelesOpcion_CodH[$i]);' >
-                                                        <img src='iconos/iconosapple_maps.jpg' border='0' height='26px' title='Mapa' />
+                                                        <img src='".$_layoutParams['ruta_img']."iconosapple_maps.jpg' border='0' height='26px' title='Mapa' />
                                                     </a>
                                                     </td>
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
                                                                         onClick='abrePopupPRG(3001, 3002, $P_arrayHotelesOpcion_CodH[$i]);'>
-                                                    <img src='iconos/hotel/restaurant.jpg' border='0' height='27' title='Servicios' />
+                                                    <img src='".$_layoutParams['ruta_img']."hotel/restaurant.jpg' border='0' height='27' title='Servicios' />
                                                     </a>
                                                     </td>
                                                                                                                         </tr>
@@ -358,7 +372,7 @@
                                                         &nbsp;Tipo Habitaci&oacute;n:  <strong>$P_arrayHotelesOpcion_TH[$i]</strong>
                                                         <a data-toggle='modal' href='#myModal' 
                                                                         onClick='abrePopupPRG(4001, 4002, 1131.123);'>
-                                                            <img src='iconos/camara.png' align='bottom' border='0' width='16px' title='Fotos tipo habitaci&oacute;n' />
+                                                            <img src='".$_layoutParams['ruta_img']."camara.png' align='bottom' border='0' width='16px' title='Fotos tipo habitaci&oacute;n' />
                                                         </a>
 
                                                     </td>
@@ -388,7 +402,7 @@ $P_programaDetalle.='<td><a id="div_opc_hotelProg_'.$cntPopup.'" style="cursor:p
                                                                 {
                                                                         $P_programaDetalle.='<a data-toggle="modal" href="#myModal" 
                                                                         onClick="abrePopupPRG(\'abreNota.php\', \'Nota de Programa\', \''.$P_idOpc.'\');">
-                                                                        <img src="iconos/nota.png" width="24px" alt="Notas" title="Notas" />
+                                                                        <img src="'.$_layoutParams['ruta_img'].'nota.png" width="24px" alt="Notas" title="Notas" />
                                                                         </a>';
                                                                 }
 

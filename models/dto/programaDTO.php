@@ -32,6 +32,19 @@ class programaDTO
     private $_cod_th;
     private $_cat;
     
+    private $_incluye;
+    
+    
+    
+    
+    public function getIncluye()
+    {
+        return $this->_incluye;
+    }
+    public function setIncluye($inc)
+    {
+        $this->_incluye=$inc;
+    }
     
     
     public function getCat()
