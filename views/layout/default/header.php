@@ -155,7 +155,7 @@
             <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
                 <img src="<?php echo $_layoutParams['ruta_img']; ?>fecha_hora.png" width="24" />
             </a>
-            <ul class="dropdown-menu messages arrow" style="width:200px; height: 100px">
+            <ul class="dropdown-menu messages arrow" style="height: 100px">
                 <li class="dd-header">
                     <span><?php echo Functions::traduceDia(); ?></span>
                     <span>&nbsp;</span>

@@ -215,16 +215,17 @@
                                                 {	//OPCIONES 
 
                                                         $P_idOpc= $this->objProgramas[$p]->getIdOpc();
-                                                        $P_fechaDesde= trim($columPRG["desde"]);
+                                                        $P_fechaDesde= $this->objProgramas[$p]->getDesde();
                                                         $P_fechaSalida= Functions::invertirFecha($P_fechaDesde, "/", "/");
+                                                        
+                                                        $vHabTMP= $this->objProgramas[$p]->getValorHab();
+                                                        $P_vHab_1_Row= $vHabTMP[0];
+                                                        $P_vHab_2_Row= $vHabTMP[1];
+                                                        $P_vHab_3_Row= $vHabTMP[2];
 
-                                                        $P_vHab_1_Row= trim($columPRG["vHab_1"]);
-                                                        $P_vHab_2_Row= trim($columPRG["vHab_2"]);
-                                                        $P_vHab_3_Row= trim($columPRG["vHab_3"]);
+                                                        $P_notaOPC= $this->objProgramas[$p]->getNotaOpc();
 
-                                                        $P_notaOPC=trim($columPRG["notaOPC"]);
-
-                                                        $P_monedaSP= trim($columPRG["moneda"]);
+                                                        $P_monedaSP= $this->objProgramas[$p]->getMoneda();
                                                         $P_monedaSPView= Functions::getTipoMoneda($P_monedaSP);
 
                                                         $P_valorOpcion= ($P_vHab_1_Row+$P_vHab_2_Row+$P_vHab_3_Row);
@@ -234,7 +235,7 @@
 
 
                                                         $P_itinerarioVuelo='';
-                                                        if(!empty($columPRG["itinerarioVuelo"]))
+                                                        if($this->objProgramas[$p]->getItiVuelo())
                                                         {
                                                             $P_itinerarioVueloView='<a data-toggle="modal" href="#myModal" 
                                                                     onClick="abrePopupPRG(\'abreItinerario.php\', \'Itinerario vuelo\', \''.$P_idOpc.'\');">
@@ -432,7 +433,7 @@ $P_programaDetalle.='<td><a id="div_opc_hotelProg_'.$cntPopup.'" style="cursor:p
                                 No se encontraron registros para esta busqueda.
                             </div>
                                 <?php
-                                } $procesoTerminado=TRUE; ?> 
+                                } $this->procesoTerminado=true; ?> 
 						
                         
                     </div>

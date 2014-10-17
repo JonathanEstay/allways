@@ -18,9 +18,8 @@ class programaDTO
     private $_ciudad;
     private $_nota;
     private $_id_opc;
-    private $_vhab_1;
-    private $_vhab_2;
-    private $_vhab_3;
+    private $_desde;
+    private $_valor_hab;
     private $_nota_opc;
     private $_moneda;
     private $_itinerario_vuelo;
@@ -35,6 +34,54 @@ class programaDTO
     private $_incluye;
     
     
+    public function getItiVuelo()
+    {
+        return $this->_itinerario_vuelo;
+    }
+    public function setItiVuelo($iv)
+    {
+        $this->_itinerario_vuelo=$iv;
+    }
+    
+    
+    public function getMoneda()
+    {
+        return $this->_moneda;
+    }
+    public function setMoneda($moneda)
+    {
+        $this->_moneda=$moneda;
+    }
+    
+    
+    public function getNotaOpc()
+    {
+        return $this->_nota_opc;
+    }
+    public function setNotaOpc($nota)
+    {
+        $this->_nota_opc=$nota;
+    }
+    
+    
+    public function getValorHab()
+    {
+        return $this->_valor_hab;
+    }
+    public function setValorHab($vhab)
+    {
+        $this->_valor_hab=$vhab;
+    }
+    
+    
+    public function getDesde()
+    {
+        return $this->_desde;
+    }
+    public function setDesde($desde)
+    {
+        $this->_desde=$desde;
+    }
     
     
     public function getIncluye()

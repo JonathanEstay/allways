@@ -236,7 +236,6 @@ class systemController extends Controller
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
-        
         if(Session::get('sess_BP_ciudadDes'))
         {
             $this->loadDTO('incluye');
@@ -257,7 +256,7 @@ class systemController extends Controller
             $this->_view->objProgramasCNT= count($this->_view->objProgramas);
         }
         
-        
+        $this->_view->procesoTerminado=false;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('programas');
     }

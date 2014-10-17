@@ -135,6 +135,7 @@ class programaDAO extends Model
                 $cat= array();
                 $ciudad= array();
                 $incluye= array();
+                $valorHab= array();
                 
                 
                 $objPackages= new programaDTO();
@@ -151,13 +152,20 @@ class programaDAO extends Model
                     $objPackages->setNombre(trim($packDB['nombrePRG']));
                     $objPackages->setNota(trim($packDB['notaPRG']));
                     $objPackages->setIdOpc(trim($packDB['idOpcion']));
-                    /*$objPackages->setDesde(trim($packDB['desde']));
-                    $objPackages->setVHab_1(trim($packDB['vHab_1']));
-                    $objPackages->setVHab_2(trim($packDB['vHab_2']));
-                    $objPackages->setVHab_3(trim($packDB['vHab_3']));
+                    $objPackages->setDesde(trim($packDB['desde']));
+                    
                     $objPackages->setNotaOpc(trim($packDB['notaOPC']));
                     $objPackages->setMoneda(trim($packDB['moneda']));
-                    $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));*/
+                    $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));
+                    
+                    /* VALOR HABITACION */
+                    for ($i=1; $i<=3; $i++)
+                    {
+                        $valorHab[]=trim($packDB['vHab_'.$i]);
+                    }
+                    $objPackages->setValorHab($valorHab);
+                    /* VALOR HABITACION */
+                    
                     
                     /* HOTELES */
                     for($i=1; $i<=5; $i++)
