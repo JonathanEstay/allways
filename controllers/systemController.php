@@ -339,6 +339,9 @@ class systemController extends Controller
         $idOpc= $this->getTexto('varCenterBox');
         if($idOpc)
         {
+            $IV_programa= $this->loadModel('programa');
+            
+            $this->_view->objPrograma= $IV_programa->getItinerarioVuelo($idOpc);
             $this->_view->renderingCenterBox('itinerarioVuelo');
         }
         else
@@ -353,9 +356,8 @@ class systemController extends Controller
         if($idPrg)
         {
             $CG_programa= $this->loadModel('programa');
-            $CG_programa->getNota($idPrg);
             
-            $this->_view->objNota= $CG_programa->getNota($idPrg);
+            $this->_view->objPrograma= $CG_programa->getNota($idPrg);
             $this->_view->renderingCenterBox('condicionesGenerales');
         }
         else
@@ -369,6 +371,9 @@ class systemController extends Controller
         $idOpc= $this->getTexto('varCenterBox');
         if($idOpc)
         {
+            $N_programa= $this->loadModel('programa');
+            
+            $this->_view->objPrograma= $N_programa->getNota($idPrg);
             $this->_view->renderingCenterBox('notas');
         }
         else
