@@ -238,9 +238,9 @@
                                                         if($this->objProgramas[$p]->getItiVuelo())
                                                         {
                                                             $P_itinerarioVueloView='<a data-toggle="modal" href="#myModal" 
-                                                                    onClick="abrePopupPRG(\'abreItinerario.php\', \'Itinerario vuelo\', \''.$P_idOpc.'\');">
-                                                                    <img src="'.$_layoutParams['ruta_img'].'avion.png" width="24px" alt="Itinerario de Vuelos" title="Itinerario de Vuelos" />
-                                                                    </a>';
+                                                                onClick="abrePopup(\'divPopupPRG\', \'' . BASE_URL . 'system/itinerarioVuelo\', \'tituloFormPRG\', \'Itinerario vuelo\', \''.$P_idOpc.'\');">
+                                                                <img src="'.$_layoutParams['ruta_img'].'avion.png" width="24px" alt="Itinerario de Vuelos" title="Itinerario de Vuelos" />
+                                                                </a>';
                                                         }
                                                         else
                                                         {
@@ -253,7 +253,7 @@
                                                         if(!empty($P_notaPRG))
                                                         {
                                                             $P_notaPrgView='<a data-toggle="modal" href="#myModal" 
-                                                                    onClick="abrePopupPRG(\'abreCondicionesGenerales.php\', \'Condiciones generales\', \''.$P_idPRG.'\');">
+                                                                    onClick="abrePopup(\'divPopupPRG\', \'' . BASE_URL . 'system/condicionesGenerales\', \'tituloFormPRG\', \'Condiciones generales\', \''.$P_idPRG.'\');">
                                                                     <img src="'.$_layoutParams['ruta_img'].'nota.png" width="24px" alt="Condiciones generales" title="Condiciones generales" />
                                                                     </a>';
 
@@ -402,7 +402,7 @@ $P_programaDetalle.='<td><a id="div_opc_hotelProg_'.$cntPopup.'" style="cursor:p
                                                                 if(!empty($P_notaOPC))
                                                                 {
                                                                         $P_programaDetalle.='<a data-toggle="modal" href="#myModal" 
-                                                                        onClick="abrePopupPRG(\'abreNota.php\', \'Nota de Programa\', \''.$P_idOpc.'\');">
+                                                                        onClick="abrePopup(\'divPopupPRG\', \'' . BASE_URL . 'system/notas\', \'tituloFormPRG\', \'Nota de Programa\', \''.$P_idOpc.'\');">
                                                                         <img src="'.$_layoutParams['ruta_img'].'nota.png" width="24px" alt="Notas" title="Notas" />
                                                                         </a>';
                                                                 }

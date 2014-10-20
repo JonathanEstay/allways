@@ -68,7 +68,6 @@ class programaDAO extends Model
         }
     }
     
-    
     public function getAdmProgramas($ciudad=0, $codProg=0)
     {
         $and='';
@@ -115,7 +114,6 @@ class programaDAO extends Model
             return false;
         }
     }
-    
     
     public function exeTraeProgramas($sql)
     {
@@ -197,6 +195,28 @@ class programaDAO extends Model
                 
                 $objetosPack[]= $objPackages;
             }
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function getNota($id)
+    {
+        $sql='SELECT nota FROM h2h_Programa WHERE Id='.$id;
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            $objPackages= new programaDTO();
+            
+            $objPackages->setNota(trim($arrayPackages[0]['nota']));
+            $objetosPack[]= $objPackages;
             
             return $objetosPack;
         }

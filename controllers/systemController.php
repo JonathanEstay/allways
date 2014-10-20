@@ -333,6 +333,51 @@ class systemController extends Controller
         $this->_view->renderingCenterBox('cartaConfirm');
     }
     
+
+    public function itinerarioVuelo()
+    {
+        $idOpc= $this->getTexto('varCenterBox');
+        if($idOpc)
+        {
+            $this->_view->renderingCenterBox('itinerarioVuelo');
+        }
+        else
+        {
+            throw new Exception('Error al ver el itinerario.');
+        }
+    }
+    
+    public function condicionesGenerales()
+    {
+        $idPrg= $this->getTexto('varCenterBox');
+        if($idPrg)
+        {
+            $CG_programa= $this->loadModel('programa');
+            $CG_programa->getNota($idPrg);
+            
+            $this->_view->objNota= $CG_programa->getNota($idPrg);
+            $this->_view->renderingCenterBox('condicionesGenerales');
+        }
+        else
+        {
+            throw new Exception('Error al ver las condiciones generales.');
+        }
+    }
+    
+    public function notas()
+    {
+        $idOpc= $this->getTexto('varCenterBox');
+        if($idOpc)
+        {
+            $this->_view->renderingCenterBox('notas');
+        }
+        else
+        {
+            throw new Exception('Error al ver la nota.');
+        }
+    }
+    
+    
     
     /*
      * TIPO HABITACION
