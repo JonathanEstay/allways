@@ -206,7 +206,9 @@ class programaDAO extends Model
     
     public function getNota($id)
     {
-        $sql="SELECT REPLACE(convert(varchar(MAX), nota), Char(13), '<br />') as nota FROM h2h_Programa WHERE Id=".$id;
+        $sql="SELECT REPLACE(convert(varchar(MAX), nota), Char(13), '<br />') as nota "
+            . "FROM h2h_Programa WHERE Id=".$id;
+        
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
         {
@@ -241,6 +243,30 @@ class programaDAO extends Model
             $objPackages= new programaDTO();
             
             $objPackages->setItiVuelo(trim($arrayPackages[0]['notas']));
+            $objetosPack[]= $objPackages;
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function getNotaOpc($idOpc)
+    {
+        $sql="SELECT REPLACE(convert(varchar(MAX), nota), Char(13), '<br />') as nota "
+            . "FROM h2h_ProgramaOpc WHERE IdOpc=$idOpc";
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            $objPackages= new programaDTO();
+            
+            $objPackages->setNotaOpc(trim($arrayPackages[0]['nota']));
             $objetosPack[]= $objPackages;
             
             return $objetosPack;

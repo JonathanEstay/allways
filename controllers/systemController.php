@@ -373,7 +373,7 @@ class systemController extends Controller
         {
             $N_programa= $this->loadModel('programa');
             
-            $this->_view->objPrograma= $N_programa->getNota($idPrg);
+            $this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
             $this->_view->renderingCenterBox('notas');
         }
         else
