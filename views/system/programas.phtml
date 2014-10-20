@@ -1,3 +1,7 @@
+<!-- Tooltip Detalle Hotel -->
+<link rel="stylesheet" href="<?php echo $_layoutParams['ruta_css']; ?>tip-darkgray/tip-darkgray.css" type="text/css" />
+<!-- End: Tooltip Detalle Hotel -->
+
 <div id="page-content">
     <div id='wrap'>
         <div id="page-heading">
@@ -340,20 +344,25 @@
                                                                                                                         <tr>	
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
-                                                                        onClick='abrePopupPRG(1001, 1002, $P_arrayHotelesOpcion_CodH[$i]);' >
+                                                                        onClick='abrePopup(&quot;divPopupPRG&quot;, 
+                                                                                            &quot;" . BASE_URL . "system/fotosHotel&quot;, 
+                                                                                            &quot;tituloFormPRG&quot;, 
+                                                                                            &quot;Fotos Hotel&quot;, 
+                                                                                            $P_arrayHotelesOpcion_CodH[$i]
+                                                                                            );' >
                                                         <img src='".$_layoutParams['ruta_img']."fotos.png' border='0' height='25' title='Fotos' />
                                                     </a>
                                                     </td>
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
-                                                                        onClick='abrePopupPRG(2001, 2002, $P_arrayHotelesOpcion_CodH[$i]);' >
-                                                        <img src='".$_layoutParams['ruta_img']."iconosapple_maps.jpg' border='0' height='26px' title='Mapa' />
+                                                                        onClick='abrePopup(&quot;divPopupPRG&quot;, &quot;" . BASE_URL . "system/mapas&quot;, &quot;tituloFormPRG&quot;, &quot;Google Maps&quot;, $P_arrayHotelesOpcion_CodH[$i]);' >
+                                                        <img src='".$_layoutParams['ruta_img']."ubicacion.png' border='0' height='26px' title='Mapa' />
                                                     </a>
                                                     </td>
                                                                                                                                 <td align='center'>
                                                     <a data-toggle='modal' href='#myModal' 
-                                                                        onClick='abrePopupPRG(3001, 3002, $P_arrayHotelesOpcion_CodH[$i]);'>
-                                                    <img src='".$_layoutParams['ruta_img']."hotel/restaurant.jpg' border='0' height='27' title='Servicios' />
+                                                                        onClick='abrePopup(&quot;divPopupPRG&quot;, &quot;" . BASE_URL . "system/servicios&quot;, &quot;tituloFormPRG&quot;, &quot;Todos los servicios&quot;, $P_arrayHotelesOpcion_CodH[$i]);'>
+                                                    <img src='".$_layoutParams['ruta_img']."servicios.png' border='0' height='27' title='Servicios' />
                                                     </a>
                                                     </td>
                                                                                                                         </tr>
@@ -372,7 +381,7 @@
 
                                                         &nbsp;Tipo Habitaci&oacute;n:  <strong>$P_arrayHotelesOpcion_TH[$i]</strong>
                                                         <a data-toggle='modal' href='#myModal' 
-                                                                        onClick='abrePopupPRG(4001, 4002, 1131.123);'>
+                                                                        onClick='abrePopup(&quot;divPopupPRG&quot;, &quot;" . BASE_URL . "system/fotosHotel&quot;, &quot;tituloFormPRG&quot;, &quot;Fotos Tipo Habitaci&oacute;n&quot;, 99999999999999);'>
                                                             <img src='".$_layoutParams['ruta_img']."camara.png' align='bottom' border='0' width='16px' title='Fotos tipo habitaci&oacute;n' />
                                                         </a>
 

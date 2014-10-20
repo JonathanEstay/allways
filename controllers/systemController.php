@@ -384,6 +384,57 @@ class systemController extends Controller
     
     
     
+    public function fotosHotel()
+    {
+        $FH_codHotel= $this->getTexto('varCenterBox');
+        if($FH_codHotel)
+        {
+            //$N_programa= $this->loadModel('programa');
+            
+            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
+            $this->_view->renderingCenterBox('fotosHotel');
+        }
+        else
+        {
+            throw new Exception('Error al ver las fotos del hotel.');
+        }
+    }
+    
+    public function mapas()
+    {
+        $FH_codHotel= $this->getTexto('varCenterBox');
+        if($FH_codHotel)
+        {
+            //$N_programa= $this->loadModel('programa');
+            
+            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
+            $this->_view->renderingCenterBox('mapas');
+        }
+        else
+        {
+            throw new Exception('Error al ver el mapa.');
+        }
+    }
+    
+    public function servicios()
+    {
+        $FH_codHotel= $this->getTexto('varCenterBox');
+        if($FH_codHotel)
+        {
+            //$N_programa= $this->loadModel('programa');
+            
+            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
+            $this->_view->renderingCenterBox('servicios');
+        }
+        else
+        {
+            throw new Exception('Error al ver los servicios');
+        }
+    }
+    
+    
+    
+    
     /*
      * TIPO HABITACION
      */
