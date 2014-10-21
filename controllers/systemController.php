@@ -425,13 +425,20 @@ class systemController extends Controller
     
     public function servicios()
     {
-        $FH_codHotel= $this->getTexto('varCenterBox');
-        if($FH_codHotel)
+        $S_codHotel= $this->getTexto('varCenterBox');
+        if($S_codHotel)
         {
-            //$N_programa= $this->loadModel('programa');
+            $S_hotel= $this->loadModel('hotel');
             
-            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
-            $this->_view->renderingCenterBox('servicios');
+            $this->_view->objHotel= $S_hotel->getHotel($S_codHotel);
+            if($this->_view->objHotel)
+            {
+                $this->_view->renderingCenterBox('servicios');
+            }
+            else
+            {
+                throw new Exception('Error al desplegar los servicios, favor intente nuevamente.');
+            }
         }
         else
         {

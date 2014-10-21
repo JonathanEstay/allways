@@ -77,7 +77,6 @@ class hotelDAO extends Model
 	      secador_pelo, barra_seguridad, lavanderia, telefono, img_encabezado, img_contenido, img_contenido2, img_contenido3, img_contenido4, mini_img_encabezado, 
 	      mini_img_contenido, mini_img_contenido2, mini_img_contenido3, mini_img_contenido4, lat, lon, child_free, prepago, dias_prepago, comag
             FROM hotel WHERE codigo="'.$codHotel.'"';
-        echo $codHotel.'::';
         
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
