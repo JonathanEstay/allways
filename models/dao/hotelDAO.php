@@ -77,7 +77,7 @@ class hotelDAO extends Model
 	      secador_pelo, barra_seguridad, lavanderia, telefono, img_encabezado, img_contenido, img_contenido2, img_contenido3, img_contenido4, mini_img_encabezado, 
 	      mini_img_contenido, mini_img_contenido2, mini_img_contenido3, mini_img_contenido4, lat, lon, child_free, prepago, dias_prepago, comag
             FROM hotel WHERE codigo="'.$codHotel.'"';
-        
+        echo $codHotel.'::';
         
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
@@ -151,6 +151,38 @@ class hotelDAO extends Model
         }
     }
     
+    
+    public function getFotos($cod)
+    {
+        $sql='SELECT img_encabezado, img_contenido, img_contenido2, img_contenido3, img_contenido4 '
+            . 'FROM hotel WHERE codigo='.$cod;
+
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosHotel= array();
+            $arrayHotel= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayHotel as $hDB)
+            {
+                $objHotel= new hotelDTO();
+                
+                $objHotel->setImgEnc(trim($hDB['img_encabezado']));
+                $objHotel->setImgCont(trim($hDB['img_contenido']));
+                $objHotel->setImgCont2(trim($hDB['img_contenido2']));
+                $objHotel->setImgCont3(trim($hDB['img_contenido3']));
+                $objHotel->setImgCont4(trim($hDB['img_contenido4']));
+                
+                $objetosHotel[]= $objHotel;
+            }
+            
+            return $objetosHotel;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     public function exeSQL($sql)
     {

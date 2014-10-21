@@ -389,10 +389,17 @@ class systemController extends Controller
         $FH_codHotel= $this->getTexto('varCenterBox');
         if($FH_codHotel)
         {
-            //$N_programa= $this->loadModel('programa');
+            $FH_hotel= $this->loadModel('hotel');
             
-            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
-            $this->_view->renderingCenterBox('fotosHotel');
+            $this->_view->objHotel= $FH_hotel->getFotos($FH_codHotel);
+            if($this->_view->objHotel)
+            {
+                $this->_view->renderingCenterBox('fotosHotel');
+            }
+            else
+            {
+                throw new Exception('Error al desplegar las fotos, favor intente nuevamente.');
+            }
         }
         else
         {
