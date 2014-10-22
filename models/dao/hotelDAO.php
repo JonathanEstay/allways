@@ -183,6 +183,36 @@ class hotelDAO extends Model
         }
     }
     
+    
+    public function getMapa($cod)
+    {
+        $sql='SELECT hotel, lat, lon FROM hotel WHERE codigo='.$cod;
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosHotel= array();
+            $arrayHotel= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayHotel as $hDB)
+            {
+                $objHotel= new hotelDTO();
+                
+                $objHotel->setHotel(trim($hDB['hotel']));
+                $objHotel->setLat(trim($hDB['lat']));
+                $objHotel->setLon(trim($hDB['lon']));
+                
+                $objetosHotel[]= $objHotel;
+            }
+
+            return $objetosHotel;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     public function exeSQL($sql)
     {
         $this->_db->consulta($sql);

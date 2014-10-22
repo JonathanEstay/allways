@@ -1,3 +1,33 @@
+<script type="text/javascript" src="http://www.google.com/jsapi?key=AIzaSyByJ-PrjAq7ZDCa8_bCGYB-hzoAJcInrug"></script>
+<!-- MAPS -->
+<script type="text/javascript">
+    //<![CDATA[  
+    google.load('maps', '2');
+	var map;	
+    function tercero(lat, lon, hotel){	
+    if (GBrowserIsCompatible()) { 
+        function createMarker(point,html) {
+        var marker = new GMarker(point);
+        GEvent.addListener(marker, "click", function() {
+          marker.openInfoWindowHtml(html);});
+        return marker;}			
+      var map = new GMap2(document.getElementById("map3"));
+      map.addControl(new GLargeMapControl());
+      map.addControl(new GMapTypeControl());	  
+      map.setCenter(new GLatLng(lat,lon),14);}	  
+      var point = new GLatLng(lat,lon);
+	  /*var marker = createMarker(point,'<div style="width:240px">El Capitolio de la Habana <a href="http://www.sitio.com">Pagina web<\/a> con mas información<\/div>');*/
+	  var marker = createMarker(point,'<div style="width:240px">' + hotel + '<\/div>');
+	  
+      map.addOverlay(marker);
+      
+	  /*var point = new GLatLng(23.1368,-82.3816);
+      var marker = createMarker(point,'La Universidad de la Habana')
+      map.addOverlay(marker); */
+	  }
+    //]]>
+</script>
+
 <!-- Tooltip Detalle Hotel -->
 <link rel="stylesheet" href="<?php echo $_layoutParams['ruta_css']; ?>tip-darkgray/tip-darkgray.css" type="text/css" />
 <!-- End: Tooltip Detalle Hotel -->

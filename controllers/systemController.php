@@ -409,13 +409,20 @@ class systemController extends Controller
     
     public function mapas()
     {
-        $FH_codHotel= $this->getTexto('varCenterBox');
-        if($FH_codHotel)
+        $M_codHotel= $this->getTexto('varCenterBox');
+        if($M_codHotel)
         {
-            //$N_programa= $this->loadModel('programa');
+            $M_hotel= $this->loadModel('hotel');
             
-            //$this->_view->objPrograma= $N_programa->getNotaOpc($idOpc);
-            $this->_view->renderingCenterBox('mapas');
+            $this->_view->objHotel= $M_hotel->getMapa($M_codHotel);
+            if($this->_view->objHotel)
+            {
+                $this->_view->renderingCenterBox('mapas');
+            }
+            else
+            {
+                throw new Exception('Error al mostrar el mapa, favor intente nuevamente.');
+            }
         }
         else
         {
