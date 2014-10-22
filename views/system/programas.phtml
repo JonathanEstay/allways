@@ -230,7 +230,7 @@
                                                                         <tr>
                                                                                 <td colspan="5" align="center">
                                                                                         <a data-toggle="modal" href="#myModal" 
-                                                                                        onClick="procesoEnviaFormPopup(\'frmOpcionesPRG_'.$P_cntProgramas.'\', \'reservarPrograma.php\', \'divPopupPRG\', \'tituloFormPRG\', \'Formulario de reserva\');"
+                                                                                        onClick="validaReserva(\'frmOpcionesPRG_'.$P_cntProgramas.'\', \'' . BASE_URL . 'system/reservaPrograma\', \'divPopupPRG\', \'tituloFormPRG\', \'Formulario de reserva\');"
                                                                                         class="btn btn-primary">Comenzar reserva</a>
                                                                                 </td>
                                                                         </tr>
@@ -351,7 +351,7 @@
                                                         $P_programaDetalle.='
                 <tr>
                     <td width="20px">
-                                                                <input type="radio" name="P_rdbOpcion_'.$P_cntProgramas.'" value="'.$P_idOpc.'">
+                                                                <input type="radio" name="P_rdbOpcion_'.$P_cntProgramas.'" value="'.$P_idPRG . '@' . $P_idOpc.'">
                                                                 ';
 
 

@@ -90,4 +90,42 @@ class ciudadDAO extends Model
             return false;
         }
     }
+    
+    
+    public function getCiudadesBloq($ciudad='')
+    {
+        $sql='SELECT B.ciudad FROM bloqueos B 
+            WHERE B.estado = "A" AND GETDATE() <= B.fectop AND ISNULL(B.ciudad, "") <> "" AND
+            (
+                SELECT COUNT(DB.num_file) FROM det_bloq DB WHERE DB.record_c=B.record_c AND DB.num_file=0
+            ) > 0 ';
+        
+        if(!empty($ciudad))
+        {
+            $sql.=' AND B.ciudad LIKE "'.$ciudad.'%" ';
+        }
+
+        $sql.=' GROUP BY B.ciudad
+                ORDER BY B.ciudad ASC';
+                
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $ciudadArray = $this->_db->fetchAll($datos);
+            $objetosCiudad = array();
+            
+            foreach ($ciudadArray as $ciuDB)
+            {
+                $ciudadObj = new ciudadDTO();
+                $ciudadObj->setNombre(trim($ciuDB['ciudad']));
+                $objetosCiudad[]=$ciudadObj;
+            }
+            
+            return $objetosCiudad;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

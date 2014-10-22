@@ -34,7 +34,7 @@ class systemController extends Controller
         Session::acceso('Usuario');
         //$this->_view->setJS(array(''));
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->titulo='ORISTRAVEL';
@@ -47,7 +47,7 @@ class systemController extends Controller
         Session::acceso('Usuario');
         $reserva= $this->loadModel('reserva');
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         
@@ -106,7 +106,7 @@ class systemController extends Controller
         $categorias= $this->loadModel('categoria');
         $hoteles= $this->loadModel('hotel');
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
 
 
@@ -135,7 +135,7 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         
@@ -159,7 +159,7 @@ class systemController extends Controller
         Session::acceso('Usuario');
         $agencia= $this->loadModel('agencia');
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->objAgencias= $agencia->getAgencias();
@@ -234,7 +234,7 @@ class systemController extends Controller
         $this->_view->ML_fechaIni= Session::get('sess_BP_fechaIn');
         $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
         
-        $this->_view->objCiudades= $this->_ciudad->getCiudadesPRG();
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         if(Session::get('sess_BP_ciudadDes'))
         {
@@ -332,6 +332,36 @@ class systemController extends Controller
         
         $this->_view->renderingCenterBox('cartaConfirm');
     }
+    
+    
+    
+    public function reservaPrograma()
+    {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            $tags= array_keys($_POST);
+            
+            $RP_rdbOpcion=trim($tags[1]);
+            $RP_idPrograma=trim($tags[0]);	
+
+
+            //echo $RP_idPrograma.' - '.$RP_rdbOpcion.' >> '.$cntPOST;
+
+            if(empty($RP_rdbOpcion))
+            {
+                throw new Exception('Seleccione una opcion para poder reservar');
+            }
+            else if(!empty($RP_idPrograma))
+            {
+                
+            }
+        }
+        else
+        {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
+    
     
 
     public function itinerarioVuelo()
@@ -455,6 +485,7 @@ class systemController extends Controller
     
     
     
+
     
     /*
      * TIPO HABITACION

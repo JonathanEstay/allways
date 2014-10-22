@@ -231,14 +231,14 @@ function endLoad()
 }
 
 
-function procesoEnviaFormPopup(classFrm, php, div, divTit, titulo)
+function validaReserva(classFrm, php, div, divTit, titulo)
 {
 	initLoad();
 
 	$("#"+div).html("");
 	$("#"+divTit).html(titulo);
 	var formData= new FormData($("."+classFrm)[0]);
-	//hacemos la petición ajax  
+	//hacemos la peticion ajax  
 	$.ajax({
 		url: php,  
 		type: 'POST',
@@ -408,7 +408,7 @@ function muestraOculta(id, estado)
     }
 }
 
- function abrePopup(div, docPHP, idTitulo, titulo, val)
+function abrePopup(div, docPHP, idTitulo, titulo, val)
 {
     initLoad();
     $("#" + div).html('');

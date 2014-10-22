@@ -66,20 +66,20 @@ $(function()
                             { 
                                 for($i=0; $i<$this->objCiudadesCNT; $i++)
                                 {
-                                    $mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
+                                    //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
                                     $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
-                                    $mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
+                                    //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
                                     if(Session::get('sess_BP_ciudadDes')==$mL_nombreCiuPRG)
                                     {
                                     ?>
-                                        <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                        <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiuPRG; ?></option>
                                     <?php
                                     }
                                     else
                                     {
                                     ?>
-                                        <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                        <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiuPRG; ?></option>
                                     <?php
                                     }
                                 }
