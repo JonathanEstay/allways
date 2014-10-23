@@ -34,16 +34,23 @@
         var BASE_URL_JS = "<?php echo BASE_URL; ?>";
         var RUTA_IMG_JS = "<?php echo $_layoutParams['ruta_img']; ?>";
         
-        function digiClock ( )  
+        function digiClock()
         {
-            $.post('<?php echo BASE_URL; ?>system/horaServer', 
+            if($( "#divTime" ).hasClass( "open" ))
             {
-                _header_: true
-            }, function(data)
+                $.post('<?php echo BASE_URL; ?>system/horaServer', 
+                {
+                    _header_: true
+                }, function(data)
+                {
+                    $("#divClock").html(data);
+                });
+            }
+            else
             {
-                $("#divClock").html(data);
-            });
-        }  
+                $("#divClock").html('...');
+            }
+        }
 
         $(document).ready(function()  
         {
@@ -151,7 +158,7 @@
         
         
         
-        <li class="dropdown">
+        <li id="divTime" class="dropdown">
             <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
                 <img src="<?php echo $_layoutParams['ruta_img']; ?>fecha_hora.png" width="24" />
             </a>

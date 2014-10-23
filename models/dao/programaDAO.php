@@ -115,7 +115,7 @@ class programaDAO extends Model
         }
     }
     
-    public function exeTraeProgramas($sql)
+    public function exeTraeProgramas($sql, $inc=false)
     {
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
@@ -151,7 +151,7 @@ class programaDAO extends Model
                     $objPackages->setNota(trim($packDB['notaPRG']));
                     $objPackages->setIdOpc(trim($packDB['idOpcion']));
                     $objPackages->setDesde(trim($packDB['desde']));
-                    
+                    $objPackages->setTramo(trim($packDB['Tramo']));
                     $objPackages->setNotaOpc(trim($packDB['notaOPC']));
                     $objPackages->setMoneda(trim($packDB['moneda']));
                     $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));
@@ -186,10 +186,11 @@ class programaDAO extends Model
                     $objPackages->setCiudad($ciudad);
                     /* HOTELES */
                     
-                    
-                    $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
-                    $objPackages->setIncluye($incluye);
-                    
+                    if($inc)
+                    {
+                        $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
+                        $objPackages->setIncluye($incluye);
+                    }
                     //$objPackages->setXXXX(trim($packDB['xxxxx']));
                 }
                 
@@ -267,6 +268,34 @@ class programaDAO extends Model
             $objPackages= new programaDTO();
             
             $objPackages->setNotaOpc(trim($arrayPackages[0]['nota']));
+            $objetosPack[]= $objPackages;
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function validaPrograma($id, $idOpc)
+    {
+        $sql='SELECT P.codigo, P.nombre
+            FROM h2h_programaOpc PO
+            JOIN h2h_programa P ON (PO.IdProg=P.Id)
+            WHERE P.Id=' . $id . ' AND PO.IdOpc='.$idOpc;
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            $objPackages= new programaDTO();
+            
+            $objPackages->setCodigo(trim($arrayPackages[0]['codigo']));
+            $objPackages->setNombre(trim($arrayPackages[0]['nombre']));
+            
             $objetosPack[]= $objPackages;
             
             return $objetosPack;

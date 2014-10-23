@@ -89,10 +89,10 @@ function procesoCargaDiv(valor, div, php)
     {
         $.post(php, 
         {
-                _PCD_: valor
+            _PCD_: valor
         }, function(data)
         {
-                $("#"+div).html(data);
+            $("#"+div).html(data);
         });
     }
 }
@@ -203,8 +203,8 @@ function alertError(btn, msg, time)
 	
 	$('#divAlertWar').delay( time ).fadeOut( 500 );
 	$('#divAlertWar').animate({
-						'display': 'none'
-					});
+                                    'display': 'none'
+                                });
 					
 	$("#"+btn).delay(2500).queue(function(m)
 	{
@@ -219,7 +219,7 @@ function initLoad()
     $('#divAlertInfo').fadeIn( 500 );
     $('#divAlertInfo').animate({
                             'display': 'block'
-                    });
+                        });
 }
 
 function endLoad()
@@ -290,12 +290,12 @@ function buscarCiudad(ciudad, frmBus, ob, id)
             post_idTxt: id
         }, function(data){
             $("#"+ob).html(data);
-            span.style.display='block';
+            $("#"+span).css("display", "block");
         });
     }
     else
     {
-        span.style.display='none'; 
+        $("#"+span).css("display", "none");
         ciudad= '';
             $.post("process/procesoObtieneCiudad.php", { post_ciudad: ciudad, post_frmBus: frmBus }, function(data){
             $("#"+ob).html(data);
@@ -314,22 +314,20 @@ function habitaciones(table, num)
 {
     for(var x=1;x<=3;x++)
     {
-            document.getElementById(table+'_'+x).style.display="none";
+        $("#"+table+'_'+x).css("display", "none");
     }
 
     for(var x=1;x<=num;x++)
     {
         var id=table+'_'+x;
         mostrado=0;
-        elem = document.getElementById(id);
-        if(elem.style.display=="block")
+        if($('#'+id).css('display') === 'block')
         {
             mostrado=1;
-            elem.style.display="none";
+            $('#'+id).css('display', 'none');
         }
-        if(mostrado!=1)
+        if(mostrado!==1)
         {
-            //elem.style.display="block";
             $('#'+table+'_'+x).fadeIn( 1000 );
             $('#'+table+'_'+x).animate({
                     'display': 'block'
@@ -355,8 +353,8 @@ function habilitaEdadChild(id,hab)
             {
                 if(hab==x)
                 {
-                    document.getElementById('mL_edadChild_1_'+x).disabled = status_1[i];
-                    document.getElementById('mL_edadChild_2_'+x).disabled = status_2[i];
+                    $("#mL_edadChild_1_"+x).prop('disabled', status_1[i]);
+                    $("#mL_edadChild_2_"+x).prop('disabled', status_2[i]);
                 }
             }
         }

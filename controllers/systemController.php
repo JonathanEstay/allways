@@ -250,9 +250,10 @@ class systemController extends Controller
                         '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
             }
             
+            Session::set('sess_TraeProg', $sql);
             //echo $sql; exit;
             
-            $this->_view->objProgramas= $programas->exeTraeProgramas($sql);
+            $this->_view->objProgramas= $programas->exeTraeProgramas($sql, true);
             $this->_view->objProgramasCNT= count($this->_view->objProgramas);
         }
         
@@ -335,25 +336,54 @@ class systemController extends Controller
     
     
     
+    /*
+     * RESERVA PROGRAMA
+     */
     public function reservaPrograma()
     {
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
-            $tags= array_keys($_POST);
-            
-            $RP_rdbOpcion=trim($tags[1]);
-            $RP_idPrograma=trim($tags[0]);	
+            $tags= array_keys($this->getPOST());
+            $RP_rdbOpc=trim($this->getTexto($tags[1]));
+            $RP_idProg=trim($this->getTexto($tags[0]));
 
-
-            //echo $RP_idPrograma.' - '.$RP_rdbOpcion.' >> '.$cntPOST;
-
-            if(empty($RP_rdbOpcion))
+            if(empty($RP_rdbOpc))
             {
                 throw new Exception('Seleccione una opcion para poder reservar');
             }
-            else if(!empty($RP_idPrograma))
+            else if(!empty($RP_idProg))
             {
-                
+                $programa= $this->loadModel('programa');
+                $this->_view->objPrograma= $programa->validaPrograma($RP_idProg, $RP_rdbOpc);
+                if($this->_view->objPrograma)
+                {
+                    $this->_view->objOpcionPrograma= $programa->exeTraeProgramas(Session::get('sess_TraeProg'));
+                    $cnt= count($this->_view->objOpcionPrograma);
+                    for($i=1; $i<$cnt; $i++)
+                    {
+                        if($this->_view->objOpcionPrograma[$i]->getIdOpc()==$RP_rdbOpc)
+                        {
+                            $this->_view->objOpcionProg[]= $this->_view->objOpcionPrograma[$i];
+                            break;
+                        }
+                    }
+                    
+                    //Formateando valores
+                    $this->_view->fechaSalida= Functions::invertirFecha($this->_view->objOpcionProg[0]->getDesde(), '/', '/');
+                    
+                    $valorHab= $this->_view->objOpcionProg[0]->getValorHab();
+                    $this->_view->precio= Functions::getTipoMoneda($this->_view->objOpcionProg[0]->getMoneda()).' '.Functions::formatoValor($this->_view->objOpcionProg[0]->getMoneda(), ($valorHab[0]+$valorHab[1]+$valorHab[2]));
+                    
+                    $this->_view->hoteles= $this->_view->objOpcionProg[0]->getHoteles();
+                    $this->_view->hotelesCNT= count($this->_view->hoteles);
+                    
+                    
+                    $this->_view->renderingCenterBox('reservarPrograma');
+                }
+                else
+                {
+                    throw new Exception('Existe un error en el armado de programas, favor actualize la busqueda.');
+                }
             }
         }
         else
@@ -411,8 +441,6 @@ class systemController extends Controller
             throw new Exception('Error al ver la nota.');
         }
     }
-    
-    
     
     public function fotosHotel()
     {

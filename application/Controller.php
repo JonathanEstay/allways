@@ -92,7 +92,11 @@ abstract class Controller
         {
             return $_SERVER[$clave];
         }
-
+    }
+    
+    protected function getPOST()
+    {
+        return $_POST;
     }
 
     protected function getTexto($clave)

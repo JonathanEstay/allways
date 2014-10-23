@@ -23,6 +23,7 @@ class programaDTO
     private $_nota_opc;
     private $_moneda;
     private $_itinerario_vuelo;
+    private $_tramo;
     
     private $_hoteles;
     private $_cod_hoteles;
@@ -32,6 +33,18 @@ class programaDTO
     private $_cat;
     
     private $_incluye;
+    
+    
+    
+    
+    public function getTramo()
+    {
+        return $this->_tramo;
+    }
+    public function setTramo($tramo)
+    {
+        $this->_tramo=$tramo;
+    }
     
     
     public function getItiVuelo()
