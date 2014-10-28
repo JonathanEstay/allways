@@ -286,7 +286,7 @@ function procesoReservaPRG(classFrm, php, btn, div)
                                             
                     //alert('TODO OK'); return false;
                     
-                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="iconos/ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n.</div>');
+                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n, espere un momento...</div>');
                     $.post( BASE_URL_JS + "system/cartaConfirmacion", 
                     {
                         /*n_file: myArrayData[1],

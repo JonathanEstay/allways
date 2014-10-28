@@ -177,4 +177,29 @@ abstract class Controller
             return 0;
         }
     }
+    
+    protected function validateRequirements()
+    {
+        $requirements = array(
+            'version' => '',
+            'curl' => '',
+            'dom' => ''
+        );
+
+        $version = str_replace('.', '', phpversion());
+
+        if ($version < 533) {
+            $requirements['version'] = 'Se requiere PHP version 5.3.3 o superior.';
+        }
+
+        if (!function_exists('curl_init')) {
+            $requirements['curl'] = 'Se requiere CURL library.';
+        }
+
+        if (!class_exists('DOMDocument')) {
+            $requirements['dom'] = 'Se requiere DOM XML extension is required.';
+        }
+
+        return $requirements;
+    }
 }

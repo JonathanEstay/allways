@@ -402,17 +402,8 @@ class systemController extends Controller
     {
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
-            /*if($pRP_error==TRUE)
-            {
-                echo $pRP_msg;
-                exit;
-            }
-            else
-            {
-                echo 'OK&'.$pRP_file.'&'.$pRP_codigoPRG.'&'.$pRP_codBloqueo;
-                exit;
-            }*/
-            echo 'OK' . '&' . '190306' . '&' . 'CH14FLN01-2' . '&' . '2014FLN019';
+            $programa= $this->loadModel('programa');
+            require_once ROOT . 'controllers' . DS . 'include' . DS .'procesoReserva.php';
         }
         else
         {

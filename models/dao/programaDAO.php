@@ -195,6 +195,7 @@ class programaDAO extends Model
                 }
                 
                 $objetosPack[]= $objPackages;
+                //sleep(1);
             }
             
             return $objetosPack;
@@ -304,5 +305,10 @@ class programaDAO extends Model
         {
             return false;
         }
+    }
+    
+    public function exeSQL($sql)
+    {
+        $this->_db->consulta($sql);
     }
 }
