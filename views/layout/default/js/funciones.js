@@ -75,7 +75,263 @@ function procesoEnviaForm(classFrm, php, btn, div)
 
 
 
+function procesoReservaPRG(classFrm, php, btn, div)
+{
+    $("#"+btn).attr('disabled', 'disabled');
 
+    initLoad();
+
+    for(rP=1; rP>=1; rP++)
+    {
+        //tipoPas= document.getElementById("tipo_bloq_"+i);
+        txtPasaporte= document.getElementById("rP_chkPas_"+rP);
+        txtRut= document.getElementById("rP_txtRut_"+rP);
+        if(txtRut!=null)
+        {
+            if(txtPasaporte.checked==false)
+            {
+                if(txtRut.value.replace(/^\s+|\s+$/g,"")=='')
+                {
+                    alertError(btn, 'Debe ingresar un rut', 2000);
+                    txtRut.focus();
+                    return false;
+                    break;
+                }
+                else
+                {
+                    statusRut= Rut(txtRut, txtRut.value);
+                    if(statusRut!=true)
+                    {
+                        alertError(btn, 'El rut es incorrecto', 2000);
+                        txtRut.select();
+                        return false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                if(txtRut.value.replace(/^\s+|\s+$/g,"")=='')
+                {
+                    alertError(btn, 'Debe ingresar un rut', 2000);
+                    txtRut.focus();	
+                    return false;
+                    break;
+                }
+            }
+
+            if($.trim($("#rP_txtNom_"+rP).val())=='')
+            {
+                alertError(btn, 'Debe ingresar un nombre', 2000);
+                $("#rP_txtNom_"+rP).focus();
+                return false;
+                break;
+            }
+
+            if($.trim($("#rP_txtApe_"+rP).val())=='')
+            {
+                alertError(btn, 'Debe ingresar un apellido', 2000);
+                $("#rP_txtApe_"+rP).focus();
+                return false;
+                break;
+            }
+
+
+            if($("#rP_cmbTipoPax_"+rP).val()=='C')
+            {
+                if($.trim($("#rP_FechaNac_"+rP).val())=='')
+                {
+                    alertError(btn, 'Debe ingresar una fecha de nacimiento para el Child', 2000);
+                    $("#rP_FechaNac_"+rP).focus();
+                    return false;
+                    break;
+                }
+            }
+
+
+
+            txtPasaporteInf= document.getElementById("rP_chkPasInf_"+rP);
+            txtRutInf= document.getElementById("rP_txtRutInf_"+rP);
+            if(txtRutInf!=null)
+            {
+                if(txtPasaporteInf.checked==false)
+                {
+                    if(txtRutInf.value.replace(/^\s+|\s+$/g,"")=='')
+                    {
+                        alertError(btn, 'Debe ingresar un rut para el infant', 2000);
+                        txtRutInf.focus();	
+                        return false;
+                        break;
+                    }
+                    else
+                    {
+                        statusRutInf= Rut(txtRutInf, txtRutInf.value);
+                        if(statusRutInf!=true)
+                        {
+                            alertError(btn, 'El rut del infant es incorrecto', 2000);
+                            txtRutInf.select();
+                            return false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if(txtRutInf.value.replace(/^\s+|\s+$/g,"")=='')
+                    {
+                        alertError(btn, 'Debe ingresar un rut para el infant', 2000);
+                        txtRutInf.focus();	
+                        return false;
+                        break;
+                    }
+                }
+
+
+                if($.trim($("#rP_txtNomInf_"+rP).val())=='')
+                {
+                    alertError(btn, 'Debe ingresar un nombre para el infant', 2000);
+                    $("#rP_txtNomInf_"+rP).focus();
+                    return false;
+                    break;
+                }
+
+                if($.trim($("#rP_txtApeInf_"+rP).val())=='')
+                {
+                    alertError(btn, 'Debe ingresar un apellido para el infant', 2000);
+                    $("#rP_txtApeInf_"+rP).focus();
+                    return false;
+                    break;
+                }
+
+
+
+                if($.trim($("#rP_FechaNacInf_"+rP).val())=='')
+                {
+                    alertError(btn, 'Debe ingresar una fecha de nacimiento para el Infant', 2000);
+                    $("#rP_FechaNacInf_"+rP).focus();
+                    return false;
+                    break;
+                }
+            }
+
+
+        }
+        else
+        {
+            break;
+        }
+    }
+	
+	
+	
+	
+	
+	
+    /*Proceso Valida rut*/
+    var txtRutNew1, txtRutNew2;
+    for(x=1; x<rP; x++)
+    {
+        txtRutNew1= document.getElementById("rP_txtRut_"+x);
+        for(y=1; y<rP; y++)
+        {
+            if(x!=y)
+            {
+                txtRutNew2= document.getElementById("rP_txtRut_"+y);
+                if(txtRutNew1.value==txtRutNew2.value)
+                {
+                    alertError(btn, 'El rut del pasajero['+x+'] se repite con el del pasajero['+y+'].', 3000);
+                    txtRutNew1.select();
+                    return false;
+                    break;
+                }
+            }
+        }
+    }
+    /* --- */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    
+    
+    var formData= new FormData($("."+classFrm)[0]);
+    //hacemos la petición ajax  
+    $.ajax({
+            url: php,  
+            type: 'POST',
+            //Form data
+            //datos del formulario
+            data: formData,
+            //necesario para subir archivos via ajax
+            cache: false,
+            contentType: false,
+            processData: false,
+            //mientras enviamos el archivo
+            beforeSend: function(){},
+            //una vez finalizado correctamente
+            success: function(data)
+            {
+                var myArrayData= data.split('&');
+                if($.trim(myArrayData[0])=='OK')
+                {
+                    $('#btnCerrar1PRG').delay( 100 ).fadeOut( 100 );
+                    $('#btnCerrar1PRG').animate({
+                                                'display': 'none'
+                                            });
+                                            
+                    //alert('TODO OK'); return false;
+                    
+                    $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="iconos/ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n.</div>');
+                    $.post( BASE_URL_JS + "system/cartaConfirmacion", 
+                    {
+                        /*n_file: myArrayData[1],
+                        cod_prog: myArrayData[2],
+                        cod_bloq: myArrayData[3]*/
+                        CR_n_file: myArrayData[1],
+                        CR_cod_prog: myArrayData[2],
+                        CR_cod_bloq: myArrayData[3]
+                        
+                    }, function(dataRS)
+                    {
+                        $("#"+div).html(dataRS);
+                        endLoad();
+
+                        $('#btnAceptarPRG').delay( 2000 ).fadeIn( 100 );
+                        $('#btnAceptarPRG').animate({
+                                'display': 'block'
+                        });
+                    });
+
+                }
+                else
+                { 	
+                    alertError(btn, data, 5000);
+                }
+            },
+
+            //si ha ocurrido un error
+            error: function()
+            {
+                endLoad();
+
+                $('#mensajeWar').html('Error error');
+                $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+                $('#divAlertWar').animate({
+                        'display': 'block'
+                });
+
+                $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+                $('#divAlertWar').animate({
+                                            'display': 'none'
+                                        });
+            }
+    });
+}
 
 
 
@@ -254,14 +510,14 @@ function validaReserva(classFrm, php, div, divTit, titulo)
 		//una vez finalizado correctamente
 		success: function(data)
 		{
-			$("#"+div).html(data);
-			endLoad();
+                    $("#"+div).html(data);
+                    endLoad();
 		},
 		
 		//si ha ocurrido un error
 		error: function()
 		{
-			$("#"+div).html("Ha ocurrido un error");
+                    $("#"+div).html("Ha ocurrido un error");
 		}
 	});
 }
@@ -430,9 +686,9 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
     {
         var mL_Error=0;
         $("#btnBuscarProgramas").attr('disabled', 'disabled');
-        if($('#mL_txtCiudadDestino').val() != '' && $('#mL_txtCiudadDestino').val() != 'Ingrese ciudad de destino')
+        if($('#mL_txtCiudadDestino').val() != 0)
         {
-            if($('#ML_cmbHab').val() != 0)
+            if($('#mL_cmbHab').val() != 0)
             {
                 $(document).skylo('start');
 
@@ -456,7 +712,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
         else
         {
             mL_Error=1;
-            $('#mensajeWar').html('Debe ingresar una ciudad de destino');	
+            $('#mensajeWar').html('Debe seleccionar una ciudad de destino');	
         }
 
 

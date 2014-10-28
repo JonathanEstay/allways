@@ -19,7 +19,8 @@ class systemController extends Controller
     
     public function horaServer()
     {
-        echo ((int)date('H')+1).':'.date('i:s');
+        //echo ((int)date('H')+1) . ':' . date('i:s');
+        echo date('H') . ':' . date('i:s');
     }
     
     
@@ -56,7 +57,7 @@ class systemController extends Controller
         {
             $this->_view->CR_fechaIni= Session::get('sess_CR_fechaDesde');
             $this->_view->CR_fechaFin= Session::get('sess_CR_fechaHasta');
-
+            
             if(Session::get("sess_CR_tipoFecha")==1)
             {
                 $this->_view->rdbRes='checked';
@@ -92,7 +93,6 @@ class systemController extends Controller
             }
         }
         
-       
         
         $this->_view->currentMenu=1;
         $this->_view->titulo='ORISTRAVEL';
@@ -371,6 +371,12 @@ class systemController extends Controller
                     //Formateando valores
                     $this->_view->fechaSalida= Functions::invertirFecha($this->_view->objOpcionProg[0]->getDesde(), '/', '/');
                     
+                    $exp_fechaSalida= explode('/', $this->_view->objOpcionProg[0]->getDesde());
+                    $this->_view->anoSalida= $exp_fechaSalida[0];
+                    $this->_view->mesSalida= $exp_fechaSalida[1];
+                    $this->_view->diaSalida= $exp_fechaSalida[2];
+                    
+                    
                     $valorHab= $this->_view->objOpcionProg[0]->getValorHab();
                     $this->_view->precio= Functions::getTipoMoneda($this->_view->objOpcionProg[0]->getMoneda()).' '.Functions::formatoValor($this->_view->objOpcionProg[0]->getMoneda(), ($valorHab[0]+$valorHab[1]+$valorHab[2]));
                     
@@ -391,6 +397,29 @@ class systemController extends Controller
             throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
         }
     }
+    
+    public function procesoReserva()
+    {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            /*if($pRP_error==TRUE)
+            {
+                echo $pRP_msg;
+                exit;
+            }
+            else
+            {
+                echo 'OK&'.$pRP_file.'&'.$pRP_codigoPRG.'&'.$pRP_codBloqueo;
+                exit;
+            }*/
+            echo 'OK' . '&' . '190306' . '&' . 'CH14FLN01-2' . '&' . '2014FLN019';
+        }
+        else
+        {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
+    
     
     
 

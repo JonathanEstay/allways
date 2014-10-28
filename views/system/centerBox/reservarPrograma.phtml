@@ -69,7 +69,7 @@
 		for($i=1; $i<=3; $i++)
 		{	
 			$rP_total_AC=0;
-			$rP_total_AC=$_SESSION["sess_pBP_Adl_".$i]+$_SESSION["sess_pBP_Chd_".$i];
+			$rP_total_AC=$_SESSION["sess_BP_Adl_".$i]+$_SESSION["sess_BP_Chd_".$i];
 		?>
         	<?php
 			for($x=1; $x<=$rP_total_AC; $x++)
@@ -79,7 +79,7 @@
             <td>
             	<select name="rP_cmbTipoPax_<?php echo $rP_cntRegistros; ?>" id="rP_cmbTipoPax_<?php echo $rP_cntRegistros; ?>" style="width:60px;">
                 	<?php
-						if($_SESSION["sess_pBP_Adl_".$i]>=$x)
+						if($_SESSION["sess_BP_Adl_".$i]>=$x)
 						{
 					?>
                     	<option selected="selected" value="A">Adl</option>
@@ -97,7 +97,7 @@
             <td>
             	<select name="rP_cmbTratoPax_<?php echo $rP_cntRegistros; ?>" id="rP_cmbTratoPax_<?php echo $rP_cntRegistros; ?>" style="width:60px;">
                 	<?php
-						if($_SESSION["sess_pBP_Adl_".$i]>=$x)
+						if($_SESSION["sess_BP_Adl_".$i]>=$x)
 						{
 					?>
                     	<option value="0">Mr</option>                
@@ -141,10 +141,10 @@
 					firstDay: 1,
 					
 						<?php
-							if($_SESSION["sess_pBP_Adl_".$i]>=$x)
+							if($_SESSION["sess_BP_Adl_".$i]>=$x)
 							{
 						?>
-							maxDate: new Date(<?php echo $rP_tmpAno-12; ?>,<?php echo $rP_tmpMes-1; ?>,<?php echo $rP_tmpDia; ?>),
+							maxDate: new Date(<?php echo $this->anoSalida-12; ?>,<?php echo $this->mesSalida-1; ?>,<?php echo $this->diaSalida; ?>),
 							yearRange: "-100:+0",
 						<?php
 							}
@@ -183,7 +183,7 @@
 
 
 <?php
-if($_SESSION["sess_pBP_cntInf"]>0)
+if($_SESSION["sess_BP_cntInf"]>0)
 {
 ?>
 <table class="table table-bordered">
@@ -200,7 +200,7 @@ if($_SESSION["sess_pBP_cntInf"]>0)
         </tr>
         
         <?php
-        for($i=1; $i<=$_SESSION["sess_pBP_cntInf"]; $i++)
+        for($i=1; $i<=$_SESSION["sess_BP_cntInf"]; $i++)
 		{	
 		?>
             <tr align="center">
@@ -225,7 +225,7 @@ if($_SESSION["sess_pBP_cntInf"]>0)
 							dateFormat: 'dd/mm/yy', 
 							firstDay: 1,
 							//minDate: '-24m',
-							minDate: new Date(<?php echo $rP_tmpAno-2; ?>,<?php echo $rP_tmpMes-1; ?>,<?php echo $rP_tmpDia+1; ?>),
+							minDate: new Date(<?php echo $this->anoSalida-2; ?>,<?php echo $this->mesSalida-1; ?>,<?php echo $this->diaSalida+1; ?>),
 							maxDate: '+0m',
 							monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
 		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
@@ -261,7 +261,7 @@ if($_SESSION["sess_pBP_cntInf"]>0)
 <br />
 <center>
 <input type="button"  id="rP_btnProcesaRserva" class="btn btn-primary" value="Reservar" 
-    onclick="procesoReservaPRG('frmReservaPRG', 'process/procesoReservaPrograma.php', 'rP_btnProcesaRserva', 'divPopupPRG')">
+    onclick="procesoReservaPRG('frmReservaPRG', '<?php echo BASE_URL ?>system/procesoReserva', 'rP_btnProcesaRserva', 'divPopupPRG'); ">
 </center>
    
 </form>
