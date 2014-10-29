@@ -282,7 +282,12 @@ class systemController extends Controller
         $nFile= $this->getTexto('CR_n_file');
         $codPRG= $this->getTexto('CR_cod_prog');
         $codBloq= $this->getTexto('CR_cod_bloq');
-
+        
+        if(!$nFile)
+        {
+            throw new Exception('File no recibido');
+            exit;
+        }
         //Creando los objetos para las View
         $objsFile= $M_file->getFile($nFile);
         //$objsFileCNT= count($objsFile);
@@ -346,13 +351,16 @@ class systemController extends Controller
             $tags= array_keys($this->getPOST());
             $RP_rdbOpc=trim($this->getTexto($tags[1]));
             $RP_idProg=trim($this->getTexto($tags[0]));
-
+            
             if(empty($RP_rdbOpc))
             {
                 throw new Exception('Seleccione una opcion para poder reservar');
             }
             else if(!empty($RP_idProg))
             {
+                Session::set('sessRP_rdbOpc', $RP_rdbOpc);
+                Session::set('sessRP_idPrograma', $RP_idProg);
+            
                 $programa= $this->loadModel('programa');
                 $this->_view->objPrograma= $programa->validaPrograma($RP_idProg, $RP_rdbOpc);
                 if($this->_view->objPrograma)
@@ -400,10 +408,30 @@ class systemController extends Controller
     
     public function procesoReserva()
     {
+        
+        /*$param="CR_n_file=190306&CR_cod_prog=CH14FLN01-2&CR_cod_bloq=2014FLN019";
+        $html= $this->curlPOST($param, BASE_URL . 'system/cartaConfirmacion');
+        echo $html; exit;*/
+        
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
             $programa= $this->loadModel('programa');
+            
             require_once ROOT . 'controllers' . DS . 'include' . DS .'procesoReserva.php';
+            $param="CR_n_file=$n_file&CR_cod_prog=$cod_prog&CR_cod_bloq=$cod_bloq";
+            //$param="CR_n_file=190306&CR_cod_prog=CH14FLN01-2&CR_cod_bloq=2014FLN019";
+            $html= $this->curlPOST($param, BASE_URL . 'system/cartaConfirmacion');
+            
+            if($pRP_error==TRUE)
+            {
+                echo $pRP_msg;
+            }
+            else
+            {
+                $this->getLibrary('class.phpmailer');
+                $this->mailReserva($n_file, $html);
+                echo 'OK' . '&' . $n_file . '&' . $cod_prog . '&' . $cod_bloq;
+            }
         }
         else
         {

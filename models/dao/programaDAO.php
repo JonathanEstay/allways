@@ -309,6 +309,14 @@ class programaDAO extends Model
     
     public function exeSQL($sql)
     {
-        $this->_db->consulta($sql);
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            return $this->_db->fetchAll($datos);
+        }
+        else
+        {
+            return false;
+        }
     }
 }

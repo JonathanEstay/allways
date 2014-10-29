@@ -11,22 +11,21 @@
 $pRP_error=FALSE;
 $pRP_sqlDetalle=NULL;
 
-$pRP_sqlDetalle="exec WEB_ORIS_CREA_FILE '".$_SESSION['sess_id_agen']."', '".$_SESSION['sess_clave_usuario']."', "; 
+$pRP_sqlDetalle="exec WEB_ORIS_CREA_FILE '".Session::get('sess_id_agen')."', '".Session::get('sess_clave_usuario')."', "; 
 
-
-$pRP_var_getProgramas= $programa->exeSQL($_SESSION['sess_TraeProg']);
+$pRP_var_getProgramas= $programa->exeSQL(Session::get('sess_TraeProg'));
 if($pRP_var_getProgramas!=FALSE)
 {
     foreach($pRP_var_getProgramas as $pRP_columPRG)
     {
         $pRP_nombrePRG= trim($pRP_columPRG["nombrePRG"]);
-        if(!empty($pRP_nombrePRG) && trim($pRP_columPRG["idPRG"])==$_SESSION['sessRP_idPrograma'])
-        {//PROGRAMAS
+        if(!empty($pRP_nombrePRG) && trim($pRP_columPRG["idPRG"])==Session::get('sessRP_idPrograma'))
+        {   //PROGRAMAS
             $pRP_codigoPRG= trim($pRP_columPRG["codigoPRG"]);
         }
         else
-        {//OPCIONES
-            if(trim($pRP_columPRG["idOpcion"])==$_SESSION['sessRP_rdbOpc'])
+        {   //OPCIONES
+            if(trim($pRP_columPRG["idOpcion"])==Session::get('sessRP_rdbOpc'))
             {
                 $pRP_fechaSalida= str_replace('/', '-', trim($pRP_columPRG["desde"]));
                 $pRP_clave= trim($pRP_columPRG["clave"]);
@@ -104,17 +103,17 @@ else
 
 
 
-$pRP_sqlDetalle.=", '".$_SESSION["sess_pBP_cntHab"]."', '".$_SESSION["sess_pBP_Adl_1"]."', '".$_SESSION["sess_pBP_Chd_1"]."', '".$_SESSION["sess_pBP_Inf_1"]."' ";
+$pRP_sqlDetalle.=", '".Session::get("sess_BP_cntHab")."', '".Session::get("sess_BP_Adl_1")."', '".Session::get("sess_BP_Chd_1")."', '".Session::get("sess_BP_Inf_1")."' ";
 
 
-if($_SESSION["sess_pBP_cntHab"]==3)
+if(Session::get("sess_BP_cntHab")==3)
 {
-    $pRP_sqlDetalle.=", '".$_SESSION["sess_pBP_Adl_2"]."', '".$_SESSION["sess_pBP_Chd_2"]."', '".$_SESSION["sess_pBP_Inf_2"]."', 
-                                        '".$_SESSION["sess_pBP_Adl_3"]."', '".$_SESSION["sess_pBP_Chd_3"]."', '".$_SESSION["sess_pBP_Inf_3"]."' ";
+    $pRP_sqlDetalle.=", '".Session::get("sess_BP_Adl_2")."', '".Session::get("sess_BP_Chd_2")."', '".Session::get("sess_BP_Inf_2")."', 
+                                        '".Session::get("sess_BP_Adl_3")."', '".Session::get("sess_BP_Chd_3")."', '".Session::get("sess_BP_Inf_3")."' ";
 }
-else if($_SESSION["sess_pBP_cntHab"]==2)
+else if(Session::get("sess_BP_cntHab")==2)
 {
-    $pRP_sqlDetalle.=", '".$_SESSION["sess_pBP_Adl_2"]."', '".$_SESSION["sess_pBP_Chd_2"]."', '".$_SESSION["sess_pBP_Inf_2"]."', '0', '0', '0' ";
+    $pRP_sqlDetalle.=", '".Session::get("sess_BP_Adl_2")."', '".Session::get("sess_BP_Chd_2")."', '".Session::get("sess_BP_Inf_2")."', '0', '0', '0' ";
 }
 else
 {
@@ -135,14 +134,14 @@ $pRP_sqlDetalle.=", 'E', '".$pRP_monedaSP."' ";
 //MAXIMO 10 PASAJEROS
 for($i=1; $i<=10; $i++)
 {
-    if($i<$_SESSION['sessRP_cntPasajeros'])
+    if($i<Session::get('sessRP_cntPasajeros'))
     {
         $pRP_apellidoPAS= trim($_POST['rP_txtApe_'.$i]);
         $pRP_nombrePAS= trim($_POST['rP_txtNom_'.$i]);
         $pRP_rutPAS= trim($_POST['rP_txtRut_'.$i]);
         $pRP_tipoPAS= trim($_POST['rP_cmbTipoPax_'.$i]);
         $pRP_tratoPAS= trim($_POST['rP_cmbTratoPax_'.$i]);
-        $pRP_tratoPAS= $functions->tratoPax($pRP_tratoPAS);
+        $pRP_tratoPAS= Functions::tratoPax($pRP_tratoPAS);
 
         $pRP_fechaNacPAS= trim($_POST['rP_FechaNac_'.$i]);
 
@@ -173,7 +172,7 @@ for($i=1; $i<=10; $i++)
 
         if(!empty($pRP_fechaNacPAS))
         {
-            $pRP_fechaNacPAS= $functions->invertirFecha($pRP_fechaNacPAS, '/', '-');
+            $pRP_fechaNacPAS= Functions::invertirFecha($pRP_fechaNacPAS, '/', '-');
         }
 
         $pRP_rutINF= trim($_POST['rP_txtRutInf_'.$i]);
@@ -181,7 +180,7 @@ for($i=1; $i<=10; $i++)
         $pRP_apeINF= trim($_POST['rP_txtApeInf_'.$i]);
         if(!empty($pRP_rutINF))
         {
-                $pRP_nacINF= $functions->invertirFecha(trim($_POST['rP_FechaNacInf_'.$i]), '/', '-');
+                $pRP_nacINF= Functions::invertirFecha(trim($_POST['rP_FechaNacInf_'.$i]), '/', '-');
         }
         else
         {
@@ -229,13 +228,13 @@ $pRP_sqlDetalle.=", '".$pRP_clave."', '".$pRP_areaComentario."', '".$pRP_totalVe
 
 
 
-//echo $pRP_sqlDetalle;	exit;
+//echo $pRP_sqlDetalle; exit;
 
 
 
 //echo 'OK&192966&BL14IPC02A&2014IPC028';	exit;
 
-$pRP_procesaReserva= $privateFunctions->exeSQL_SP($pRP_sqlDetalle);
+$pRP_procesaReserva= $programa->exeSQL($pRP_sqlDetalle);
 if($pRP_procesaReserva!=FALSE)
 {
     foreach($pRP_procesaReserva as $pRP_rsReserva)
@@ -251,47 +250,6 @@ if($pRP_codigo==1)
     $n_file = $pRP_file;
     $cod_prog= $pRP_codigoPRG;
     $cod_bloq= $pRP_codBloqueo;
-    include("procesoCartaConfirm.php");
-
-
-    // Preparar Correo electrónico
-    $email_asunto="Confirmación de reserva online: ".$n_file;
-    $email_destinatario = 'jestay@tsyacom.cl'; //$_SESSION['sess_email'];
-    $email_destinatarioCC = 'j.estay1988@gmail.com'; //$_SESSION['sess_email_opera'];
-
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers.= "Content-type: text/html; charset=UTF-8 \r\n";
-    $headers.= "From: Panamericana Online <panamericana@online.panamericanaturismo.cl>\r\n";
-    $headers.= "Cc: ".$email_destinatarioCC." \r\n";
-
-    $email_headers = $headers;
-
-
-    //cmelo@panamericanaturismo.cl
-    //cmelo@panamericanaturismo.cl 
-    //@mail($email_destinatario, $email_asunto, $html, $email_headers);
-
-    $mail = new PHPMailer();
-
-    $mail->IsSMTP(); 
-    $mail->Host = trim("190.196.23.232");
-    $mail->Port = 25;
-    $mail->From = 'panamericana@online.panamericanaturismo.cl';
-    $mail->CharSet = 'UTF-8';
-
-    $mail->FromName = "Panamericana Online ";
-    $mail->Subject = $email_asunto;
-    $mail->MsgHTML($html); 
-
-    $mail->AddAddress($email_destinatario, "");
-    $mail->AddCC($email_destinatarioCC);
-
-    $mail->SMTPAuth = true;
-    $mail->Username = trim("online@panamericanaturismo.cl");
-    $mail->Password = trim("Fe90934");
-
-    //$mail->Send();
-    sleep(2);
 }
 else
 {
@@ -303,14 +261,12 @@ else
 
 
 
-if($pRP_error==TRUE)
+/*if($pRP_error==TRUE)
 {
     echo $pRP_msg;
-    exit;
 }
 else
 {
     echo 'OK' . '&' . $pRP_file . '&' . $pRP_codigoPRG . '&' . $pRP_codBloqueo;
-    exit;
-}
+}*/
 //echo 'OK' . '&' . '190306' . '&' . 'CH14FLN01-2' . '&' . '2014FLN019';

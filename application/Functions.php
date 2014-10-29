@@ -8,6 +8,27 @@
 
 class Functions
 {
+    public function tratoPax($tpax)
+    {
+        $result=NULL;
+        switch ($tpax) {
+        case 0:
+            $result='Mr';
+            break;
+        case 1:
+            $result='Mrs';
+            break;
+        case 2:
+            $result='Mss';
+            break;
+        case 3:
+            $result='Chl';
+            break;
+        }
+
+        return $result;
+    }
+    
     public function traduceDia()
     {
         $dia=date('l');

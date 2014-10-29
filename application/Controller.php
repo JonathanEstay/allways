@@ -202,4 +202,56 @@ abstract class Controller
 
         return $requirements;
     }
+    
+    protected function curlPOST($param, $url) {
+        $header = array();
+        $header[] = 'Content-Type: text/xml; encoding="UTF-8"';
+        $header[] = 'Accept-Charset: ISO-8859-1,utf-8;';
+        
+        $ch = curl_init($url); 
+        
+        //especificamos el POST (tambien podemos hacer peticiones enviando datos por GET
+        curl_setopt ($ch, CURLOPT_POST, 1);
+
+        //le decimos qué paramáetros enviamos (pares nombre/valor, también acepta un array)
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, $param);
+
+        //le decimos que queremos recoger una respuesta (si no esperas respuesta, ponlo a false)
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+        
+        return $data;
+    }
+    
+    
+    protected function mailReserva($file, $html) {
+        // Preparar Correo electrónico
+        $email_asunto="Confirmación de reserva online: ".$file;
+        $email_destinatario = 'jestay@tsyacom.cl'; //$_SESSION['sess_email'];
+        $email_destinatarioCC = 'j.estay1988@gmail.com'; //$_SESSION['sess_email_opera'];
+
+        $mail = new PHPMailer();
+
+        $mail->IsSMTP(); 
+        $mail->Host = trim("190.196.23.232");
+        $mail->Port = 25;
+        $mail->From = 'panamericana@online.panamericanaturismo.cl';
+        $mail->CharSet = CHARSET; //'UTF-8';
+
+        $mail->FromName = "Panamericana Online ";
+        $mail->Subject = $email_asunto;
+        $mail->MsgHTML($html); 
+
+        $mail->AddAddress($email_destinatario, "");
+        $mail->AddCC($email_destinatarioCC);
+
+        $mail->SMTPAuth = true;
+        $mail->Username = trim("online@panamericanaturismo.cl");
+        $mail->Password = trim("Fe90934");
+
+        $mail->Send();
+        sleep(2);
+    }
 }
