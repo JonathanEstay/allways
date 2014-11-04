@@ -246,7 +246,7 @@ $(function()
                             
                             <tr>
                                 <td colspan="2" align="right">
-                                	<input type="button"  id="btnBuscarProgramas" class="btn btn-primary" style="margin-right:5px" value="Buscar">
+                                    <input type="button"  id="btnBuscarProgramas" class="btn btn-primary" style="margin-right:5px" value="Buscar">
                                 </td>
                             </tr>
                         </table>

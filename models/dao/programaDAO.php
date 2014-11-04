@@ -122,7 +122,7 @@ class programaDAO extends Model
         {
             $objetosPack= array();
             $arrayPackages= $this->_db->fetchAll($datos);
-            
+            //d( $arrayPackages ); //KINT
             foreach ($arrayPackages as $packDB)
             {
                 $hotel= array();
@@ -138,7 +138,8 @@ class programaDAO extends Model
                 
                 $objPackages= new programaDTO();
                 
-                if(trim($packDB['Error']))
+                
+                if(trim(isset($packDB['Error'])))
                 {
                     $objPackages->setERROR(trim($packDB['Error']));
                     $objPackages->setLINEA(trim($packDB['Linea']));
@@ -188,8 +189,10 @@ class programaDAO extends Model
                     
                     if($inc)
                     {
+                        
                         $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
                         $objPackages->setIncluye($incluye);
+                        
                     }
                     //$objPackages->setXXXX(trim($packDB['xxxxx']));
                 }
