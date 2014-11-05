@@ -39,14 +39,14 @@ class Acl
     
     public function getRole()
     {
-        $sql= 'SELECT role '
-            . 'FROM usuarios '
-            . 'WHERE id_user = '.$this->_id;
+        $sql= 'SELECT rc_role '
+            . 'FROM rc_tbl_restaurantes_user '
+            . 'WHERE rc_id_ru = '.$this->_id;
         
         $role = $this->_db->consulta($sql);
         $role = $this->_db->fetchAll($role);
         
-        return $role[0]['role'];
+        return $role[0]['rc_role'];
     }
     
     public function getPermisosRoleId()
@@ -68,8 +68,10 @@ class Acl
         $permisos = $this->_db->fetchAll($permisos);
         $data = array();
         
+        $i=0;
         foreach($permisos as $columnPermisos)
         {
+            ++$i;
             $key = $this->getPermisoKey($columnPermisos['permiso']);
             //if($key == ''){continue;}
             
@@ -84,7 +86,10 @@ class Acl
             
             $data[$key] = array(
                 'key' => $key,
-                'permiso' => $this->getPermiso()
+                'permiso' => $this->getPermisoNombre($permisos[$i]['permiso']),
+                'valor' => $v,
+                'heredado' => true,
+                'id' => $permisos[$i]['permiso']
             );
         }
         

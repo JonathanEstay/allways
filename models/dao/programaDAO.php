@@ -189,10 +189,8 @@ class programaDAO extends Model
                     
                     if($inc)
                     {
-                        
                         $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
                         $objPackages->setIncluye($incluye);
-                        
                     }
                     //$objPackages->setXXXX(trim($packDB['xxxxx']));
                 }

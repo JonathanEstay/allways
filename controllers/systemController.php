@@ -234,7 +234,6 @@ class systemController extends Controller
      
         //$this->getLibrary('kint/Kint.class');
         
-        
         $this->_view->ML_fechaIni= Session::get('sess_BP_fechaIn');
         $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
         
